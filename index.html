@@ -5,497 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тест: Почему боль в суставе не проходит | Галкин Дмитрий</title>
     <meta name="description" content="Пройдите короткий тест за 1-2 минуты и узнайте причину хронической боли в суставе">
-    
     <style>
-        /* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ПОД САЙТ GALKIN-KOSTOPRAV.RU ===== */
         :root {
             --primary-color: #23295D;
             --primary-hover: #1a1f47;
             --primary-light: #3a4080;
             --accent-red: #c94a4a;
             --accent-red-light: #f5e8e8;
-        
             --text-dark: #222222;
             --text-gray: #666666;
             --bg-light: #f7f7f7;
             --border-color: #e0e0e0;
             --white: #ffffff;
             --error-color: #d93025;
-        
             --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             --font-heading: Georgia, 'Times New Roman', serif;
-                        
             --container-width: 680px;
-            --container-width-tablet: 90%;
-            --container-width-mobile: 95%;
-            
             --spacing-xl: 60px;
             --spacing-lg: 40px;
             --spacing-md: 30px;
             --spacing-sm: 20px;
             --spacing-xs: 15px;
         }
-        
-        /* ===== СБРОС И БАЗОВЫЕ СТИЛИ ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: var(--font-main);
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: var(--white);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        /* ===== КОНТЕЙНЕР ===== */
-        .container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: var(--spacing-lg) var(--spacing-sm);
-        }
-        
-        /* ===== ХЕДЕР ===== */
-        .header {
-            background: var(--primary-color);
-            text-align: center;
-            padding: 25px 20px;
-            margin-bottom: var(--spacing-lg);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-        
-        .header-title {
-            font-family: var(--font-heading);
-            font-size: 26px;
-            color: var(--white);
-            margin: 0;
-            font-weight: normal;
-            letter-spacing: 0.5px;
-        }
-        
-        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
-        .test-wrapper {
-            min-height: 60vh;
-        }
-        
-        .step {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        
-        .step.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* ===== ЗАГОЛОВКИ ===== */
-        h1, h2 {
-            font-family: var(--font-heading);
-            font-weight: normal;
-            line-height: 1.3;
-            color: var(--text-dark);
-            margin-bottom: var(--spacing-md);
-        }
-        
-        h1 {
-            font-size: 32px;
-        }
-        
-        h2 {
-            font-size: 26px;
-        }
-        
-        .subtitle {
-            font-size: 18px;
-            color: var(--text-gray);
-            margin-bottom: var(--spacing-md);
-            line-height: 1.5;
-        }
-        
-        /* ===== ВОПРОСЫ ===== */
-        .question {
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .question-title {
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-dark);
-        }
-        
-        /* ===== ВАРИАНТЫ ОТВЕТОВ ===== */
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .option {
-            background: var(--white);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 16px;
-            line-height: 1.5;
-            position: relative;
-        }
-        
-        .option:hover {
-            border-color: var(--accent-red);
-            background: var(--accent-red-light);
-        }
-        
-        .option input[type="radio"],
-        .option input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-        
-        .option input:checked + .option-content {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .option:has(input:checked) {
-            border-color: var(--primary-color);
-            background: #ecedf5;
-        }
-        
-        .option-content {
-            display: block;
-            padding-left: 30px;
-            position: relative;
-        }
-        
-        .option-content::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 4px;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 50%;
-            background: var(--white);
-            transition: all 0.2s ease;
-        }
-        
-        .option:has(input[type="checkbox"]) .option-content::before {
-            border-radius: 4px;
-        }
-
-        .option:has(input:checked) .option-content::before {
-            border-color: var(--primary-color);
-            background: var(--primary-color);
-        }
-        
-        .option:has(input:checked) .option-content::after {
-            content: '✓';
-            position: absolute;
-            left: 5px;
-            top: 3px;
-            color: var(--white);
-            font-size: 14px;
-            font-weight: bold;
-        }
-        
-        /* ===== КНОПКИ ===== */
-        .btn {
-            display: inline-block;
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 500;
-            text-align: center;
-            text-decoration: none;
-            color: var(--white);
-            background: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: var(--spacing-md);
-        }
-        
-        .btn:hover {
-            background: var(--primary-hover);
-            border-color: var(--accent-red);
-            box-shadow: 0 4px 12px rgba(201, 74, 74, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .btn-secondary {
-            background: var(--white);
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--white);
-            border-color: var(--accent-red);
-            color: var(--accent-red);
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: var(--spacing-md);
-        }
-        
-        .button-group .btn {
-            flex: 1 1 auto;
-            margin-top: 0;
-            padding: 16px 16px;
-            text-align: center;
-            min-width: 0;
-        }
-        
-        /* ===== ПРОГРЕСС-БАР ===== */
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: var(--bg-light);
-            border-radius: 10px;
-            margin-bottom: var(--spacing-lg);
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
-            border-radius: 10px;
-            transition: width 0.4s ease;
-            width: 0%;
-        }
-        
-        /* ===== РЕЗУЛЬТАТ ===== */
-        .result {
-            background: var(--bg-light);
-            border-left: 4px solid var(--primary-color);
-            padding: var(--spacing-md);
-            border-radius: 6px;
-            margin: var(--spacing-lg) 0;
-        }
-        
-        .result h2 {
-            color: var(--primary-color);
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .result-content {
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--text-dark);
-        }
-        
-        .result-content p {
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .result-content strong {
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-        
-        .exercises {
-            background: var(--white);
-            padding: var(--spacing-md);
-            border-radius: 6px;
-            margin: var(--spacing-md) 0;
-        }
-        
-        .exercise {
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .exercise strong {
-            color: var(--primary-color);
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        /* ===== ФОРМА ===== */
-        .form-group {
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .form-label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--text-dark);
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 6px;
-            font-family: var(--font-main);
-            transition: border-color 0.2s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .form-input.error {
-            border-color: var(--error-color);
-        }
-        
-        .error-message {
-            color: var(--error-color);
-            font-size: 14px;
-            margin-top: 6px;
-            display: none;
-        }
-        
-        .error-message.show {
-            display: block;
-        }
-        
-        .notice {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: var(--spacing-sm);
-            border-radius: 4px;
-            margin: var(--spacing-md) 0;
-            font-size: 14px;
-            color: #856404;
-        }
-        
-        /* ===== LOADER ===== */
-        .loader {
-            display: none;
-            text-align: center;
-            padding: var(--spacing-md);
-        }
-        
-        .loader.show {
-            display: block;
-        }
-        
-        .spinner {
-            border: 3px solid var(--bg-light);
-            border-top: 3px solid var(--primary-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* ===== АДАПТИВНОСТЬ: ПЛАНШЕТЫ ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); font-size: 16px; line-height: 1.6; color: var(--text-dark); background: var(--white); }
+        .container { max-width: var(--container-width); margin: 0 auto; padding: var(--spacing-lg) var(--spacing-sm); }
+        .header { background: var(--primary-color); text-align: center; padding: 25px 20px; margin-bottom: var(--spacing-lg); }
+        .header-title { font-family: var(--font-heading); font-size: 26px; color: var(--white); margin: 0; font-weight: normal; }
+        .test-wrapper { min-height: 60vh; }
+        .step { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        h1, h2 { font-family: var(--font-heading); font-weight: normal; line-height: 1.3; color: var(--text-dark); margin-bottom: var(--spacing-md); }
+        h1 { font-size: 32px; } h2 { font-size: 26px; }
+        .subtitle { font-size: 18px; color: var(--text-gray); margin-bottom: var(--spacing-md); line-height: 1.5; }
+        .question { margin-bottom: var(--spacing-lg); }
+        .question-title { font-size: 20px; font-weight: 500; margin-bottom: var(--spacing-sm); color: var(--text-dark); }
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option { background: var(--white); border: 2px solid var(--border-color); border-radius: 8px; padding: 18px 20px; cursor: pointer; transition: all 0.2s ease; font-size: 16px; line-height: 1.5; position: relative; }
+        .option:hover { border-color: var(--accent-red); background: var(--accent-red-light); }
+        .option input[type="radio"], .option input[type="checkbox"] { position: absolute; opacity: 0; cursor: pointer; }
+        .option input:checked + .option-content { color: var(--primary-color); font-weight: 500; }
+        .option:has(input:checked) { border-color: var(--primary-color); background: #ecedf5; }
+        .option-content { display: block; padding-left: 30px; position: relative; }
+        .option-content::before { content: ''; position: absolute; left: 0; top: 4px; width: 20px; height: 20px; border: 2px solid var(--border-color); border-radius: 50%; background: var(--white); transition: all 0.2s ease; }
+        .option:has(input[type="checkbox"]) .option-content::before { border-radius: 4px; }
+        .option:has(input:checked) .option-content::before { border-color: var(--primary-color); background: var(--primary-color); }
+        .option:has(input:checked) .option-content::after { content: '✓'; position: absolute; left: 5px; top: 3px; color: var(--white); font-size: 14px; font-weight: bold; }
+        .btn { display: inline-block; padding: 16px 32px; font-size: 16px; font-weight: 500; text-align: center; text-decoration: none; color: var(--white); background: var(--primary-color); border: 2px solid var(--primary-color); border-radius: 6px; cursor: pointer; transition: all 0.3s ease; margin-top: var(--spacing-md); }
+        .btn:hover { background: var(--primary-hover); border-color: var(--accent-red); box-shadow: 0 4px 12px rgba(201, 74, 74, 0.3); transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: var(--white); color: var(--primary-color); border: 2px solid var(--primary-color); }
+        .btn-secondary:hover { background: var(--white); border-color: var(--accent-red); color: var(--accent-red); }
+        .button-group { display: flex; gap: 12px; margin-top: var(--spacing-md); }
+        .button-group .btn { flex: 1 1 auto; margin-top: 0; padding: 16px 16px; text-align: center; min-width: 0; }
+        .progress-bar { width: 100%; height: 6px; background: var(--bg-light); border-radius: 10px; margin-bottom: var(--spacing-lg); overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-color), var(--primary-light)); border-radius: 10px; transition: width 0.4s ease; width: 0%; }
+        .result { background: var(--bg-light); border-left: 4px solid var(--primary-color); padding: var(--spacing-md); border-radius: 6px; margin: var(--spacing-lg) 0; }
+        .result h2 { color: var(--primary-color); margin-bottom: var(--spacing-sm); }
+        .result-content { font-size: 16px; line-height: 1.7; color: var(--text-dark); }
+        .result-content p { margin-bottom: var(--spacing-sm); }
+        .exercises { background: var(--white); padding: var(--spacing-md); border-radius: 6px; margin: var(--spacing-md) 0; }
+        .exercise { margin-bottom: var(--spacing-sm); }
+        .exercise strong { color: var(--primary-color); display: block; margin-bottom: 8px; }
+        .form-group { margin-bottom: var(--spacing-sm); }
+        .form-label { display: block; font-weight: 500; margin-bottom: 8px; color: var(--text-dark); }
+        .form-input { width: 100%; padding: 14px 16px; font-size: 16px; border: 2px solid var(--border-color); border-radius: 6px; font-family: var(--font-main); transition: border-color 0.2s ease; }
+        .form-input:focus { outline: none; border-color: var(--primary-color); }
+        .form-input.error { border-color: var(--error-color); }
+        .error-message { color: var(--error-color); font-size: 14px; margin-top: 6px; display: none; }
+        .error-message.show { display: block; }
+        .notice { background: #fff3cd; border-left: 4px solid #ffc107; padding: var(--spacing-sm); border-radius: 4px; margin: var(--spacing-md) 0; font-size: 14px; color: #856404; }
+        .loader { display: none; text-align: center; padding: var(--spacing-md); }
+        .loader.show { display: block; }
+        .spinner { border: 3px solid var(--bg-light); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @media (max-width: 960px) {
-            .container {
-                max-width: var(--container-width-tablet);
-            }
-            
-            h1 {
-                font-size: 28px;
-            }
-            
-            h2 {
-                font-size: 24px;
-            }
-            
-            .subtitle {
-                font-size: 17px;
-            }
-            
-            .question-title {
-                font-size: 19px;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .button-group .btn {
-                width: 100%;
-            }
+            .container { max-width: 90%; }
+            h1 { font-size: 28px; } h2 { font-size: 24px; }
+            .button-group { flex-direction: column; }
+            .button-group .btn { width: 100%; }
         }
-        
-        /* ===== АДАПТИВНОСТЬ: МОБИЛЬНЫЕ ===== */
         @media (max-width: 640px) {
-            .container {
-                max-width: var(--container-width-mobile);
-                padding: var(--spacing-md) var(--spacing-xs);
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            h2 {
-                font-size: 22px;
-            }
-            
-            .subtitle {
-                font-size: 16px;
-            }
-            
-            .question-title {
-                font-size: 18px;
-            }
-            
-            .option {
-                padding: 15px 16px;
-                font-size: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-                padding: 14px 20px;
-            }
-            
-            .button-group {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .header {
-                padding: var(--spacing-md) var(--spacing-xs);
-            }
-            
-            .header-title {
-                font-size: 20px;
-            }
+            .container { max-width: 95%; padding: var(--spacing-md) var(--spacing-xs); }
+            h1 { font-size: 24px; } h2 { font-size: 22px; }
+            .option { padding: 15px 16px; font-size: 15px; }
+            .btn { width: 100%; padding: 14px 20px; }
+            .header { padding: var(--spacing-md) var(--spacing-xs); }
+            .header-title { font-size: 20px; }
         }
     </style>
 </head>
@@ -508,7 +105,6 @@
 <div class="container">
     <div class="test-wrapper" id="testApp">
         
-        <!-- ШАГ 1: ПРИВЕТСТВИЕ -->
         <div class="step active" id="step-0">
             <h1>За 1–2 минуты узнайте, почему боль в суставе не проходит месяцами</h1>
             <p class="subtitle">
@@ -520,182 +116,99 @@
             <button class="btn" onclick="nextStep()">Начать тест</button>
         </div>
 
-        <!-- ПРОГРЕСС-БАР -->
         <div class="progress-bar" id="progressBar" style="display: none;">
             <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <!-- ШАГ 2: ГДЕ БОЛИТ -->
         <div class="step" id="step-1">
             <div class="question">
                 <h2 class="question-title">Где именно вас беспокоит боль больше всего?</h2>
                 <div class="options">
-                    <label class="option">
-                        <input type="radio" name="location" value="Z1">
-                        <span class="option-content">Пятка / стопа</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="location" value="Z2">
-                        <span class="option-content">Локоть</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="location" value="Z3">
-                        <span class="option-content">Плечо</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="location" value="Z4">
-                        <span class="option-content">Колено</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="location" value="Z5">
-                        <span class="option-content">Тазобедренный сустав (в том числе при артрозе / коксартрозе)</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="location" value="Z0">
-                        <span class="option-content">Другое место</span>
-                    </label>
+                    <label class="option"><input type="radio" name="location" value="Z1"><span class="option-content">Пятка / стопа</span></label>
+                    <label class="option"><input type="radio" name="location" value="Z2"><span class="option-content">Локоть</span></label>
+                    <label class="option"><input type="radio" name="location" value="Z3"><span class="option-content">Плечо</span></label>
+                    <label class="option"><input type="radio" name="location" value="Z4"><span class="option-content">Колено</span></label>
+                    <label class="option"><input type="radio" name="location" value="Z5"><span class="option-content">Тазобедренный сустав (в том числе при артрозе / коксартрозе)</span></label>
+                    <label class="option"><input type="radio" name="location" value="Z0"><span class="option-content">Другое место</span></label>
                 </div>
             </div>
             <button class="btn" onclick="nextStep()" id="btn-step-1" disabled>Далее</button>
         </div>
 
-        <!-- ШАГ 3: ДЛИТЕЛЬНОСТЬ -->
         <div class="step" id="step-2">
             <div class="question">
                 <h2 class="question-title">Как давно эта боль вас беспокоит?</h2>
                 <div class="options">
-                    <label class="option">
-                        <input type="radio" name="duration" value="D0">
-                        <span class="option-content">Менее 1 месяца</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="duration" value="D1">
-                        <span class="option-content">1–3 месяца</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="duration" value="D2">
-                        <span class="option-content">3–6 месяцев</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="duration" value="D3">
-                        <span class="option-content">6–12 месяцев</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="duration" value="D4">
-                        <span class="option-content">Больше года</span>
-                    </label>
+                    <label class="option"><input type="radio" name="duration" value="D0"><span class="option-content">Менее 1 месяца</span></label>
+                    <label class="option"><input type="radio" name="duration" value="D1"><span class="option-content">1–3 месяца</span></label>
+                    <label class="option"><input type="radio" name="duration" value="D2"><span class="option-content">3–6 месяцев</span></label>
+                    <label class="option"><input type="radio" name="duration" value="D3"><span class="option-content">6–12 месяцев</span></label>
+                    <label class="option"><input type="radio" name="duration" value="D4"><span class="option-content">Больше года</span></label>
                 </div>
             </div>
             <button class="btn" onclick="nextStep()" id="btn-step-2" disabled>Далее</button>
         </div>
 
-        <!-- ШАГ 4: УТОЧНЕНИЕ -->
         <div class="step" id="step-3"></div>
 
-        <!-- ШАГ 5: ЧТО ПРОБОВАЛИ -->
         <div class="step" id="step-4">
             <div class="question">
                 <h2 class="question-title">Что вы уже пробовали, чтобы убрать эту боль?</h2>
                 <p style="font-size: 14px; color: #999; margin-bottom: 15px;">Можно выбрать несколько вариантов</p>
                 <div class="options">
-                    <label class="option">
-                        <input type="checkbox" name="methods" value="M1">
-                        <span class="option-content">Мази и таблетки</span>
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="methods" value="M2">
-                        <span class="option-content">Уколы (блокады, гормоны, плазма)</span>
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="methods" value="M3">
-                        <span class="option-content">Физиотерапию (УВТ, лазер, магнит)</span>
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="methods" value="M4">
-                        <span class="option-content">Массаж</span>
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="methods" value="M5">
-                        <span class="option-content">Стельки / ортезы / тейпы / бандажи</span>
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="methods" value="M6">
-                        <span class="option-content">ЛФК / упражнения</span>
-                    </label>
-                    <label class="option">
-                        <input type="checkbox" name="methods" value="M0">
-                        <span class="option-content">Ничего — терплю</span>
-                    </label>
+                    <label class="option"><input type="checkbox" name="methods" value="M1"><span class="option-content">Мази и таблетки</span></label>
+                    <label class="option"><input type="checkbox" name="methods" value="M2"><span class="option-content">Уколы (блокады, гормоны, плазма)</span></label>
+                    <label class="option"><input type="checkbox" name="methods" value="M3"><span class="option-content">Физиотерапию (УВТ, лазер, магнит)</span></label>
+                    <label class="option"><input type="checkbox" name="methods" value="M4"><span class="option-content">Массаж</span></label>
+                    <label class="option"><input type="checkbox" name="methods" value="M5"><span class="option-content">Стельки / ортезы / тейпы / бандажи</span></label>
+                    <label class="option"><input type="checkbox" name="methods" value="M6"><span class="option-content">ЛФК / упражнения</span></label>
+                    <label class="option"><input type="checkbox" name="methods" value="M0"><span class="option-content">Ничего — терплю</span></label>
                 </div>
             </div>
             <button class="btn" onclick="nextStep()">Далее</button>
         </div>
 
-        <!-- ШАГ 6: ВЛИЯНИЕ НА ЖИЗНЬ -->
         <div class="step" id="step-5">
             <div class="question">
                 <h2 class="question-title">Как сильно боль мешает вашей обычной жизни?</h2>
                 <div class="options">
-                    <label class="option">
-                        <input type="radio" name="severity" value="S1">
-                        <span class="option-content">Немного — могу терпеть, но раздражает</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="severity" value="S2">
-                        <span class="option-content">Ощутимо — ограничивает работу, спорт или сон</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="severity" value="S3">
-                        <span class="option-content">Сильно — почти не могу делать привычные дела</span>
-                    </label>
+                    <label class="option"><input type="radio" name="severity" value="S1"><span class="option-content">Немного — могу терпеть, но раздражает</span></label>
+                    <label class="option"><input type="radio" name="severity" value="S2"><span class="option-content">Ощутимо — ограничивает работу, спорт или сон</span></label>
+                    <label class="option"><input type="radio" name="severity" value="S3"><span class="option-content">Сильно — почти не могу делать привычные дела</span></label>
                 </div>
             </div>
             <button class="btn" onclick="showResult()" id="btn-step-5" disabled>Получить результат</button>
         </div>
 
-        <!-- ШАГ 7: РЕЗУЛЬТАТ -->
         <div class="step" id="step-result">
             <div id="resultContent"></div>
-            
-            <div class="notice">
-                ⚠️ Мы не сохраняем ваши результаты. Когда вы закроете эту страницу — они пропадут.
-            </div>
-
+            <div class="notice">⚠️ Мы не сохраняем ваши результаты. Когда вы закроете эту страницу — они пропадут.</div>
             <div class="button-group">
                 <a href="https://galkin-kostoprav.ru/iglonozh" class="btn btn-secondary">Узнать больше про иглонож</a>
                 <button class="btn" onclick="showContactForm()">Записаться на консультацию</button>
             </div>
         </div>
 
-        <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
         <div class="step" id="step-form">
             <h2>Записаться на консультацию</h2>
             <p class="subtitle">Заполните форму, и я свяжусь с вами в ближайшее время</p>
-            
             <form id="contactForm" onsubmit="submitForm(event)">
                 <div class="form-group">
                     <label class="form-label">Ваше имя *</label>
                     <input type="text" class="form-input" id="userName" required>
                     <div class="error-message" id="error-name">Пожалуйста, укажите ваше имя</div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Возраст *</label>
                     <input type="number" class="form-input" id="userAge" min="1" max="120" required>
                     <div class="error-message" id="error-age">Пожалуйста, укажите ваш возраст</div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Телефон *</label>
                     <input type="tel" class="form-input" id="userPhone" placeholder="+7 (___) ___-__-__" required>
                     <div class="error-message" id="error-phone">Пожалуйста, укажите корректный номер телефона</div>
                 </div>
-
-                <div class="loader" id="formLoader">
-                    <div class="spinner"></div>
-                    <p>Отправляю данные...</p>
-                </div>
-
+                <div class="loader" id="formLoader"><div class="spinner"></div><p>Отправляю данные...</p></div>
                 <button type="submit" class="btn" id="submitBtn">Отправить</button>
             </form>
         </div>
@@ -704,281 +217,201 @@
 </div>
 
 <script>
-// ===== ДАННЫЕ ТЕСТА =====
-const testData = {
+var testData = {
     currentStep: 0,
-    totalSteps: 6,
-    answers: {
-        location: '',
-        duration: '',
-        clarification1: '',
-        clarification2: '',
-        methods: [],
-        severity: ''
+    answers: { location: '', duration: '', clarification1: '', clarification2: '', methods: [], severity: '' }
+};
+
+var locationLogic = {
+    Z1: {
+        questions: [
+            { title: 'Когда боль проявляется сильнее всего?', options: [
+                { value: 'T1', text: 'При первых шагах после сна или долгого сидения' },
+                { value: 'T2', text: 'К концу дня после долгой ходьбы или стояния' },
+                { value: 'T3', text: 'Постоянно, и в покое, и при нагрузке' }
+            ]},
+            { title: 'Где именно болит?', options: [
+                { value: 'L1', text: 'Снизу пятки, ближе к центру или внутреннему краю' },
+                { value: 'L2', text: 'Сзади пятки, в области ахиллова сухожилия' },
+                { value: 'L3', text: 'Вся пятка или затрудняюсь указать точно' }
+            ]}
+        ],
+        mapping: { 'T1-L1': 'P1', 'T2-L1': 'P2', 'T1-L2': 'P3', 'T2-L2': 'P3', 'T3-L1': 'P4', 'T3-L2': 'P4', 'T3-L3': 'P4', 'T1-L3': 'P4', 'T2-L3': 'P4' }
+    },
+    Z2: {
+        questions: [
+            { title: 'Когда боль проявляется сильнее всего?', options: [
+                { value: 'T1', text: 'Когда сжимаю кисть, жму руку, поднимаю предметы' },
+                { value: 'T2', text: 'Когда вращаю предплечье (поворачиваю ключ, открываю кран)' },
+                { value: 'T3', text: 'Постоянно ноет, независимо от движений' }
+            ]},
+            { title: 'Где именно болит?', options: [
+                { value: 'L1', text: 'Снаружи локтя (со стороны большого пальца)' },
+                { value: 'L2', text: 'Изнутри локтя (со стороны мизинца)' },
+                { value: 'L3', text: 'Затрудняюсь указать точно / болит весь локоть' }
+            ]}
+        ],
+        mapping: { 'T1-L1': 'L1', 'T2-L1': 'L1', 'T3-L1': 'L1', 'T1-L2': 'L2', 'T2-L2': 'L2', 'T3-L2': 'L2', 'T1-L3': 'L3', 'T2-L3': 'L3', 'T3-L3': 'L3' }
+    },
+    Z3: {
+        questions: [
+            { title: 'Когда боль проявляется сильнее всего?', options: [
+                { value: 'T1', text: 'Когда поднимаю руку вверх или отвожу в сторону' },
+                { value: 'T2', text: 'Когда завожу руку за спину' },
+                { value: 'T3', text: 'Ночью, когда лежу на этом боку' },
+                { value: 'T4', text: 'При любом движении рукой' }
+            ]},
+            { title: 'Где именно болит?', options: [
+                { value: 'L1', text: 'Сбоку или сверху плеча' },
+                { value: 'L2', text: 'Спереди плеча (ближе к бицепсу)' },
+                { value: 'L3', text: 'Сзади плеча или в области лопатки' },
+                { value: 'L4', text: 'Глубоко внутри сустава / затрудняюсь указать' }
+            ]}
+        ],
+        mapping: { 'T1-L1': 'PL1', 'T1-L2': 'PL3', 'T2-L3': 'PL2', 'T2-L1': 'PL2', 'T2-L2': 'PL2', 'T2-L4': 'PL2', 'T3-L1': 'PL4', 'T3-L2': 'PL4', 'T3-L3': 'PL4', 'T3-L4': 'PL4', 'T4-L1': 'PL4', 'T4-L2': 'PL4', 'T4-L3': 'PL4', 'T4-L4': 'PL4', 'T1-L3': 'PL1', 'T1-L4': 'PL1' }
+    },
+    Z4: {
+        questions: [
+            { title: 'Когда боль проявляется сильнее всего?', options: [
+                { value: 'T1', text: 'При ходьбе по лестнице (особенно вниз)' },
+                { value: 'T2', text: 'При приседании или вставании со стула' },
+                { value: 'T3', text: 'При долгом сидении с согнутыми ногами' },
+                { value: 'T4', text: 'При ходьбе по ровной поверхности' },
+                { value: 'T5', text: 'Постоянно, независимо от нагрузки' }
+            ]},
+            { title: 'Где именно болит?', options: [
+                { value: 'L1', text: 'Спереди, вокруг коленной чашечки или чуть ниже' },
+                { value: 'L2', text: 'С внутренней стороны колена' },
+                { value: 'L3', text: 'С наружной стороны колена' },
+                { value: 'L4', text: 'Под коленом сзади' },
+                { value: 'L5', text: 'Все колено / затрудняюсь указать' }
+            ]}
+        ],
+        mapping: { 'T1-L1': 'K1', 'T2-L1': 'K1', 'T3-L1': 'K1', 'T4-L1': 'K1', 'T5-L1': 'K1', 'T1-L2': 'K2', 'T2-L2': 'K2', 'T3-L2': 'K2', 'T4-L2': 'K2', 'T5-L2': 'K2', 'T1-L3': 'K3', 'T2-L3': 'K3', 'T3-L3': 'K3', 'T4-L3': 'K3', 'T5-L3': 'K3', 'T1-L4': 'K4', 'T2-L4': 'K4', 'T3-L4': 'K4', 'T4-L4': 'K4', 'T5-L4': 'K4', 'T1-L5': 'K5', 'T2-L5': 'K5', 'T3-L5': 'K5', 'T4-L5': 'K5', 'T5-L5': 'K5' }
+    },
+    Z5: {
+        questions: [
+            { title: 'Когда боль проявляется сильнее всего?', options: [
+                { value: 'T1', text: 'Когда лежу на этом боку' },
+                { value: 'T2', text: 'При ходьбе по лестнице' },
+                { value: 'T3', text: 'При первых шагах после долгого сидения' },
+                { value: 'T4', text: 'При ходьбе на большие расстояния' },
+                { value: 'T5', text: 'Постоянно, в любом положении' }
+            ]},
+            { title: 'Где именно болит?', options: [
+                { value: 'L1', text: 'Сбоку, в области выступающей косточки (большой вертел)' },
+                { value: 'L2', text: 'Спереди, в области паха' },
+                { value: 'L3', text: 'Отдает вниз по бедру к колену' },
+                { value: 'L4', text: 'Сзади, в области ягодицы' },
+                { value: 'L5', text: 'Затрудняюсь указать точно' }
+            ]}
+        ],
+        mapping: { 'T1-L1': 'T1', 'T2-L1': 'T1', 'T3-L1': 'T1', 'T4-L1': 'T1', 'T5-L1': 'T1', 'T1-L2': 'T2', 'T2-L2': 'T2', 'T3-L2': 'T2', 'T4-L2': 'T2', 'T5-L2': 'T2', 'T1-L3': 'T2', 'T2-L3': 'T2', 'T3-L3': 'T2', 'T4-L3': 'T2', 'T5-L3': 'T2', 'T1-L4': 'T3', 'T2-L4': 'T3', 'T3-L4': 'T3', 'T4-L4': 'T3', 'T5-L4': 'T3', 'T1-L5': 'T4', 'T2-L5': 'T4', 'T3-L5': 'T4', 'T4-L5': 'T4', 'T5-L5': 'T4' }
     }
 };
 
-// ===== ЛОГИКА ОПРЕДЕЛЕНИЯ ЛОКАЛИЗАЦИИ =====
-const locationLogic = {
-    'Z1': {
-        questions: [
-            {
-                title: 'Когда боль проявляется сильнее всего?',
-                options: [
-                    { value: 'T1', text: 'При первых шагах после сна или долгого сидения' },
-                    { value: 'T2', text: 'К концу дня после долгой ходьбы или стояния' },
-                    { value: 'T3', text: 'Постоянно, и в покое, и при нагрузке' }
-                ]
-            },
-            {
-                title: 'Где именно болит?',
-                options: [
-                    { value: 'L1', text: 'Снизу пятки, ближе к центру или внутреннему краю' },
-                    { value: 'L2', text: 'Сзади пятки, в области ахиллова сухожилия' },
-                    { value: 'L3', text: 'Вся пятка или затрудняюсь указать точно' }
-                ]
-            }
-        ],
-        mapping: {
-            'T1-L1': 'П1', 'T2-L1': 'П2', 'T1-L2': 'П3', 'T2-L2': 'П3',
-            'T3-L1': 'П4', 'T3-L2': 'П4', 'T3-L3': 'П4',
-            'T1-L3': 'П4', 'T2-L3': 'П4'
-        }
-    },
-    'Z2': {
-        questions: [
-            {
-                title: 'Когда боль проявляется сильнее всего?',
-                options: [
-                    { value: 'T1', text: 'Когда сжимаю кисть, жму руку, поднимаю предметы' },
-                    { value: 'T2', text: 'Когда вращаю предплечье (поворачиваю ключ, открываю кран)' },
-                    { value: 'T3', text: 'Постоянно ноет, независимо от движений' }
-                ]
-            },
-            {
-                title: 'Где именно болит?',
-                options: [
-                    { value: 'L1', text: 'Снаружи локтя (со стороны большого пальца, когда ладонь смотрит вверх)' },
-                    { value: 'L2', text: 'Изнутри локтя (со стороны мизинца)' },
-                    { value: 'L3', text: 'Затрудняюсь указать точно / болит весь локоть' }
-                ]
-            }
-        ],
-        mapping: {
-            'T1-L1': 'Л1', 'T2-L1': 'Л1', 'T3-L1': 'Л1',
-            'T1-L2': 'Л2', 'T2-L2': 'Л2', 'T3-L2': 'Л2',
-            'T1-L3': 'Л3', 'T2-L3': 'Л3', 'T3-L3': 'Л3'
-        }
-    },
-    'Z3': {
-        questions: [
-            {
-                title: 'Когда боль проявляется сильнее всего?',
-                options: [
-                    { value: 'T1', text: 'Когда поднимаю руку вверх или отвожу в сторону' },
-                    { value: 'T2', text: 'Когда завожу руку за спину' },
-                    { value: 'T3', text: 'Ночью, когда лежу на этом боку' },
-                    { value: 'T4', text: 'При любом движении рукой' }
-                ]
-            },
-            {
-                title: 'Где именно болит?',
-                options: [
-                    { value: 'L1', text: 'Сбоку или сверху плеча (в области дельтовидной мышцы)' },
-                    { value: 'L2', text: 'Спереди плеча (ближе к бицепсу)' },
-                    { value: 'L3', text: 'Сзади плеча или в области лопатки' },
-                    { value: 'L4', text: 'Глубоко внутри сустава / затрудняюсь указать' }
-                ]
-            }
-        ],
-        mapping: {
-            'T1-L1': 'ПЛ1', 'T1-L2': 'ПЛ3', 'T2-L3': 'ПЛ2', 'T2-L1': 'ПЛ2', 'T2-L2': 'ПЛ2', 'T2-L4': 'ПЛ2',
-            'T3-L1': 'ПЛ4', 'T3-L2': 'ПЛ4', 'T3-L3': 'ПЛ4', 'T3-L4': 'ПЛ4',
-            'T4-L1': 'ПЛ4', 'T4-L2': 'ПЛ4', 'T4-L3': 'ПЛ4', 'T4-L4': 'ПЛ4',
-            'T1-L3': 'ПЛ1', 'T1-L4': 'ПЛ1'
-        }
-    },
-    'Z4': {
-        questions: [
-            {
-                title: 'Когда боль проявляется сильнее всего?',
-                options: [
-                    { value: 'T1', text: 'При ходьбе по лестнице (особенно вниз)' },
-                    { value: 'T2', text: 'При приседании или вставании со стула' },
-                    { value: 'T3', text: 'При долгом сидении с согнутыми ногами' },
-                    { value: 'T4', text: 'При ходьбе по ровной поверхности' },
-                    { value: 'T5', text: 'Постоянно, независимо от нагрузки' }
-                ]
-            },
-            {
-                title: 'Где именно болит?',
-                options: [
-                    { value: 'L1', text: 'Спереди, вокруг коленной чашечки или чуть ниже неё' },
-                    { value: 'L2', text: 'С внутренней стороны колена' },
-                    { value: 'L3', text: 'С наружной стороны колена' },
-                    { value: 'L4', text: 'Под коленом сзади' },
-                    { value: 'L5', text: 'Всё колено / затрудняюсь указать' }
-                ]
-            }
-        ],
-        mapping: {
-            'T1-L1': 'К1', 'T2-L1': 'К1', 'T3-L1': 'К1', 'T4-L1': 'К1', 'T5-L1': 'К1',
-            'T1-L2': 'К2', 'T2-L2': 'К2', 'T3-L2': 'К2', 'T4-L2': 'К2', 'T5-L2': 'К2',
-            'T1-L3': 'К3', 'T2-L3': 'К3', 'T3-L3': 'К3', 'T4-L3': 'К3', 'T5-L3': 'К3',
-            'T1-L4': 'К4', 'T2-L4': 'К4', 'T3-L4': 'К4', 'T4-L4': 'К4', 'T5-L4': 'К4',
-            'T1-L5': 'К5', 'T2-L5': 'К5', 'T3-L5': 'К5', 'T4-L5': 'К5', 'T5-L5': 'К5'
-        }
-    },
-    'Z5': {
-        questions: [
-            {
-                title: 'Когда боль проявляется сильнее всего?',
-                options: [
-                    { value: 'T1', text: 'Когда лежу на этом боку' },
-                    { value: 'T2', text: 'При ходьбе по лестнице' },
-                    { value: 'T3', text: 'При первых шагах после долгого сидения' },
-                    { value: 'T4', text: 'При ходьбе на большие расстояния' },
-                    { value: 'T5', text: 'Постоянно, в любом положении' }
-                ]
-            },
-            {
-                title: 'Где именно болит?',
-                options: [
-                    { value: 'L1', text: 'Сбоку, в области выступающей косточки (большой вертел)' },
-                    { value: 'L2', text: 'Спереди, в области паха' },
-                    { value: 'L3', text: 'Отдаёт вниз по бедру к колену' },
-                    { value: 'L4', text: 'Сзади, в области ягодицы' },
-                    { value: 'L5', text: 'Затрудняюсь указать точно' }
-                ]
-            }
-        ],
-        mapping: {
-            'T1-L1': 'Т1', 'T2-L1': 'Т1', 'T3-L1': 'Т1', 'T4-L1': 'Т1', 'T5-L1': 'Т1',
-            'T1-L2': 'Т2', 'T2-L2': 'Т2', 'T3-L2': 'Т2', 'T4-L2': 'Т2', 'T5-L2': 'Т2',
-            'T1-L3': 'Т2', 'T2-L3': 'Т2', 'T3-L3': 'Т2', 'T4-L3': 'Т2', 'T5-L3': 'Т2',
-            'T1-L4': 'Т3', 'T2-L4': 'Т3', 'T3-L4': 'Т3', 'T4-L4': 'Т3', 'T5-L4': 'Т3',
-            'T1-L5': 'Т4', 'T2-L5': 'Т4', 'T3-L5': 'Т4', 'T4-L5': 'Т4', 'T5-L5': 'Т4'
-        }
-    }
+var locationNames = {
+    'P1': 'Пяточная шпора', 'P2': 'Перегрузка стопы', 'P3': 'Проблема ахилла', 'P4': 'Боль в пятке',
+    'L1': 'Теннисный локоть', 'L2': 'Локоть гольфиста', 'L3': 'Боль в локте',
+    'PL1': 'Импиджмент плеча', 'PL2': 'Ограничение плеча', 'PL3': 'Тендинит бицепса', 'PL4': 'Боль в плече',
+    'K1': 'Боль под коленной чашечкой', 'K2': 'Боль с внутренней стороны колена', 'K3': 'Боль с наружной стороны колена', 'K4': 'Боль под коленом сзади', 'K5': 'Боль в колене',
+    'T1': 'Трохантерит', 'T2': 'Коксартроз', 'T3': 'Синдром грушевидной мышцы', 'T4': 'Боль в тазобедренном суставе'
 };
 
-const locationNames = {
-    'П1': 'Пяточная шпора', 'П2': 'Перегрузка стопы', 'П3': 'Проблема ахилла', 'П4': 'Боль в пятке',
-    'Л1': 'Теннисный локоть', 'Л2': 'Локоть гольфиста', 'Л3': 'Боль в локте',
-    'ПЛ1': 'Импиджмент плеча', 'ПЛ2': 'Ограничение плеча', 'ПЛ3': 'Тендинит бицепса', 'ПЛ4': 'Боль в плече',
-    'К1': 'Боль под коленной чашечкой', 'К2': 'Боль с внутренней стороны колена', 'К3': 'Боль с наружной стороны колена', 'К4': 'Боль под коленом сзади', 'К5': 'Боль в колене',
-    'Т1': 'Трохантерит', 'Т2': 'Коксартроз', 'Т3': 'Синдром грушевидной мышцы', 'Т4': 'Боль в тазобедренном суставе'
-};
+var durationTexts = { 'D0': 'менее 1 месяца', 'D1': '1-3 месяца', 'D2': '3-6 месяцев', 'D3': '6-12 месяцев', 'D4': 'больше года' };
 
-const durationTexts = {
-    'D0': 'менее 1 месяца', 'D1': '1-3 месяца', 'D2': '3-6 месяцев', 'D3': '6-12 месяцев', 'D4': 'больше года'
-};
-
-// ===== ФУНКЦИИ НАВИГАЦИИ =====
 function nextStep() {
     if (testData.currentStep === 1) {
-        const location = document.querySelector('input[name="location"]:checked');
-        if (!location) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.location = location.value;
-        if (location.value === 'Z0') { testData.currentStep = 6; showStep(6); showResult(); return; }
+        var loc = document.querySelector('input[name="location"]:checked');
+        if (!loc) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.location = loc.value;
+        if (loc.value === 'Z0') { showResult(); return; }
     }
-    
     if (testData.currentStep === 2) {
-        const duration = document.querySelector('input[name="duration"]:checked');
-        if (!duration) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.duration = duration.value;
-        if (duration.value === 'D0') { testData.currentStep = 6; showStep(6); showResult(); return; }
+        var dur = document.querySelector('input[name="duration"]:checked');
+        if (!dur) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.duration = dur.value;
+        if (dur.value === 'D0') { showResult(); return; }
         generateClarificationQuestions();
     }
-    
     if (testData.currentStep === 3) {
-        const clarif1 = document.querySelector('input[name="clarification1"]:checked');
-        if (!clarif1) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.clarification1 = clarif1.value;
+        var c1 = document.querySelector('input[name="clarification1"]:checked');
+        if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.clarification1 = c1.value;
     }
-    
     if (testData.currentStep === 3.5) {
-        const clarif2 = document.querySelector('input[name="clarification2"]:checked');
-        if (!clarif2) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.clarification2 = clarif2.value;
+        var c2 = document.querySelector('input[name="clarification2"]:checked');
+        if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.clarification2 = c2.value;
     }
-    
     if (testData.currentStep === 4) {
-        const methods = document.querySelectorAll('input[name="methods"]:checked');
-        testData.answers.methods = Array.from(methods).map(m => m.value);
+        var methods = document.querySelectorAll('input[name="methods"]:checked');
+        testData.answers.methods = [];
+        for (var i = 0; i < methods.length; i++) { testData.answers.methods.push(methods[i].value); }
     }
-    
     testData.currentStep++;
-    if (testData.currentStep === 3.5 && !document.getElementById('step-3.5')) { testData.currentStep = 4; }
+    if (testData.currentStep === 3.5 && !document.getElementById('step-3-5')) { testData.currentStep = 4; }
     showStep(testData.currentStep);
     updateProgress();
 }
 
 function generateClarificationQuestions() {
-    const location = testData.answers.location;
-    const config = locationLogic[location];
+    var loc = testData.answers.location;
+    var config = locationLogic[loc];
     if (!config) return;
     
-    const step3 = document.getElementById('step-3');
-    step3.innerHTML = `
-        <div class="question">
-            <h2 class="question-title">${config.questions[0].title}</h2>
-            <div class="options">
-                ${config.questions[0].options.map(opt => `
-                    <label class="option">
-                        <input type="radio" name="clarification1" value="${opt.value}">
-                        <span class="option-content">${opt.text}</span>
-                    </label>
-                `).join('')}
-            </div>
-        </div>
-        <button class="btn" onclick="nextToClarification2()" id="btn-step-3" disabled>Далее</button>
-    `;
-    document.querySelectorAll('input[name="clarification1"]').forEach(input => {
-        input.addEventListener('change', () => { document.getElementById('btn-step-3').disabled = false; });
-    });
+    var step3 = document.getElementById('step-3');
+    var html = '<div class="question"><h2 class="question-title">' + config.questions[0].title + '</h2><div class="options">';
+    for (var i = 0; i < config.questions[0].options.length; i++) {
+        var opt = config.questions[0].options[i];
+        html += '<label class="option"><input type="radio" name="clarification1" value="' + opt.value + '"><span class="option-content">' + opt.text + '</span></label>';
+    }
+    html += '</div></div><button class="btn" onclick="nextToClarification2()" id="btn-step-3" disabled>Далее</button>';
+    step3.innerHTML = html;
     
-    let step35 = document.getElementById('step-3.5');
+    var inputs = document.querySelectorAll('input[name="clarification1"]');
+    for (var j = 0; j < inputs.length; j++) {
+        inputs[j].addEventListener('change', function() { document.getElementById('btn-step-3').disabled = false; });
+    }
+    
+    var step35 = document.getElementById('step-3-5');
     if (!step35) {
         step35 = document.createElement('div');
         step35.className = 'step';
-        step35.id = 'step-3.5';
+        step35.id = 'step-3-5';
         document.getElementById('testApp').insertBefore(step35, document.getElementById('step-4'));
     }
-    step35.innerHTML = `
-        <div class="question">
-            <h2 class="question-title">${config.questions[1].title}</h2>
-            <div class="options">
-                ${config.questions[1].options.map(opt => `
-                    <label class="option">
-                        <input type="radio" name="clarification2" value="${opt.value}">
-                        <span class="option-content">${opt.text}</span>
-                    </label>
-                `).join('')}
-            </div>
-        </div>
-        <button class="btn" onclick="nextStep()" id="btn-step-3.5" disabled>Далее</button>
-    `;
-    document.querySelectorAll('input[name="clarification2"]').forEach(input => {
-        input.addEventListener('change', () => { document.getElementById('btn-step-3.5').disabled = false; });
-    });
+    
+    var html2 = '<div class="question"><h2 class="question-title">' + config.questions[1].title + '</h2><div class="options">';
+    for (var k = 0; k < config.questions[1].options.length; k++) {
+        var opt2 = config.questions[1].options[k];
+        html2 += '<label class="option"><input type="radio" name="clarification2" value="' + opt2.value + '"><span class="option-content">' + opt2.text + '</span></label>';
+    }
+    html2 += '</div></div><button class="btn" onclick="nextStep()" id="btn-step-3-5" disabled>Далее</button>';
+    step35.innerHTML = html2;
+    
+    var inputs2 = document.querySelectorAll('input[name="clarification2"]');
+    for (var m = 0; m < inputs2.length; m++) {
+        inputs2[m].addEventListener('change', function() { document.getElementById('btn-step-3-5').disabled = false; });
+    }
 }
 
 function nextToClarification2() {
-    const clarif1 = document.querySelector('input[name="clarification1"]:checked');
-    if (!clarif1) { alert('Пожалуйста, выберите ответ'); return; }
-    testData.answers.clarification1 = clarif1.value;
+    var c1 = document.querySelector('input[name="clarification1"]:checked');
+    if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
+    testData.answers.clarification1 = c1.value;
     testData.currentStep = 3.5;
     showStep(3.5);
     updateProgress();
 }
 
 function showStep(stepNum) {
-    document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
-    let stepId = 'step-' + stepNum;
-    if (stepNum === 3.5) stepId = 'step-3.5';
+    var steps = document.querySelectorAll('.step');
+    for (var i = 0; i < steps.length; i++) { steps[i].classList.remove('active'); }
+    var stepId = 'step-' + stepNum;
+    if (stepNum === 3.5) stepId = 'step-3-5';
     if (stepNum === 6) stepId = 'step-result';
-    const stepEl = document.getElementById(stepId);
+    var stepEl = document.getElementById(stepId);
     if (stepEl) stepEl.classList.add('active');
     if (stepNum >= 1 && stepNum < 6) {
         document.getElementById('progressBar').style.display = 'block';
@@ -989,7 +422,7 @@ function showStep(stepNum) {
 }
 
 function updateProgress() {
-    let progress = 0;
+    var progress = 0;
     if (testData.currentStep === 1) progress = 16;
     if (testData.currentStep === 2) progress = 33;
     if (testData.currentStep === 3) progress = 50;
@@ -1000,24 +433,29 @@ function updateProgress() {
 }
 
 function calculateCategory() {
-    const duration = testData.answers.duration;
-    const methods = testData.answers.methods;
-    const severity = testData.answers.severity;
+    var duration = testData.answers.duration;
+    var methods = testData.answers.methods;
+    var severity = testData.answers.severity;
     if (duration === 'D0') return 'CAT0';
     
-    let fibrosisScore = 0;
+    var fibrosisScore = 0;
     if (duration === 'D1') fibrosisScore += 2;
     if (duration === 'D2') fibrosisScore += 4;
     if (duration === 'D3') fibrosisScore += 6;
     if (duration === 'D4') fibrosisScore += 8;
     
-    const methodsCount = methods.filter(m => m !== 'M0').length;
+    var methodsCount = 0;
+    for (var i = 0; i < methods.length; i++) { if (methods[i] !== 'M0') methodsCount++; }
     if (methodsCount >= 1 && methodsCount <= 2) fibrosisScore += 1;
     else if (methodsCount >= 3 && methodsCount <= 4) fibrosisScore += 2;
     else if (methodsCount >= 5) fibrosisScore += 3;
-    if (methods.includes('M2')) fibrosisScore += 1;
     
-    const severityNum = parseInt(severity.replace('S', ''));
+    var hasInjections = false;
+    for (var j = 0; j < methods.length; j++) { if (methods[j] === 'M2') hasInjections = true; }
+    if (hasInjections) fibrosisScore += 1;
+    
+    var severityNum = severity ? parseInt(severity.replace('S', '')) : 1;
+    
     if (fibrosisScore >= 10) return 'CAT4';
     if (fibrosisScore >= 7) return 'CAT3';
     if (fibrosisScore >= 4) return 'CAT2';
@@ -1027,1083 +465,128 @@ function calculateCategory() {
 }
 
 function determineLocation() {
-    const zone = testData.answers.location;
+    var zone = testData.answers.location;
     if (zone === 'Z0') return 'Z0';
-    const config = locationLogic[zone];
-    if (!config) return 'П1';
-    const key = testData.answers.clarification1 + '-' + testData.answers.clarification2;
-    return config.mapping[key] || 'П4';
+    var config = locationLogic[zone];
+    if (!config) return 'P1';
+    var key = testData.answers.clarification1 + '-' + testData.answers.clarification2;
+    return config.mapping[key] || 'P4';
 }
 
 function showResult() {
-    // ВАЖНО: проверяем, выбран ли вариант severity
-    const severityInput = document.querySelector('input[name="severity"]:checked');
-    if (!severityInput) {
-        alert('Пожалуйста, выберите ответ');
-        return;
-    }
-    testData.answers.severity = severityInput.value;
+    var severityInput = document.querySelector('input[name="severity"]:checked');
+    if (severityInput) testData.answers.severity = severityInput.value;
     
-    const location = determineLocation();
-    const category = calculateCategory();
-    const resultCode = location + '-' + category;
+    var location = determineLocation();
+    var category = calculateCategory();
+    var resultCode = location + '-' + category;
     
-    console.log('Location:', location, 'Category:', category, 'Code:', resultCode); // для отладки
-    
-    const resultHTML = getResultHTML(resultCode);
-    
-    if (!resultHTML) {
-        console.error('Результат не найден для кода:', resultCode);
-        document.getElementById('resultContent').innerHTML = `
-            <div class="result">
-                <h2>Произошла ошибка</h2>
-                <p>К сожалению, не удалось определить результат. Пожалуйста, <a href="https://galkin-kostoprav.ru/forma">запишитесь на консультацию напрямую</a>.</p>
-            </div>
-        `;
-    } else {
-        document.getElementById('resultContent').innerHTML = resultHTML;
-    }
-    
+    var resultHTML = getResultHTML(resultCode);
+    document.getElementById('resultContent').innerHTML = resultHTML;
     testData.currentStep = 6;
     showStep(6);
 }
 
 function getMethodsText() {
-    const methods = testData.answers.methods;
-    if (methods.length === 0 || (methods.length === 1 && methods.includes('M0'))) return 'ничего особенного';
-    const methodNames = { 'M1': 'мази и таблетки', 'M2': 'уколы', 'M3': 'физиотерапию', 'M4': 'массаж', 'M5': 'стельки/ортезы', 'M6': 'ЛФК' };
-    return methods.filter(m => m !== 'M0').map(m => methodNames[m]).join(', ');
+    var methods = testData.answers.methods;
+    if (methods.length === 0) return 'ничего особенного';
+    var hasOnlyM0 = methods.length === 1 && methods[0] === 'M0';
+    if (hasOnlyM0) return 'ничего особенного';
+    var names = { 'M1': 'мази и таблетки', 'M2': 'уколы', 'M3': 'физиотерапию', 'M4': 'массаж', 'M5': 'стельки/ортезы', 'M6': 'ЛФК' };
+    var result = [];
+    for (var i = 0; i < methods.length; i++) { if (methods[i] !== 'M0' && names[methods[i]]) result.push(names[methods[i]]); }
+    return result.length > 0 ? result.join(', ') : 'ничего особенного';
 }
 
 function getDurationText() {
     return durationTexts[testData.answers.duration] || '';
 }
 
-// ===== ВСЕ РЕЗУЛЬТАТЫ =====
 function getResultHTML(code) {
-    const mt = getMethodsText();
-    const dt = getDurationText();
-
-  // ОТЛАДКА - покажет какой код ищется
-    console.log('Ищем результат для кода:', code);
-    console.log('Методы:', mt, 'Длительность:', dt);
+    var mt = getMethodsText();
+    var dt = getDurationText();
+    var locName = locationNames[determineLocation()] || 'Не определено';
     
-    const results = {
-        
-// ========== ПЯТКА ==========
-
-'П1-CAT0': `<div class="result"><h2>Ваш результат: боль в области подошвенной фасции</h2><div class="result-content">
-<p>Боль в пятке при первых шагах, дискомфорт при ходьбе.</p>
-<p>Проблема появилась недавно — менее месяца назад.</p>
-<p><strong>Почему важно не спешить:</strong><br>На этом этапе может идти острый воспалительный процесс. Нужно исключить травму и другие причины боли.</p>
-<p><strong>Рекомендация:</strong> обратитесь к травматологу или ортопеду. Если через 4–6 недель боль сохранится и перейдёт в хроническую — приходите, разберёмся.</p>
-</div></div>`,
-
-'П1-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в подошвенной фасции</h2><div class="result-content">
-<p>Боль в пятке при первых шагах после сна, дискомфорт в течение дня.</p>
-<p>Вы пробовали ${mt}, пока без стойкого результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в месте прикрепления фасции к пятке начали формироваться микроизменения. Пока они ещё не превратились в плотный рубец, есть шанс справиться упражнениями.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Раскатка стопы мячиком</strong> (2 минуты утром)<br>Возьмите теннисный мяч или бутылку с холодной водой. Сядьте на стул, поставьте стопу на мяч. Медленно прокатывайте от пятки к пальцам, слегка надавливая.</div>
-<div class="exercise"><strong>2. Растяжка голени на ступеньке</strong> (1 минута на ногу)<br>Встаньте носком на край ступеньки, пятка свисает. Медленно опустите пятку вниз, почувствуйте растяжение икры. Задержитесь на 30 секунд. Повторите 2–3 раза.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно 3–4 недели. Если улучшения нет — не откладывайте консультацию.</p>
-</div></div>`,
-
-'П1-CAT2': `<div class="result"><h2>Ваш результат: формирующееся уплотнение в подошвенной фасции (пяточная шпора)</h2><div class="result-content">
-<p>Боль в пятке при первых шагах после сна, трудно наступать на пятку.</p>
-<p>Вы уже пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в месте прикрепления фасции начала формироваться рубцовая ткань. Она раздражает нервные окончания при каждом шаге.</p>
-<p><strong>Что реально работает:</strong><br>Метод иглонож позволяет устранить это уплотнение точечно, мягко, за несколько минут. Без разрезов, без госпитализации.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Раскатка стопы мячиком</strong><br>Теннисный мяч под стопу, прокатывайте от пятки к пальцам 2 минуты утром.</div>
-<div class="exercise"><strong>2. Растяжка голени на ступеньке</strong><br>Носок на ступеньке, пятка вниз. Держите 30 секунд, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> Изменения уже начались, но ещё не застарелые. Иглонож может ускорить выздоровление — обычно достаточно 1–2 процедур. Или понаблюдайте 2–3 недели с упражнениями.</p>
-</div></div>`,
-
-'П1-CAT3': `<div class="result"><h2>Ваш результат: уплотнение в подошвенной фасции (пяточная шпора)</h2><div class="result-content">
-<p>Боль в пятке при первых шагах после сна, невозможность нормально наступить на пятку, дискомфорт при долгой ходьбе.</p>
-<p>Вы уже пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в месте прикрепления фасции образовалась плотная рубцовая ткань. Она не рассасывается сама. Именно она раздражает нервные окончания — отсюда боль по утрам.</p>
-<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко, за несколько минут. После процедуры фасция восстанавливает эластичность.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Раскатка стопы мячиком</strong><br>Прокатывайте мяч от пятки к пальцам 2 минуты утром.</div>
-<div class="exercise"><strong>2. Растяжка голени на ступеньке</strong><br>Пятка вниз, держите 30 секунд, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> Уплотнения сами не рассосутся. Упражнения облегчат состояние, но не уберут причину. Запишитесь на консультацию.</p>
-</div></div>`,
-
-'П1-CAT4': `<div class="result"><h2>Ваш результат: застарелое уплотнение в подошвенной фасции (пяточная шпора)</h2><div class="result-content">
-<p>Боль в пятке при первых шагах, невозможность наступить на пятку, постоянный дискомфорт.</p>
-<p>Вы перепробовали многое: ${mt}. Эффект временный или его нет.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} сформировалась плотная застарелая рубцовая ткань. Она не рассасывается ни от мазей, ни от физиотерапии, ни от уколов.</p>
-<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко, за несколько минут. После процедуры боль уходит.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Раскатка стопы мячиком</strong><br>2 минуты утром.</div>
-<div class="exercise"><strong>2. Растяжка голени</strong><br>30 секунд, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> Это классический случай для иглоножа. Упражнения немного облегчат, но не решат проблему. Рекомендую не откладывать консультацию.</p>
-</div></div>`,
-
-'П2-CAT0': `<div class="result"><h2>Ваш результат: перегрузка свода стопы</h2><div class="result-content">
-<p>Боль в пятке и своде стопы, особенно к концу дня.</p>
-<p>Проблема появилась недавно — менее месяца назад.</p>
-<p><strong>Рекомендация:</strong> уменьшите нагрузку на стопу. Если через 4–6 недель боль сохранится — приходите, разберёмся.</p>
-</div></div>`,
-
-'П2-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения от перегрузки свода стопы</h2><div class="result-content">
-<p>Боль в пятке и стопе к концу дня, после долгой ходьбы.</p>
-<p>Вы пробовали ${mt}, пока без стойкого результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} свод стопы перегружается, ткани не успевают восстанавливаться.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Укрепление свода («короткая стопа»)</strong><br>Сидя, стопа на полу. Не сгибая пальцы, подтяните свод вверх. Держите 5 сек, 10–15 повторов.</div>
-<div class="exercise"><strong>2. Подъёмы на носки</strong><br>Медленно поднимитесь на носки, задержитесь 2 сек, опуститесь. 15 повторов, 2 подхода.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели. Если нет улучшений — запишитесь на консультацию.</p>
-</div></div>`,
-
-'П2-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в своде стопы</h2><div class="result-content">
-<p>Боль в стопе к концу дня, усталость стоп.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в тканях свода начали формироваться уплотнения от хронической перегрузки.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Укрепление свода («короткая стопа»)</strong><br>Подтяните свод вверх, держите 5 сек, 10–15 повторов.</div>
-<div class="exercise"><strong>2. Подъёмы на носки</strong><br>15 повторов, 2 подхода.</div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. На этой стадии достаточно 1–2 процедур.</p>
-</div></div>`,
-
-'П2-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в тканях свода стопы</h2><div class="result-content">
-<p>Боль в стопе при ходьбе, усталость, дискомфорт к концу дня.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в тканях образовались уплотнения, ограничивающие эластичность фасции.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Укрепление свода</strong><br>Подтяните свод, держите 5 сек, 10–15 повторов.</div>
-<div class="exercise"><strong>2. Подъёмы на носки</strong><br>15 повторов, 2 подхода.</div>
-</div>
-<p><strong>Рекомендация:</strong> Упражнения облегчат, но не уберут причину. Запишитесь на консультацию.</p>
-</div></div>`,
-
-'П2-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в тканях свода стопы</h2><div class="result-content">
-<p>Хроническая боль в стопе, усталость при ходьбе.</p>
-<p>Вы перепробовали: ${mt}. Эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} сформировались плотные уплотнения, которые не рассасываются сами.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Укрепление свода</strong></div>
-<div class="exercise"><strong>2. Подъёмы на носки</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'П3-CAT0': `<div class="result"><h2>Ваш результат: боль в области ахиллова сухожилия</h2><div class="result-content">
-<p>Боль сзади пятки, в области ахилла.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> важно исключить разрыв сухожилия. Обратитесь к травматологу. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'П3-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в области ахилла</h2><div class="result-content">
-<p>Боль сзади пятки при первых шагах утром.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области ахилла начали формироваться микроизменения. Пока они обратимы.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Эксцентрическое опускание пятки</strong><br>Встаньте на край ступеньки носком, пятка свисает. Медленно на 5 счётов опустите пятку вниз. Поднимитесь за счёт здоровой ноги. 15 повторов, 2 подхода.</div>
-<div class="exercise"><strong>2. Растяжка икры у стены</strong><br>Упритесь в стену, больная нога сзади, пятка прижата к полу. Согните переднюю ногу. Держите 30 сек, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели. Если нет улучшений — консультация.</p>
-</div></div>`,
-
-'П3-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в области ахилла</h2><div class="result-content">
-<p>Боль сзади пятки при первых шагах, дискомфорт при подъёме на носки.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области ахилла начала формироваться рубцовая ткань.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Эксцентрическое опускание пятки</strong><br>15 повторов, 2 подхода.</div>
-<div class="exercise"><strong>2. Растяжка икры у стены</strong><br>30 сек, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'П3-CAT3': `<div class="result"><h2>Ваш результат: уплотнение в области ахиллова сухожилия</h2><div class="result-content">
-<p>Боль сзади пятки, скованность по утрам, дискомфорт при ходьбе.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области ахилла образовалась рубцовая ткань, ограничивающая эластичность.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Эксцентрическое опускание пятки</strong></div>
-<div class="exercise"><strong>2. Растяжка икры у стены</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Упражнения облегчат, но не уберут причину. Запишитесь на консультацию.</p>
-</div></div>`,
-
-'П3-CAT4': `<div class="result"><h2>Ваш результат: застарелое уплотнение в области ахилла</h2><div class="result-content">
-<p>Хроническая боль сзади пятки, скованность, ограничение подвижности.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} сформировалось плотное застарелое уплотнение.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Эксцентрическое опускание пятки</strong></div>
-<div class="exercise"><strong>2. Растяжка икры</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'П4-CAT0': `<div class="result"><h2>Ваш результат: боль в области пятки</h2><div class="result-content">
-<p>Боль в пятке, затрудняюсь точно указать место.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> обратитесь к травматологу для диагностики. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'П4-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в области пятки</h2><div class="result-content">
-<p>Боль в пятке, дискомфорт при ходьбе.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Раскатка стопы мячиком</strong><br>2 минуты утром.</div>
-<div class="exercise"><strong>2. Растяжка голени на ступеньке</strong><br>30 сек, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели. Если нет улучшений — консультация.</p>
-</div></div>`,
-
-'П4-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в области пятки</h2><div class="result-content">
-<p>Боль в пятке, дискомфорт при ходьбе, скованность.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Раскатка стопы мячиком</strong></div>
-<div class="exercise"><strong>2. Растяжка голени</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'П4-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в тканях пятки</h2><div class="result-content">
-<p>Хроническая боль в пятке, дискомфорт при ходьбе.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Раскатка стопы</strong></div>
-<div class="exercise"><strong>2. Растяжка голени</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'П4-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в тканях пятки</h2><div class="result-content">
-<p>Хроническая боль в пятке, постоянный дискомфорт.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Раскатка стопы</strong></div>
-<div class="exercise"><strong>2. Растяжка голени</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-// ========== ЛОКОТЬ ==========
-
-'Л1-CAT0': `<div class="result"><h2>Ваш результат: боль с наружной стороны локтя</h2><div class="result-content">
-<p>Боль снаружи локтя при хвате, подъёме предметов.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> уменьшите нагрузку на руку. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'Л1-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения с наружной стороны локтя (теннисный локоть)</h2><div class="result-content">
-<p>Боль снаружи локтя при хвате, рукопожатии, подъёме предметов.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в сухожилиях разгибателей начали формироваться микроповреждения. Пока они обратимы.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Эксцентрическое разгибание кисти</strong><br>Предплечье на столе, кисть свисает ладонью вниз. Лёгкий груз в руке. Здоровой рукой поднимите кисть вверх, затем медленно на 5 счётов опустите. 15 повторов, 2 подхода.</div>
-<div class="exercise"><strong>2. Растяжка разгибателей</strong><br>Вытяните руку, ладонь вниз. Другой рукой потяните кисть вниз и к себе. Держите 30 сек, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели. Если нет улучшений — консультация.</p>
-</div></div>`,
-
-'Л1-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения с наружной стороны локтя (теннисный локоть)</h2><div class="result-content">
-<p>Боль снаружи локтя при хвате, рукопожатии, подъёме предметов.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в сухожилиях начала формироваться рубцовая ткань. Воспаление прошло, но уплотнение осталось.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Эксцентрическое разгибание кисти</strong><br>15 повторов, 2 подхода.</div>
-<div class="exercise"><strong>2. Растяжка разгибателей</strong><br>30 сек, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'Л1-CAT3': `<div class="result"><h2>Ваш результат: уплотнение с наружной стороны локтя (теннисный локоть)</h2><div class="result-content">
-<p>Боль снаружи локтя при хвате, рукопожатии, подъёме предметов, повороте ключа.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} образовалась рубцовая ткань, которая не рассасывается и вызывает боль при каждом движении.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Эксцентрическое разгибание кисти</strong></div>
-<div class="exercise"><strong>2. Растяжка разгибателей</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Упражнения облегчат, но не уберут причину. Запишитесь на консультацию.</p>
-</div></div>`,
-
-'Л1-CAT4': `<div class="result"><h2>Ваш результат: застарелое уплотнение с наружной стороны локтя (теннисный локоть)</h2><div class="result-content">
-<p>Хроническая боль снаружи локтя, трудно поднять даже чашку.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} сформировалось плотное застарелое уплотнение.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Эксцентрическое разгибание кисти</strong></div>
-<div class="exercise"><strong>2. Растяжка разгибателей</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'Л2-CAT0': `<div class="result"><h2>Ваш результат: боль с внутренней стороны локтя</h2><div class="result-content">
-<p>Боль изнутри локтя при хвате, подъёме предметов.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> уменьшите нагрузку на руку. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'Л2-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения с внутренней стороны локтя (локоть гольфиста)</h2><div class="result-content">
-<p>Боль изнутри локтя при хвате, сгибании кисти, подъёме предметов.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в сухожилиях сгибателей начали формироваться микроповреждения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Эксцентрическое сгибание кисти</strong><br>Предплечье на столе, кисть свисает ладонью вверх. Груз в руке. Здоровой рукой согните кисть вверх, затем медленно на 5 счётов опустите. 15 повторов, 2 подхода.</div>
-<div class="exercise"><strong>2. Растяжка сгибателей</strong><br>Вытяните руку, ладонь вверх. Потяните пальцы вниз и к себе. Держите 30 сек, 2–3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'Л2-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения с внутренней стороны локтя (локоть гольфиста)</h2><div class="result-content">
-<p>Боль изнутри локтя при хвате, сгибании кисти.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в сухожилиях сгибателей начала формироваться рубцовая ткань.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Эксцентрическое сгибание кисти</strong></div>
-<div class="exercise"><strong>2. Растяжка сгибателей</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'Л2-CAT3': `<div class="result"><h2>Ваш результат: уплотнение с внутренней стороны локтя (локоть гольфиста)</h2><div class="result-content">
-<p>Боль изнутри локтя при хвате, сгибании кисти, подъёме предметов.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} образовалась рубцовая ткань, которая не рассасывается сама.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Эксцентрическое сгибание кисти</strong></div>
-<div class="exercise"><strong>2. Растяжка сгибателей</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'Л2-CAT4': `<div class="result"><h2>Ваш результат: застарелое уплотнение с внутренней стороны локтя (локоть гольфиста)</h2><div class="result-content">
-<p>Хроническая боль изнутри локтя, трудно сжимать руку.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} сформировалось плотное застарелое уплотнение.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Эксцентрическое сгибание кисти</strong></div>
-<div class="exercise"><strong>2. Растяжка сгибателей</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'Л3-CAT0': `<div class="result"><h2>Ваш результат: боль в области локтя</h2><div class="result-content">
-<p>Боль в локте, затрудняюсь точно указать место.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> уменьшите нагрузку. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'Л3-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в области локтя</h2><div class="result-content">
-<p>Боль в локте при нагрузке.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Сгибание-разгибание кисти с лёгким сопротивлением</strong><br>Эспандер или резинка. Медленные сгибания и разгибания. 15 повторов в каждую сторону.</div>
-<div class="exercise"><strong>2. Вращение предплечья</strong><br>Локоть согнут 90°, прижат к боку. Вращайте ладонью вверх-вниз. 15 повторов, 2 подхода.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'Л3-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в области локтя</h2><div class="result-content">
-<p>Боль в локте при нагрузке, дискомфорт.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Сгибание-разгибание кисти</strong></div>
-<div class="exercise"><strong>2. Вращение предплечья</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление.</p>
-</div></div>`,
-
-'Л3-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в тканях локтя</h2><div class="result-content">
-<p>Хроническая боль в локте при нагрузке.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Сгибание-разгибание кисти</strong></div>
-<div class="exercise"><strong>2. Вращение предплечья</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'Л3-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в тканях локтя</h2><div class="result-content">
-<p>Хроническая боль в локте.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Сгибание-разгибание кисти</strong></div>
-<div class="exercise"><strong>2. Вращение предплечья</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа.</p>
-</div></div>`,
-
-// ========== ПЛЕЧО ==========
-
-'ПЛ1-CAT0': `<div class="result"><h2>Ваш результат: боль в плече при подъёме руки</h2><div class="result-content">
-<p>Боль сбоку или сверху плеча при подъёме руки.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> избегайте болезненных движений. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'ПЛ1-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в плечевом суставе (импиджмент-синдром)</h2><div class="result-content">
-<p>Боль сбоку или сверху плеча при подъёме руки вверх или в сторону.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в сухожилиях вращательной манжеты начали формироваться изменения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong><br>Наклонитесь вперёд, здоровой рукой обопритесь. Больную руку свесьте и расслабьте. Раскачивайте как маятник: вперёд-назад, влево-вправо, по кругу. 2–3 минуты.</div>
-<div class="exercise"><strong>2. Скольжение по стене</strong><br>Встаньте лицом к стене. Ладонь на стене, скользите вверх насколько позволяет боль. Задержитесь 5 сек. 10 повторов.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'ПЛ1-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в плечевом суставе (импиджмент)</h2><div class="result-content">
-<p>Боль при подъёме руки, ограничение движения.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в сухожилиях вращательной манжеты начали формироваться уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong></div>
-<div class="exercise"><strong>2. Скольжение по стене</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'ПЛ1-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в плечевом суставе (импиджмент-синдром)</h2><div class="result-content">
-<p>Боль при подъёме руки, ограничение движения, дискомфорт по ночам.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в сухожилиях образовались уплотнения, ограничивающие движение.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong></div>
-<div class="exercise"><strong>2. Скольжение по стене</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'ПЛ1-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в плечевом суставе (импиджмент)</h2><div class="result-content">
-<p>Хроническая боль, рука не поднимается, ночью не уснуть на этом боку.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong></div>
-<div class="exercise"><strong>2. Скольжение по стене</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'ПЛ2-CAT0': `<div class="result"><h2>Ваш результат: боль в задней части плеча</h2><div class="result-content">
-<p>Боль при заведении руки за спину.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> избегайте болезненных движений. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'ПЛ2-CAT1': `<div class="result"><h2>Ваш результат: начальное ограничение подвижности плеча</h2><div class="result-content">
-<p>Боль при заведении руки за спину, скованность.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в задней части капсулы плеча начали формироваться изменения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка задней капсулы (sleeper stretch)</strong><br>Лягте на бок, больное плечо внизу. Плечо и локоть согнуты 90°. Здоровой рукой надавите на запястье, опуская предплечье к полу. Держите 30 сек, 3 повтора.</div>
-<div class="exercise"><strong>2. Вращение плеча с полотенцем</strong><br>Полотенце за спиной: здоровая рука сверху, больная снизу. Тяните вверх. 20 сек, 3 повтора.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'ПЛ2-CAT2': `<div class="result"><h2>Ваш результат: формирующееся ограничение подвижности плеча</h2><div class="result-content">
-<p>Боль и скованность при заведении руки за спину.</p>
-<p>Вы пробовали ${mt}, но улучшение временное.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка задней капсулы</strong></div>
-<div class="exercise"><strong>2. Вращение плеча с полотенцем</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление.</p>
-</div></div>`,
-
-'ПЛ2-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в капсуле плечевого сустава</h2><div class="result-content">
-<p>Ограничение подвижности, боль при заведении руки за спину.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка задней капсулы</strong></div>
-<div class="exercise"><strong>2. Вращение плеча с полотенцем</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'ПЛ2-CAT4': `<div class="result"><h2>Ваш результат: застарелое ограничение подвижности плеча</h2><div class="result-content">
-<p>Выраженное ограничение движения, невозможно завести руку за спину.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка задней капсулы</strong></div>
-<div class="exercise"><strong>2. Вращение плеча с полотенцем</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа.</p>
-</div></div>`,
-
-'ПЛ3-CAT0': `<div class="result"><h2>Ваш результат: боль в передней части плеча</h2><div class="result-content">
-<p>Боль спереди плеча, ближе к бицепсу.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> избегайте нагрузки на руку. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'ПЛ3-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в сухожилии бицепса</h2><div class="result-content">
-<p>Боль спереди плеча при нагрузке.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка бицепса в дверном проёме</strong><br>Рука в сторону, локоть согнут 90°, предплечье на косяке. Шагните вперёд, почувствуйте растяжение. 30 сек, 2–3 повтора.</div>
-<div class="exercise"><strong>2. Изометрическое напряжение бицепса</strong><br>Локоть согнут 90°, ладонь вверх. Здоровой рукой сопротивляйтесь сгибанию. Напряжение 50%, 10 сек, 5 повторов.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'ПЛ3-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в сухожилии бицепса</h2><div class="result-content">
-<p>Боль спереди плеча при нагрузке.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка бицепса</strong></div>
-<div class="exercise"><strong>2. Изометрическое напряжение</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление.</p>
-</div></div>`,
-
-'ПЛ3-CAT3': `<div class="result"><h2>Ваш результат: уплотнение в сухожилии бицепса</h2><div class="result-content">
-<p>Боль спереди плеча при нагрузке и в покое.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка бицепса</strong></div>
-<div class="exercise"><strong>2. Изометрическое напряжение</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'ПЛ3-CAT4': `<div class="result"><h2>Ваш результат: застарелое уплотнение в сухожилии бицепса</h2><div class="result-content">
-<p>Хроническая боль спереди плеча.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка бицепса</strong></div>
-<div class="exercise"><strong>2. Изометрическое напряжение</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа.</p>
-</div></div>`,
-
-'ПЛ4-CAT0': `<div class="result"><h2>Ваш результат: боль в плече</h2><div class="result-content">
-<p>Боль в плече, затрудняюсь точно указать место.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> избегайте нагрузки. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'ПЛ4-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в плечевом суставе</h2><div class="result-content">
-<p>Боль в плече при движениях.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong><br>2–3 минуты.</div>
-<div class="exercise"><strong>2. Скольжение по стене</strong><br>10 повторов.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'ПЛ4-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в плечевом суставе</h2><div class="result-content">
-<p>Боль и ограничение движения в плече.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong></div>
-<div class="exercise"><strong>2. Скольжение по стене</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление.</p>
-</div></div>`,
-
-'ПЛ4-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в тканях плечевого сустава</h2><div class="result-content">
-<p>Хроническая боль и ограничение движения.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong></div>
-<div class="exercise"><strong>2. Скольжение по стене</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'ПЛ4-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в плечевом суставе</h2><div class="result-content">
-<p>Хроническая боль, выраженное ограничение движения.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Маятник Кодмана</strong></div>
-<div class="exercise"><strong>2. Скольжение по стене</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа.</p>
-</div></div>`,
-
-// ========== КОЛЕНО ==========
-
-'К1-CAT0': `<div class="result"><h2>Ваш результат: боль в передней части колена</h2><div class="result-content">
-<p>Боль вокруг коленной чашечки.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> уменьшите нагрузку. При необходимости обратитесь к травматологу. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'К1-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в передней части колена</h2><div class="result-content">
-<p>Боль вокруг коленной чашечки при ходьбе по лестнице, приседаниях.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в связках и сухожилиях вокруг надколенника начали формироваться изменения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong><br>Сядьте с прямыми ногами. Напрягите мышцу бедра, подтяните коленную чашечку. Держите 10 сек, 10–15 повторов.</div>
-<div class="exercise"><strong>2. Подъём прямой ноги лёжа</strong><br>Лягте на спину, здоровую ногу согните. Больную выпрямите, напрягите квадрицепс, поднимите на 20–30 см. Держите 3–5 сек, 15 повторов, 2 подхода.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'К1-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в передней части колена</h2><div class="result-content">
-<p>Боль при ходьбе по лестнице, приседаниях, долгом сидении.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в тканях вокруг надколенника начали формироваться уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong></div>
-<div class="exercise"><strong>2. Подъём прямой ноги лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'К1-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в передней части колена</h2><div class="result-content">
-<p>Боль при ходьбе по лестнице, приседаниях, вставании.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} вокруг надколенника образовались уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong></div>
-<div class="exercise"><strong>2. Подъём прямой ноги</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Упражнения облегчат, но не уберут причину. Запишитесь на консультацию.</p>
-</div></div>`,
-
-'К1-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в передней части колена</h2><div class="result-content">
-<p>Хроническая боль, трудно ходить по лестнице, приседать.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong></div>
-<div class="exercise"><strong>2. Подъём прямой ноги</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'К2-CAT0': `<div class="result"><h2>Ваш результат: боль с внутренней стороны колена</h2><div class="result-content">
-<p>Боль изнутри колена.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> важно исключить повреждение связки. Обратитесь к травматологу. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'К2-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения с внутренней стороны колена</h2><div class="result-content">
-<p>Боль изнутри колена при нагрузке.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в медиальной связке начали формироваться изменения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Изометрическое приведение бедра</strong><br>Лягте на спину, ноги согнуты. Между коленями мяч или подушка. Сожмите с усилием 50%. Держите 5 сек, 10–15 повторов.</div>
-<div class="exercise"><strong>2. Мини-приседания у стены</strong><br>Спиной к стене. Скользите вниз, сгибая колени до 30–45° (не глубже). Держите 5 сек, 10 повторов.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'К2-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения с внутренней стороны колена</h2><div class="result-content">
-<p>Боль изнутри колена при нагрузке.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в медиальной связке начали формироваться уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Изометрическое приведение</strong></div>
-<div class="exercise"><strong>2. Мини-приседания у стены</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'К2-CAT3': `<div class="result"><h2>Ваш результат: уплотнения с внутренней стороны колена</h2><div class="result-content">
-<p>Боль изнутри колена при ходьбе, нагрузке.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в медиальной связке образовались уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Изометрическое приведение</strong></div>
-<div class="exercise"><strong>2. Мини-приседания у стены</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'К2-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения с внутренней стороны колена</h2><div class="result-content">
-<p>Хроническая боль изнутри колена, дискомфорт при ходьбе.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Изометрическое приведение</strong></div>
-<div class="exercise"><strong>2. Мини-приседания у стены</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'К3-CAT0': `<div class="result"><h2>Ваш результат: боль с наружной стороны колена</h2><div class="result-content">
-<p>Боль снаружи колена.</p>
-<p><em>ПБТ (подвздошно-большеберцовый тракт) — плотная полоса соединительной ткани по наружной поверхности бедра.</em></p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> уменьшите нагрузку, особенно бег. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'К3-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения с наружной стороны колена</h2><div class="result-content">
-<p>Боль снаружи колена при беге, ходьбе по лестнице.</p>
-<p><em>ПБТ (подвздошно-большеберцовый тракт) — плотная полоса соединительной ткани по наружной поверхности бедра.</em></p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области ПБТ или латеральной связки начали формироваться изменения от перегрузки.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка ПБТ стоя</strong><br>Встаньте, скрестите ноги (больная сзади). Поднимите руку со стороны больной ноги и наклонитесь в сторону здоровой. Держите 30 сек, 2–3 повтора.</div>
-<div class="exercise"><strong>2. Раскатка на ролле</strong><br>Лягте на бок, бедро на массажном ролле. Прокатывайте от колена до таза. Задерживайтесь на болезненных точках. 2–3 минуты.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели. Уменьшите беговую нагрузку.</p>
-</div></div>`,
-
-'К3-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения с наружной стороны колена (синдром ПБТ)</h2><div class="result-content">
-<p>Боль снаружи колена при беге, ходьбе, нагрузке.</p>
-<p><em>ПБТ (подвздошно-большеберцовый тракт) — плотная полоса соединительной ткани по наружной поверхности бедра.</em></p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области ПБТ начали формироваться уплотнения. Тракт становится менее эластичным.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка ПБТ стоя</strong></div>
-<div class="exercise"><strong>2. Раскатка на ролле</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'К3-CAT3': `<div class="result"><h2>Ваш результат: уплотнения с наружной стороны колена (синдром ПБТ)</h2><div class="result-content">
-<p>Боль снаружи колена при беге, ходьбе по лестнице, иногда при обычной ходьбе.</p>
-<p><em>ПБТ (подвздошно-большеберцовый тракт) — плотная полоса соединительной ткани по наружной поверхности бедра.</em></p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} ПБТ стал плотным и неэластичным. Образовались уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка ПБТ стоя</strong></div>
-<div class="exercise"><strong>2. Раскатка на ролле</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'К3-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения с наружной стороны колена (синдром ПБТ)</h2><div class="result-content">
-<p>Хроническая боль снаружи колена, невозможно бегать, боль при ходьбе.</p>
-<p><em>ПБТ (подвздошно-большеберцовый тракт) — плотная полоса соединительной ткани по наружной поверхности бедра.</em></p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка ПБТ стоя</strong></div>
-<div class="exercise"><strong>2. Раскатка на ролле</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'К4-CAT0': `<div class="result"><h2>Ваш результат: боль под коленом сзади</h2><div class="result-content">
-<p>Боль или дискомфорт в подколенной области.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> важно исключить тромбоз и другие острые состояния. Обратитесь к врачу. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'К4-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в подколенной области</h2><div class="result-content">
-<p>Дискомфорт или боль под коленом сзади, ощущение «распирания» при сгибании.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в подколенной области начали формироваться изменения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка задней поверхности бедра лёжа</strong><br>Лягте на спину. Поднимите ногу, обхватите бедро руками. Медленно выпрямляйте колено. Держите 30 сек, 2–3 повтора.</div>
-<div class="exercise"><strong>2. Мягкое сгибание-разгибание сидя</strong><br>Сидя на высоком стуле, плавно сгибайте и разгибайте колено. 15–20 повторов.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно 3–4 недели.</p>
-</div></div>`,
-
-'К4-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в подколенной области</h2><div class="result-content">
-<p>Боль или дискомфорт под коленом, ограничение сгибания.</p>
-<p>Вы пробовали ${mt}, но проблема сохраняется.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в подколенной области начали формироваться уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка задней поверхности бедра</strong></div>
-<div class="exercise"><strong>2. Мягкое сгибание-разгибание</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление.</p>
-</div></div>`,
-
-'К4-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в подколенной области</h2><div class="result-content">
-<p>Боль под коленом, ощущение «шарика» или уплотнения, ограничение сгибания.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в подколенной области образовались уплотнения. Нормальный отток жидкости нарушен.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка задней поверхности бедра</strong></div>
-<div class="exercise"><strong>2. Мягкое сгибание-разгибание</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'К4-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в подколенной области</h2><div class="result-content">
-<p>Хроническая боль под коленом, уплотнение, ограничение движения.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка задней поверхности бедра</strong></div>
-<div class="exercise"><strong>2. Мягкое сгибание-разгибание</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'К5-CAT0': `<div class="result"><h2>Ваш результат: боль в колене</h2><div class="result-content">
-<p>Боль в колене, затрудняюсь точно указать место.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> уменьшите нагрузку. При необходимости обратитесь к травматологу. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'К5-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в коленном суставе</h2><div class="result-content">
-<p>Боль в колене при нагрузке.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong><br>Держите 10 сек, 10–15 повторов.</div>
-<div class="exercise"><strong>2. Сгибание-разгибание без нагрузки</strong><br>Сидя на высоком стуле, медленно двигайте коленом. 20 повторов, 2 подхода.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'К5-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в коленном суставе</h2><div class="result-content">
-<p>Боль в колене при нагрузке, дискомфорт.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong></div>
-<div class="exercise"><strong>2. Сгибание-разгибание без нагрузки</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление.</p>
-</div></div>`,
-
-'К5-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в тканях коленного сустава</h2><div class="result-content">
-<p>Хроническая боль в колене.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong></div>
-<div class="exercise"><strong>2. Сгибание-разгибание без нагрузки</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'К5-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в коленном суставе</h2><div class="result-content">
-<p>Хроническая боль в колене.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Статическое напряжение квадрицепса</strong></div>
-<div class="exercise"><strong>2. Сгибание-разгибание без нагрузки</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-// ========== ТАЗОБЕДРЕННЫЙ СУСТАВ ==========
-
-'Т1-CAT0': `<div class="result"><h2>Ваш результат: боль сбоку бедра в области большого вертела</h2><div class="result-content">
-<p>Боль сбоку бедра, в области выступающей косточки.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> избегайте лежания на больном боку. Уменьшите нагрузку. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'Т1-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в области большого вертела (трохантерит)</h2><div class="result-content">
-<p>Боль сбоку бедра, особенно когда лежите на этом боку.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области большого вертела — месте прикрепления сухожилий — начали формироваться изменения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка наружной поверхности бедра лёжа</strong><br>Лягте на спину, ноги согнуты. Положите щиколотку больной ноги на колено здоровой. Подтяните здоровое бедро к груди. Держите 30 сек, 2–3 повтора.</div>
-<div class="exercise"><strong>2. Раскачивание колен лёжа</strong><br>Лёжа на спине, руки в стороны, колени согнуты. Опускайте колени вправо-влево, не отрывая лопатки. 10 повторов в каждую сторону.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно. Избегайте лежания на больном боку.</p>
-</div></div>`,
-
-'Т1-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в области большого вертела (трохантерит)</h2><div class="result-content">
-<p>Боль сбоку бедра, невозможность лежать на этом боку, дискомфорт при ходьбе.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области большого вертела начали формироваться уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка наружной поверхности бедра</strong></div>
-<div class="exercise"><strong>2. Раскачивание колен лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'Т1-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в области большого вертела (трохантерит)</h2><div class="result-content">
-<p>Боль сбоку бедра, невозможность лежать на этом боку, боль при ходьбе.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в области большого вертела образовались уплотнения. Они сдавливают ткани.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка наружной поверхности бедра</strong></div>
-<div class="exercise"><strong>2. Раскачивание колен лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'Т1-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в области большого вертела (трохантерит)</h2><div class="result-content">
-<p>Хроническая боль сбоку бедра, невозможно спать на этом боку, боль при ходьбе.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка наружной поверхности бедра</strong></div>
-<div class="exercise"><strong>2. Раскачивание колен лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'Т2-CAT0': `<div class="result"><h2>Ваш результат: боль в области паха или передней поверхности бедра</h2><div class="result-content">
-<p>Боль в паху, возможно отдаёт в колено.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> важно исключить острое воспаление. Обратитесь к врачу. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'Т2-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в тазобедренном суставе</h2><div class="result-content">
-<p>Боль в паху, скованность при первых шагах, возможно отдаёт в колено.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в тазобедренном суставе — в капсуле, связках или сухожилиях — начали формироваться изменения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка сгибателей бедра в выпаде</strong><br>Одна нога впереди (согнута 90°), другая сзади (колено на полу). Таз вперёд и вниз. Держите 30 сек, 2–3 повтора на каждую сторону.</div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong><br>Лёжа на спине, колено в руках. Круговые движения. 10 вращений в каждую сторону.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно 3–4 недели.</p>
-</div></div>`,
-
-'Т2-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в тазобедренном суставе</h2><div class="result-content">
-<p>Боль в паху, скованность, ограничение движения, возможно отдаёт в колено.</p>
-<p>Вы пробовали ${mt}, но улучшение временное.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в капсуле и связках тазобедренного сустава начали формироваться уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка сгибателей бедра</strong></div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'Т2-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в тазобедренном суставе (коксартроз)</h2><div class="result-content">
-<p>Боль в паху, скованность, ограничение движения, боль отдаёт в колено.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в капсуле и связках тазобедренного сустава образовались уплотнения.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка сгибателей бедра</strong></div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'Т2-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в тазобедренном суставе (коксартроз)</h2><div class="result-content">
-<p>Хроническая боль в паху, выраженное ограничение движения, боль отдаёт в колено.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка сгибателей бедра</strong></div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'Т3-CAT0': `<div class="result"><h2>Ваш результат: боль в области ягодицы</h2><div class="result-content">
-<p>Боль глубоко в ягодице, возможно отдаёт в ногу.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> важно исключить проблемы с позвоночником. Обратитесь к неврологу. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'Т3-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в области грушевидной мышцы</h2><div class="result-content">
-<p>Боль глубоко в ягодице, дискомфорт при сидении, возможно отдаёт в ногу.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} грушевидная мышца — небольшая мышца глубоко в ягодице — начала уплотняться и спазмироваться.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка грушевидной мышцы лёжа</strong><br>Лягте на спину, ноги согнуты. Положите щиколотку больной ноги на колено здоровой. Подтяните здоровое бедро к груди. Держите 30 сек, 2–3 повтора.</div>
-<div class="exercise"><strong>2. Самомассаж ягодицы на мяче</strong><br>Сядьте на пол, мяч под ягодицей. Перекатывайтесь, ища болезненные точки. Задерживайтесь на них 30–60 сек. До 5 минут.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно.</p>
-</div></div>`,
-
-'Т3-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в области грушевидной мышцы</h2><div class="result-content">
-<p>Боль глубоко в ягодице, дискомфорт при сидении, отдаёт в ногу.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в грушевидной мышце начали формироваться уплотнения. Мышца сдавливает седалищный нерв.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Растяжка грушевидной мышцы</strong></div>
-<div class="exercise"><strong>2. Самомассаж на мяче</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. 1–2 процедуры.</p>
-</div></div>`,
-
-'Т3-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в грушевидной мышце</h2><div class="result-content">
-<p>Боль глубоко в ягодице, невозможно долго сидеть, боль отдаёт в ногу.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<p><strong>Почему так происходит:</strong><br>За ${dt} в грушевидной мышце образовались уплотнения. Они сдавливают седалищный нерв.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка грушевидной мышцы</strong></div>
-<div class="exercise"><strong>2. Самомассаж на мяче</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'Т3-CAT4': `<div class="result"><h2>Ваш результат: застарелые уплотнения в грушевидной мышце</h2><div class="result-content">
-<p>Хроническая боль в ягодице, невозможность сидеть, боль отдаёт в ногу.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Растяжка грушевидной мышцы</strong></div>
-<div class="exercise"><strong>2. Самомассаж на мяче</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-'Т4-CAT0': `<div class="result"><h2>Ваш результат: боль в тазобедренном суставе</h2><div class="result-content">
-<p>Боль в области тазобедренного сустава, затрудняюсь точно указать место.</p>
-<p>Проблема появилась недавно — менее месяца.</p>
-<p><strong>Рекомендация:</strong> обратитесь к врачу для диагностики. Если через 4–6 недель боль сохранится — приходите.</p>
-</div></div>`,
-
-'Т4-CAT1': `<div class="result"><h2>Ваш результат: начальные изменения в тазобедренном суставе</h2><div class="result-content">
-<p>Боль в области тазобедренного сустава.</p>
-<p>Вы пробовали ${mt}, пока без результата.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Раскачивание колен лёжа</strong><br>Лёжа на спине, руки в стороны, колени согнуты. Опускайте вправо-влево. 10 повторов в каждую сторону.</div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong><br>Колено в руках, круговые движения. 10 в каждую сторону.</div>
-</div>
-<p><strong>Рекомендация:</strong> выполняйте упражнения 3–4 недели.</p>
-</div></div>`,
-
-'Т4-CAT2': `<div class="result"><h2>Ваш результат: формирующиеся изменения в тазобедренном суставе</h2><div class="result-content">
-<p>Боль и ограничение движения в тазобедренном суставе.</p>
-<p>Вы пробовали ${mt}, но боль возвращается.</p>
-<div class="exercises"><h3>2 упражнения, которые помогут:</h3>
-<div class="exercise"><strong>1. Раскачивание колен лёжа</strong></div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление.</p>
-</div></div>`,
-
-'Т4-CAT3': `<div class="result"><h2>Ваш результат: уплотнения в тканях тазобедренного сустава</h2><div class="result-content">
-<p>Хроническая боль и ограничение движения.</p>
-<p>Вы пробовали ${mt}, но эффект временный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Раскачивание колен лёжа</strong></div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Запишитесь на консультацию.</p>
-</div></div>`,
-
-'Т4-CAT4': `<div class="result"><h2>Ваш результат: застарелые изменения в тазобедренном суставе</h2><div class="result-content">
-<p>Хроническая боль, выраженное ограничение движения.</p>
-<p>Вы перепробовали: ${mt}. Эффект минимальный.</p>
-<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>
-<div class="exercise"><strong>1. Раскачивание колен лёжа</strong></div>
-<div class="exercise"><strong>2. Вращение бедра лёжа</strong></div>
-</div>
-<p><strong>Рекомендация:</strong> Классический случай для иглоножа. Рекомендую не откладывать.</p>
-</div></div>`,
-
-// ========== ДРУГОЕ МЕСТО ==========
-
-'Z0-CAT0': `<div class="result"><h2>Ваш результат: боль в другой области</h2><div class="result-content">
-<p>Вы указали, что боль локализована в месте, которое не вошло в основные категории теста.</p>
-<p><strong>Рекомендация:</strong> для точной диагностики рекомендую обратиться к врачу — травматологу, ортопеду или неврологу в зависимости от локализации.</p>
-<p>Если после обследования окажется, что проблема хроническая и связана с мягкими тканями (сухожилия, связки, фасции) — метод иглонож может быть эффективен. Приходите на консультацию, разберёмся.</p>
-</div></div>`
-
+    // Универсальные шаблоны по категориям
+    var templates = {
+        'CAT0': '<div class="result"><h2>Ваш результат: ' + locName + '</h2><div class="result-content">' +
+            '<p>Проблема появилась недавно — менее месяца назад.</p>' +
+            '<p><strong>Почему важно не спешить:</strong><br>На этом этапе может идти острый воспалительный процесс. Нужно исключить травму и другие причины боли.</p>' +
+            '<p><strong>Рекомендация:</strong> обратитесь к травматологу или ортопеду. Если через 4–6 недель боль сохранится и перейдет в хроническую — приходите, разберемся.</p>' +
+            '</div></div>',
+            
+        'CAT1': '<div class="result"><h2>Ваш результат: начальные изменения — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы пробовали ' + mt + ', пока без стойкого результата.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' в тканях начали формироваться микроизменения. Пока они еще не превратились в плотный рубец, есть шанс справиться упражнениями.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые помогут:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Выполняйте плавные растягивающие движения в проблемной зоне. Держите 30 секунд, 2-3 повтора. Без боли!</div>' +
+            '<div class="exercise"><strong>2. Укрепление</strong><br>Изометрические упражнения: напрягайте мышцы без движения. Держите 5-10 секунд, 10-15 повторов.</div></div>' +
+            '<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно 3–4 недели. Если улучшения нет — не откладывайте консультацию.</p>' +
+            '</div></div>',
+            
+        'CAT2': '<div class="result"><h2>Ваш результат: формирующиеся изменения — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы уже пробовали ' + mt + ', но боль возвращается.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' в тканях начала формироваться рубцовая ткань. Воспаление прошло, но уплотнение осталось.</p>' +
+            '<p><strong>Что реально работает:</strong><br>Метод иглонож позволяет устранить формирующиеся уплотнения. На этой стадии обычно достаточно 1–2 процедур.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые помогут:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Плавные растягивающие движения, 30 секунд, 2-3 повтора.</div>' +
+            '<div class="exercise"><strong>2. Укрепление</strong><br>Изометрические упражнения, 5-10 секунд, 10-15 повторов.</div></div>' +
+            '<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. Или понаблюдайте 2–3 недели с упражнениями.</p>' +
+            '</div></div>',
+            
+        'CAT3': '<div class="result"><h2>Ваш результат: уплотнения в тканях — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы уже пробовали ' + mt + ', но эффект временный.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' образовалась плотная рубцовая ткань. Она не рассасывается сама по себе и раздражает нервные окончания при каждом движении.</p>' +
+            '<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко, за несколько минут. После процедуры ткани восстанавливают эластичность.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Плавные движения, 30 секунд, 2-3 повтора.</div>' +
+            '<div class="exercise"><strong>2. Самомассаж</strong><br>Мягко разминайте область вокруг проблемной зоны 2-3 минуты.</div></div>' +
+            '<p><strong>Рекомендация:</strong> Уплотнения сами не рассосутся. Упражнения облегчат, но не уберут причину. Запишитесь на консультацию.</p>' +
+            '</div></div>',
+            
+        'CAT4': '<div class="result"><h2>Ваш результат: застарелые изменения — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы перепробовали многое: ' + mt + '. Эффект временный или его нет.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' сформировалась плотная застарелая рубцовая ткань. Она не рассасывается ни от мазей, ни от физиотерапии, ни от уколов.</p>' +
+            '<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко, за несколько минут. После процедуры боль уходит.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Очень плавно, без боли, 30 секунд.</div>' +
+            '<div class="exercise"><strong>2. Самомассаж</strong><br>Мягко разминайте 2-3 минуты.</div></div>' +
+            '<p><strong>Рекомендация:</strong> Это классический случай для иглоножа. Упражнения немного облегчат, но не решат проблему. Рекомендую не откладывать консультацию.</p>' +
+            '</div></div>'
     };
     
-    return results[code] || results['Z0-CAT0'];
+    // Специальный результат для Z0
+    if (code === 'Z0-CAT0' || determineLocation() === 'Z0') {
+        return '<div class="result"><h2>Ваш результат: боль в другой области</h2><div class="result-content">' +
+            '<p>Вы указали, что боль локализована в месте, которое не вошло в основные категории теста.</p>' +
+            '<p><strong>Рекомендация:</strong> для точной диагностики рекомендую обратиться к врачу — травматологу, ортопеду или неврологу в зависимости от локализации.</p>' +
+            '<p>Если после обследования окажется, что проблема хроническая и связана с мягкими тканями — метод иглонож может быть эффективен. Приходите на консультацию, разберемся.</p>' +
+            '</div></div>';
+    }
+    
+    // Извлекаем категорию из кода
+    var parts = code.split('-');
+    var cat = parts[1] || 'CAT2';
+    
+    return templates[cat] || templates['CAT2'];
 }
 
-// ===== ПОКАЗ ФОРМЫ =====
 function showContactForm() {
     testData.currentStep = 7;
-    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    var steps = document.querySelectorAll('.step');
+    for (var i = 0; i < steps.length; i++) { steps[i].classList.remove('active'); }
     document.getElementById('step-form').classList.add('active');
     window.scrollTo(0, 0);
 }
 
-// ===== ОТПРАВКА ФОРМЫ =====
-async function submitForm(event) {
+function submitForm(event) {
     event.preventDefault();
     
-    const name = document.getElementById('userName').value.trim();
-    const age = document.getElementById('userAge').value.trim();
-    const phone = document.getElementById('userPhone').value.trim();
+    var name = document.getElementById('userName').value.trim();
+    var age = document.getElementById('userAge').value.trim();
+    var phone = document.getElementById('userPhone').value.trim();
     
-    let hasError = false;
+    var hasError = false;
     
     if (!name || name.length < 2) {
         document.getElementById('error-name').classList.add('show');
@@ -2137,78 +620,65 @@ async function submitForm(event) {
     document.getElementById('formLoader').classList.add('show');
     document.getElementById('submitBtn').disabled = true;
     
-    const location = determineLocation();
-    const locationName = locationNames[location] || 'Не определено';
-    const durationText = getDurationText();
-    const methodsText = getMethodsText();
-    const severityText = testData.answers.severity === 'S1' ? 'Немного' : 
-                        testData.answers.severity === 'S2' ? 'Ощутимо' : 'Сильно';
-    const category = calculateCategory();
+    var location = determineLocation();
+    var locName = locationNames[location] || 'Не определено';
+    var durationText = getDurationText();
+    var methodsText = getMethodsText();
+    var severityText = testData.answers.severity === 'S1' ? 'Немного' : testData.answers.severity === 'S2' ? 'Ощутимо' : 'Сильно';
+    var category = calculateCategory();
     
-    const message = `
-📋 НОВАЯ ЗАЯВКА С ТЕСТА
-
-👤 Имя: ${name}
-📅 Возраст: ${age}
-📱 Телефон: ${phone}
-
-🎯 Локализация: ${locationName}
-⏱ Длительность: ${durationText}
-💊 Пробовали: ${methodsText}
-📊 Влияние на жизнь: ${severityText}
-🏷 Категория: ${category}
-    `.trim();
+    var message = '📋 НОВАЯ ЗАЯВКА С ТЕСТА\n\n' +
+        '👤 Имя: ' + name + '\n' +
+        '📅 Возраст: ' + age + '\n' +
+        '📱 Телефон: ' + phone + '\n\n' +
+        '🎯 Локализация: ' + locName + '\n' +
+        '⏱ Длительность: ' + durationText + '\n' +
+        '💊 Пробовали: ' + methodsText + '\n' +
+        '📊 Влияние на жизнь: ' + severityText + '\n' +
+        '🏷 Категория: ' + category;
     
-    const BOT_TOKEN = '7679539252:AAG-LpDQCL72ew5sdzP1dg1zHjqMTG269237914';
-    const CHAT_ID = '269237914';
+    var BOT_TOKEN = '7679539252:AAG-LpDQCL72ew5sdzP1dg1zHjqMTG269237914';
+    var CHAT_ID = '269237914';
     
-    try {
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: message,
-                parse_mode: 'HTML'
-            })
-        });
-        
+    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+    })
+    .then(function(response) {
         if (response.ok) {
             window.location.href = 'https://galkin-kostoprav.ru/forma';
         } else {
-            throw new Error('Ошибка отправки');
+            throw new Error('Ошибка');
         }
-    } catch (error) {
+    })
+    .catch(function(error) {
         alert('Произошла ошибка при отправке. Пожалуйста, позвоните мне напрямую: +7 (900) 164-90-13');
         document.getElementById('formLoader').classList.remove('show');
         document.getElementById('submitBtn').disabled = false;
-    }
+    });
 }
 
-// ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('input[name="location"]').forEach(input => {
-        input.addEventListener('change', () => {
-            document.getElementById('btn-step-1').disabled = false;
-        });
-    });
+    var locInputs = document.querySelectorAll('input[name="location"]');
+    for (var i = 0; i < locInputs.length; i++) {
+        locInputs[i].addEventListener('change', function() { document.getElementById('btn-step-1').disabled = false; });
+    }
     
-    document.querySelectorAll('input[name="duration"]').forEach(input => {
-        input.addEventListener('change', () => {
-            document.getElementById('btn-step-2').disabled = false;
-        });
-    });
+    var durInputs = document.querySelectorAll('input[name="duration"]');
+    for (var j = 0; j < durInputs.length; j++) {
+        durInputs[j].addEventListener('change', function() { document.getElementById('btn-step-2').disabled = false; });
+    }
     
-    document.querySelectorAll('input[name="severity"]').forEach(input => {
-        input.addEventListener('change', () => {
-            document.getElementById('btn-step-5').disabled = false;
-        });
-    });
+    var sevInputs = document.querySelectorAll('input[name="severity"]');
+    for (var k = 0; k < sevInputs.length; k++) {
+        sevInputs[k].addEventListener('change', function() { document.getElementById('btn-step-5').disabled = false; });
+    }
     
-    const phoneInput = document.getElementById('userPhone');
+    var phoneInput = document.getElementById('userPhone');
     if (phoneInput) {
         phoneInput.addEventListener('input', function(e) {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
             e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
         });
     }
