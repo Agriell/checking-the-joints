@@ -9,19 +9,22 @@
     <style>
         /* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ПОД САЙТ GALKIN-KOSTOPRAV.RU ===== */
         :root {
-            --primary-color: #8b4049; /*#2d5c3f;*/
-            --primary-hover: #234a32;
+            --primary-color: #23295D; /* Тёмно-синий как на сайте */
+            --primary-hover: #1a1f47; /* Темнее для нажатия */
+            --primary-light: #3a4080; /* Светлее для оттенков */
+            --accent-red: #c94a4a; /* Красный для ховера */
+            --accent-red-light: #f5e8e8; /* Светло-красный для фона при ховере */
+        
             --text-dark: #222222;
             --text-gray: #666666;
             --bg-light: #f7f7f7;
             --border-color: #e0e0e0;
             --white: #ffffff;
-            --accent-color: #a5545d;
-            --error-color: #d93025;        
-            
+            --error-color: #d93025;
+        
             --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             --font-heading: Georgia, 'Times New Roman', serif;
-            
+                        
             --container-width: 680px;
             --container-width-tablet: 90%;
             --container-width-mobile: 95%;
@@ -61,19 +64,19 @@
         .header {
             background: var(--primary-color);
             text-align: center;
-            padding: 25px 0;
+            padding: 25px 20px;
             margin-bottom: var(--spacing-lg);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
         
         .header-title {
-        font-family: var(--font-heading);
-        font-size: 28px;
-        color: var(--white);
-        margin: 0;
-        font-weight: normal;
-        letter-spacing: 0.5px;
-        }
+            font-family: var(--font-heading);
+            font-size: 26px;
+            color: var(--white);
+            margin: 0;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }            
         
         .logo {
             font-family: var(--font-heading);
@@ -174,8 +177,8 @@
         }
         
         .option:hover {
-            border-color: var(--primary-color);
-            background: #f9fdf9;
+            border-color: var(--accent-red);
+            background: var(--accent-red-light);
         }
         
         .option input[type="radio"],
@@ -189,10 +192,15 @@
             color: var(--primary-color);
             font-weight: 500;
         }
-        
+
         .option:has(input:checked) {
             border-color: var(--primary-color);
-            background: #f0f7f3;
+            background: #ecedf5; /* Светло-синий оттенок */
+        }
+        
+        .option input:checked + .option-content {
+            color: var(--primary-color);
+            font-weight: 500;
         }
         
         .option-content {
@@ -217,7 +225,7 @@
         .option:has(input[type="checkbox"]) .option-content::before {
             border-radius: 4px;
         }
-        
+
         .option:has(input:checked) .option-content::before {
             border-color: var(--primary-color);
             background: var(--primary-color);
@@ -252,8 +260,9 @@
         
         .btn:hover {
             background: var(--primary-hover);
+            border-color: var(--accent-red);
+            box-shadow: 0 4px 12px rgba(201, 74, 74, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(45, 92, 63, 0.2);
         }
         
         .btn:active {
@@ -274,7 +283,9 @@
         }
         
         .btn-secondary:hover {
-            background: var(--bg-light);
+            background: var(--white);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
         }
         
         .button-group {
@@ -296,7 +307,7 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
             border-radius: 10px;
             transition: width 0.4s ease;
             width: 0%;
