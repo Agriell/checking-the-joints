@@ -217,6 +217,199 @@
 </div>
 
 <script>
+// Глобальные функции для обработчиков событий
+window.nextStep = function() {
+    console.log('nextStep called, currentStep:', testData.currentStep);
+    
+    if (testData.currentStep === 1) {
+        var loc = document.querySelector('input[name="location"]:checked');
+        if (!loc) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.location = loc.value;
+        console.log('Location selected:', loc.value);
+        
+        if (loc.value === 'Z0') {
+            testData.answers.duration = 'D2';
+            displayResult();
+            return;
+        }
+    }
+    
+    if (testData.currentStep === 2) {
+        var dur = document.querySelector('input[name="duration"]:checked');
+        if (!dur) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.duration = dur.value;
+        console.log('Duration selected:', dur.value);
+        
+        if (dur.value === 'D0') {
+            displayResult();
+            return;
+        }
+        generateClarificationQuestions();
+    }
+    
+    if (testData.currentStep === 3) {
+        var c1 = document.querySelector('input[name="clarification1"]:checked');
+        if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.clarification1 = c1.value;
+        console.log('Clarification1:', c1.value);
+        
+        // Переходим ко второму уточняющему вопросу
+        testData.currentStep = 3.5;
+        showStep(testData.currentStep);
+        updateProgress();
+        return;
+    }
+    
+    if (testData.currentStep === 3.5) {
+        var c2 = document.querySelector('input[name="clarification2"]:checked');
+        if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
+        testData.answers.clarification2 = c2.value;
+        console.log('Clarification2:', c2.value);
+    }
+    
+    if (testData.currentStep === 4) {
+        var methods = document.querySelectorAll('input[name="methods"]:checked');
+        testData.answers.methods = [];
+        for (var i = 0; i < methods.length; i++) {
+            testData.answers.methods.push(methods[i].value);
+        }
+        console.log('Methods:', testData.answers.methods);
+    }
+    
+    // Увеличиваем шаг
+    if (testData.currentStep < 5) {
+        testData.currentStep++;
+        console.log('Moving to step:', testData.currentStep);
+        showStep(testData.currentStep);
+        updateProgress();
+    }
+};
+
+window.goToClarification2 = function() {
+    var c1 = document.querySelector('input[name="clarification1"]:checked');
+    if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
+    testData.answers.clarification1 = c1.value;
+    console.log('goToClarification2, c1:', c1.value);
+    testData.currentStep = 3.5;
+    showStep(3.5);
+    updateProgress();
+};
+
+window.goToMethods = function() {
+    var c2 = document.querySelector('input[name="clarification2"]:checked');
+    if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
+    testData.answers.clarification2 = c2.value;
+    console.log('goToMethods, c2:', c2.value);
+    testData.currentStep = 4;
+    showStep(4);
+    updateProgress();
+};
+
+window.showResult = function() {
+    console.log('showResult called');
+    var severityInput = document.querySelector('input[name="severity"]:checked');
+    if (!severityInput) {
+        alert('Пожалуйста, выберите ответ');
+        return;
+    }
+    testData.answers.severity = severityInput.value;
+    console.log('Severity:', severityInput.value);
+    displayResult();
+};
+
+window.showContactForm = function() {
+    testData.currentStep = 7;
+    var steps = document.querySelectorAll('.step');
+    for (var i = 0; i < steps.length; i++) {
+        steps[i].classList.remove('active');
+    }
+    document.getElementById('step-form').classList.add('active');
+    window.scrollTo(0, 0);
+};
+
+window.submitForm = function(event) {
+    event.preventDefault();
+    
+    var name = document.getElementById('userName').value.trim();
+    var age = document.getElementById('userAge').value.trim();
+    var phone = document.getElementById('userPhone').value.trim();
+    
+    var hasError = false;
+    
+    if (!name || name.length < 2) {
+        document.getElementById('error-name').classList.add('show');
+        document.getElementById('userName').classList.add('error');
+        hasError = true;
+    } else {
+        document.getElementById('error-name').classList.remove('show');
+        document.getElementById('userName').classList.remove('error');
+    }
+    
+    if (!age || age < 1 || age > 120) {
+        document.getElementById('error-age').classList.add('show');
+        document.getElementById('userAge').classList.add('error');
+        hasError = true;
+    } else {
+        document.getElementById('error-age').classList.remove('show');
+        document.getElementById('userAge').classList.remove('error');
+    }
+    
+    if (!phone || phone.length < 10) {
+        document.getElementById('error-phone').classList.add('show');
+        document.getElementById('userPhone').classList.add('error');
+        hasError = true;
+    } else {
+        document.getElementById('error-phone').classList.remove('show');
+        document.getElementById('userPhone').classList.remove('error');
+    }
+    
+    if (hasError) return;
+    
+    document.getElementById('formLoader').classList.add('show');
+    document.getElementById('submitBtn').disabled = true;
+    
+    var location = determineLocation();
+    var locName = locationNames[location] || 'Не определено';
+    var durationText = getDurationText();
+    var methodsText = getMethodsText();
+    var severityText = 'Ощутимо';
+    if (testData.answers.severity === 'S1') severityText = 'Немного';
+    else if (testData.answers.severity === 'S3') severityText = 'Сильно';
+    var category = calculateCategory();
+    
+    var message = '📋 НОВАЯ ЗАЯВКА С ТЕСТА\n\n' +
+        '👤 Имя: ' + name + '\n' +
+        '📅 Возраст: ' + age + '\n' +
+        '📱 Телефон: ' + phone + '\n\n' +
+        '🎯 Локализация: ' + locName + '\n' +
+        '⏱ Длительность: ' + durationText + '\n' +
+        '💊 Пробовали: ' + methodsText + '\n' +
+        '📊 Влияние на жизнь: ' + severityText + '\n' +
+        '🏷 Категория: ' + category;
+    
+    var BOT_TOKEN = '7679539252:AAG-LpDQCL72ew5sdzP1dg1zHjqMTG269237914';
+    var CHAT_ID = '269237914';
+    
+    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+    })
+    .then(function(response) {
+        if (response.ok) {
+            window.location.href = 'https://galkin-kostoprav.ru/forma';
+        } else {
+            throw new Error('Ошибка');
+        }
+    })
+    .catch(function(error) {
+        alert('Ошибка отправки. Позвоните: +7 (900) 164-90-13');
+        document.getElementById('formLoader').classList.remove('show');
+        document.getElementById('submitBtn').disabled = false;
+    });
+};
+
+// Данные теста
 var testData = {
     currentStep: 0,
     answers: { location: '', duration: '', clarification1: '', clarification2: '', methods: [], severity: 'S2' }
@@ -321,141 +514,6 @@ var locationNames = {
 
 var durationTexts = { 'D0': 'менее 1 месяца', 'D1': '1-3 месяца', 'D2': '3-6 месяцев', 'D3': '6-12 месяцев', 'D4': 'больше года' };
 
-function nextStep() {
-    console.log('nextStep called, currentStep:', testData.currentStep);
-    
-    if (testData.currentStep === 1) {
-        var loc = document.querySelector('input[name="location"]:checked');
-        if (!loc) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.location = loc.value;
-        console.log('Location selected:', loc.value);
-        
-        if (loc.value === 'Z0') {
-            testData.answers.duration = 'D2';
-            displayResult();
-            return;
-        }
-    }
-    
-    if (testData.currentStep === 2) {
-        var dur = document.querySelector('input[name="duration"]:checked');
-        if (!dur) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.duration = dur.value;
-        console.log('Duration selected:', dur.value);
-        
-        if (dur.value === 'D0') {
-            displayResult();
-            return;
-        }
-        generateClarificationQuestions();
-    }
-    
-    if (testData.currentStep === 3) {
-        var c1 = document.querySelector('input[name="clarification1"]:checked');
-        if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.clarification1 = c1.value;
-        console.log('Clarification1:', c1.value);
-    }
-    
-    if (testData.currentStep === 3.5) {
-        var c2 = document.querySelector('input[name="clarification2"]:checked');
-        if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.clarification2 = c2.value;
-        console.log('Clarification2:', c2.value);
-    }
-    
-    if (testData.currentStep === 4) {
-        var methods = document.querySelectorAll('input[name="methods"]:checked');
-        testData.answers.methods = [];
-        for (var i = 0; i < methods.length; i++) {
-            testData.answers.methods.push(methods[i].value);
-        }
-        console.log('Methods:', testData.answers.methods);
-    }
-    
-    testData.currentStep++;
-    console.log('Moving to step:', testData.currentStep);
-    
-    if (testData.currentStep === 3.5 && !document.getElementById('step-3-5')) {
-        testData.currentStep = 4;
-        console.log('Skipping to step 4');
-    }
-    
-    showStep(testData.currentStep);
-    updateProgress();
-}
-
-function generateClarificationQuestions() {
-    var loc = testData.answers.location;
-    var config = locationLogic[loc];
-    if (!config) {
-        console.log('No config for location:', loc);
-        return;
-    }
-    
-    console.log('Generating clarification questions for:', loc);
-    
-    var step3 = document.getElementById('step-3');
-    var html = '<div class="question"><h2 class="question-title">' + config.questions[0].title + '</h2><div class="options">';
-    for (var i = 0; i < config.questions[0].options.length; i++) {
-        var opt = config.questions[0].options[i];
-        html += '<label class="option"><input type="radio" name="clarification1" value="' + opt.value + '"><span class="option-content">' + opt.text + '</span></label>';
-    }
-    html += '</div></div><button class="btn" onclick="goToClarification2()" id="btn-step-3" disabled>Далее</button>';
-    step3.innerHTML = html;
-    
-    var inputs = document.querySelectorAll('input[name="clarification1"]');
-    for (var j = 0; j < inputs.length; j++) {
-        inputs[j].addEventListener('change', function() {
-            document.getElementById('btn-step-3').disabled = false;
-        });
-    }
-    
-    var step35 = document.getElementById('step-3-5');
-    if (!step35) {
-        step35 = document.createElement('div');
-        step35.className = 'step';
-        step35.id = 'step-3-5';
-        var step4 = document.getElementById('step-4');
-        step4.parentNode.insertBefore(step35, step4);
-    }
-    
-    var html2 = '<div class="question"><h2 class="question-title">' + config.questions[1].title + '</h2><div class="options">';
-    for (var k = 0; k < config.questions[1].options.length; k++) {
-        var opt2 = config.questions[1].options[k];
-        html2 += '<label class="option"><input type="radio" name="clarification2" value="' + opt2.value + '"><span class="option-content">' + opt2.text + '</span></label>';
-    }
-    html2 += '</div></div><button class="btn" onclick="goToMethods()" id="btn-step-35" disabled>Далее</button>';
-    step35.innerHTML = html2;
-    
-    var inputs2 = document.querySelectorAll('input[name="clarification2"]');
-    for (var m = 0; m < inputs2.length; m++) {
-        inputs2[m].addEventListener('change', function() {
-            document.getElementById('btn-step-35').disabled = false;
-        });
-    }
-}
-
-function goToClarification2() {
-    var c1 = document.querySelector('input[name="clarification1"]:checked');
-    if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
-    testData.answers.clarification1 = c1.value;
-    console.log('goToClarification2, c1:', c1.value);
-    testData.currentStep = 3.5;
-    showStep(3.5);
-    updateProgress();
-}
-
-function goToMethods() {
-    var c2 = document.querySelector('input[name="clarification2"]:checked');
-    if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
-    testData.answers.clarification2 = c2.value;
-    console.log('goToMethods, c2:', c2.value);
-    testData.currentStep = 4;
-    showStep(4);
-    updateProgress();
-}
-
 function showStep(stepNum) {
     console.log('showStep:', stepNum);
     var steps = document.querySelectorAll('.step');
@@ -484,9 +542,11 @@ function showStep(stepNum) {
     }
     
     if (stepNum >= 1 && stepNum < 6) {
-        document.getElementById('progressBar').style.display = 'block';
+        var progressBar = document.getElementById('progressBar');
+        if (progressBar) progressBar.style.display = 'block';
     } else {
-        document.getElementById('progressBar').style.display = 'none';
+        var progressBar = document.getElementById('progressBar');
+        if (progressBar) progressBar.style.display = 'none';
     }
     
     window.scrollTo(0, 0);
@@ -500,12 +560,75 @@ function updateProgress() {
     else if (testData.currentStep === 3.5) progress = 66;
     else if (testData.currentStep === 4) progress = 83;
     else if (testData.currentStep === 5) progress = 100;
-    document.getElementById('progressFill').style.width = progress + '%';
+    var progressFill = document.getElementById('progressFill');
+    if (progressFill) progressFill.style.width = progress + '%';
+}
+
+function generateClarificationQuestions() {
+    var loc = testData.answers.location;
+    var config = locationLogic[loc];
+    if (!config) {
+        console.log('No config for location:', loc);
+        return;
+    }
+    
+    console.log('Generating clarification questions for:', loc);
+    
+    var step3 = document.getElementById('step-3');
+    if (!step3) return;
+    
+    var html = '<div class="question"><h2 class="question-title">' + config.questions[0].title + '</h2><div class="options">';
+    for (var i = 0; i < config.questions[0].options.length; i++) {
+        var opt = config.questions[0].options[i];
+        html += '<label class="option"><input type="radio" name="clarification1" value="' + opt.value + '"><span class="option-content">' + opt.text + '</span></label>';
+    }
+    html += '</div></div><button class="btn" onclick="nextStep()" id="btn-step-3" disabled>Далее</button>';
+    step3.innerHTML = html;
+    
+    var inputs = document.querySelectorAll('input[name="clarification1"]');
+    for (var j = 0; j < inputs.length; j++) {
+        inputs[j].addEventListener('change', function() {
+            var btn = document.getElementById('btn-step-3');
+            if (btn) btn.disabled = false;
+        });
+    }
+    
+    var step35 = document.getElementById('step-3-5');
+    if (!step35) {
+        step35 = document.createElement('div');
+        step35.className = 'step';
+        step35.id = 'step-3-5';
+        var step4 = document.getElementById('step-4');
+        if (step4 && step4.parentNode) {
+            step4.parentNode.insertBefore(step35, step4);
+        }
+    }
+    
+    var html2 = '<div class="question"><h2 class="question-title">' + config.questions[1].title + '</h2><div class="options">';
+    for (var k = 0; k < config.questions[1].options.length; k++) {
+        var opt2 = config.questions[1].options[k];
+        html2 += '<label class="option"><input type="radio" name="clarification2" value="' + opt2.value + '"><span class="option-content">' + opt2.text + '</span></label>';
+    }
+    html2 += '</div></div><button class="btn" onclick="nextStep()" id="btn-step-35" disabled>Далее</button>';
+    step35.innerHTML = html2;
+    
+    var inputs2 = document.querySelectorAll('input[name="clarification2"]');
+    for (var m = 0; m < inputs2.length; m++) {
+        inputs2[m].addEventListener('change', function() {
+            var btn = document.getElementById('btn-step-35');
+            if (btn) btn.disabled = false;
+        });
+    }
+    
+    // Переходим к первому уточняющему вопросу
+    testData.currentStep = 3;
+    showStep(3);
+    updateProgress();
 }
 
 function calculateCategory() {
     var duration = testData.answers.duration;
-    var methods = testData.answers.methods;
+    var methods = testData.answers.methods || [];
     var severity = testData.answers.severity || 'S2';
     
     if (duration === 'D0') return 'CAT0';
@@ -548,25 +671,13 @@ function determineLocation() {
     var config = locationLogic[zone];
     if (!config) return 'P4';
     
-    var key = testData.answers.clarification1 + '-' + testData.answers.clarification2;
+    var key = (testData.answers.clarification1 || '') + '-' + (testData.answers.clarification2 || '');
     console.log('determineLocation - key:', key);
     
     var result = config.mapping[key];
     console.log('determineLocation - result:', result);
     
     return result || 'P4';
-}
-
-function showResult() {
-    console.log('showResult called');
-    var severityInput = document.querySelector('input[name="severity"]:checked');
-    if (!severityInput) {
-        alert('Пожалуйста, выберите ответ');
-        return;
-    }
-    testData.answers.severity = severityInput.value;
-    console.log('Severity:', severityInput.value);
-    displayResult();
 }
 
 function displayResult() {
@@ -579,14 +690,17 @@ function displayResult() {
     console.log('Final - location:', location, 'category:', category);
     
     var resultHTML = getResultHTML(location, category);
-    document.getElementById('resultContent').innerHTML = resultHTML;
+    var resultContent = document.getElementById('resultContent');
+    if (resultContent) {
+        resultContent.innerHTML = resultHTML;
+    }
     
     testData.currentStep = 6;
     showStep(6);
 }
 
 function getMethodsText() {
-    var methods = testData.answers.methods;
+    var methods = testData.answers.methods || [];
     if (!methods || methods.length === 0) return 'ничего особенного';
     
     var hasOnlyM0 = (methods.length === 1 && methods[0] === 'M0');
@@ -689,119 +803,31 @@ function getResultHTML(location, category) {
         '</div></div>';
 }
 
-function showContactForm() {
-    testData.currentStep = 7;
-    var steps = document.querySelectorAll('.step');
-    for (var i = 0; i < steps.length; i++) {
-        steps[i].classList.remove('active');
-    }
-    document.getElementById('step-form').classList.add('active');
-    window.scrollTo(0, 0);
-}
-
-function submitForm(event) {
-    event.preventDefault();
-    
-    var name = document.getElementById('userName').value.trim();
-    var age = document.getElementById('userAge').value.trim();
-    var phone = document.getElementById('userPhone').value.trim();
-    
-    var hasError = false;
-    
-    if (!name || name.length < 2) {
-        document.getElementById('error-name').classList.add('show');
-        document.getElementById('userName').classList.add('error');
-        hasError = true;
-    } else {
-        document.getElementById('error-name').classList.remove('show');
-        document.getElementById('userName').classList.remove('error');
-    }
-    
-    if (!age || age < 1 || age > 120) {
-        document.getElementById('error-age').classList.add('show');
-        document.getElementById('userAge').classList.add('error');
-        hasError = true;
-    } else {
-        document.getElementById('error-age').classList.remove('show');
-        document.getElementById('userAge').classList.remove('error');
-    }
-    
-    if (!phone || phone.length < 10) {
-        document.getElementById('error-phone').classList.add('show');
-        document.getElementById('userPhone').classList.add('error');
-        hasError = true;
-    } else {
-        document.getElementById('error-phone').classList.remove('show');
-        document.getElementById('userPhone').classList.remove('error');
-    }
-    
-    if (hasError) return;
-    
-    document.getElementById('formLoader').classList.add('show');
-    document.getElementById('submitBtn').disabled = true;
-    
-    var location = determineLocation();
-    var locName = locationNames[location] || 'Не определено';
-    var durationText = getDurationText();
-    var methodsText = getMethodsText();
-    var severityText = 'Ощутимо';
-    if (testData.answers.severity === 'S1') severityText = 'Немного';
-    else if (testData.answers.severity === 'S3') severityText = 'Сильно';
-    var category = calculateCategory();
-    
-    var message = '📋 НОВАЯ ЗАЯВКА С ТЕСТА\n\n' +
-        '👤 Имя: ' + name + '\n' +
-        '📅 Возраст: ' + age + '\n' +
-        '📱 Телефон: ' + phone + '\n\n' +
-        '🎯 Локализация: ' + locName + '\n' +
-        '⏱ Длительность: ' + durationText + '\n' +
-        '💊 Пробовали: ' + methodsText + '\n' +
-        '📊 Влияние на жизнь: ' + severityText + '\n' +
-        '🏷 Категория: ' + category;
-    
-    var BOT_TOKEN = '7679539252:AAG-LpDQCL72ew5sdzP1dg1zHjqMTG269237914';
-    var CHAT_ID = '269237914';
-    
-    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
-    })
-    .then(function(response) {
-        if (response.ok) {
-            window.location.href = 'https://galkin-kostoprav.ru/forma';
-        } else {
-            throw new Error('Ошибка');
-        }
-    })
-    .catch(function(error) {
-        alert('Ошибка отправки. Позвоните: +7 (900) 164-90-13');
-        document.getElementById('formLoader').classList.remove('show');
-        document.getElementById('submitBtn').disabled = false;
-    });
-}
-
+// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing...');
     
     var locInputs = document.querySelectorAll('input[name="location"]');
     for (var i = 0; i < locInputs.length; i++) {
         locInputs[i].addEventListener('change', function() {
-            document.getElementById('btn-step-1').disabled = false;
+            var btn = document.getElementById('btn-step-1');
+            if (btn) btn.disabled = false;
         });
     }
     
     var durInputs = document.querySelectorAll('input[name="duration"]');
     for (var j = 0; j < durInputs.length; j++) {
         durInputs[j].addEventListener('change', function() {
-            document.getElementById('btn-step-2').disabled = false;
+            var btn = document.getElementById('btn-step-2');
+            if (btn) btn.disabled = false;
         });
     }
     
     var sevInputs = document.querySelectorAll('input[name="severity"]');
     for (var k = 0; k < sevInputs.length; k++) {
         sevInputs[k].addEventListener('change', function() {
-            document.getElementById('btn-step-5').disabled = false;
+            var btn = document.getElementById('btn-step-5');
+            if (btn) btn.disabled = false;
         });
     }
     
