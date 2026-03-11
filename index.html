@@ -219,7 +219,7 @@
 <script>
 var testData = {
     currentStep: 0,
-    answers: { location: '', duration: '', clarification1: '', clarification2: '', methods: [], severity: '' }
+    answers: { location: '', duration: '', clarification1: '', clarification2: '', methods: [], severity: 'S2' }
 };
 
 var locationLogic = {
@@ -306,7 +306,7 @@ var locationLogic = {
                 { value: 'L5', text: 'Затрудняюсь указать точно' }
             ]}
         ],
-        mapping: { 'T1-L1': 'T1', 'T2-L1': 'T1', 'T3-L1': 'T1', 'T4-L1': 'T1', 'T5-L1': 'T1', 'T1-L2': 'T2', 'T2-L2': 'T2', 'T3-L2': 'T2', 'T4-L2': 'T2', 'T5-L2': 'T2', 'T1-L3': 'T2', 'T2-L3': 'T2', 'T3-L3': 'T2', 'T4-L3': 'T2', 'T5-L3': 'T2', 'T1-L4': 'T3', 'T2-L4': 'T3', 'T3-L4': 'T3', 'T4-L4': 'T3', 'T5-L4': 'T3', 'T1-L5': 'T4', 'T2-L5': 'T4', 'T3-L5': 'T4', 'T4-L5': 'T4', 'T5-L5': 'T4' }
+        mapping: { 'T1-L1': 'TB1', 'T2-L1': 'TB1', 'T3-L1': 'TB1', 'T4-L1': 'TB1', 'T5-L1': 'TB1', 'T1-L2': 'TB2', 'T2-L2': 'TB2', 'T3-L2': 'TB2', 'T4-L2': 'TB2', 'T5-L2': 'TB2', 'T1-L3': 'TB2', 'T2-L3': 'TB2', 'T3-L3': 'TB2', 'T4-L3': 'TB2', 'T5-L3': 'TB2', 'T1-L4': 'TB3', 'T2-L4': 'TB3', 'T3-L4': 'TB3', 'T4-L4': 'TB3', 'T5-L4': 'TB3', 'T1-L5': 'TB4', 'T2-L5': 'TB4', 'T3-L5': 'TB4', 'T4-L5': 'TB4', 'T5-L5': 'TB4' }
     }
 };
 
@@ -315,42 +315,72 @@ var locationNames = {
     'L1': 'Теннисный локоть', 'L2': 'Локоть гольфиста', 'L3': 'Боль в локте',
     'PL1': 'Импиджмент плеча', 'PL2': 'Ограничение плеча', 'PL3': 'Тендинит бицепса', 'PL4': 'Боль в плече',
     'K1': 'Боль под коленной чашечкой', 'K2': 'Боль с внутренней стороны колена', 'K3': 'Боль с наружной стороны колена', 'K4': 'Боль под коленом сзади', 'K5': 'Боль в колене',
-    'T1': 'Трохантерит', 'T2': 'Коксартроз', 'T3': 'Синдром грушевидной мышцы', 'T4': 'Боль в тазобедренном суставе'
+    'TB1': 'Трохантерит', 'TB2': 'Коксартроз', 'TB3': 'Синдром грушевидной мышцы', 'TB4': 'Боль в тазобедренном суставе',
+    'Z0': 'Другая область'
 };
 
 var durationTexts = { 'D0': 'менее 1 месяца', 'D1': '1-3 месяца', 'D2': '3-6 месяцев', 'D3': '6-12 месяцев', 'D4': 'больше года' };
 
 function nextStep() {
+    console.log('nextStep called, currentStep:', testData.currentStep);
+    
     if (testData.currentStep === 1) {
         var loc = document.querySelector('input[name="location"]:checked');
         if (!loc) { alert('Пожалуйста, выберите ответ'); return; }
         testData.answers.location = loc.value;
-        if (loc.value === 'Z0') { showResult(); return; }
+        console.log('Location selected:', loc.value);
+        
+        if (loc.value === 'Z0') {
+            testData.answers.duration = 'D2';
+            displayResult();
+            return;
+        }
     }
+    
     if (testData.currentStep === 2) {
         var dur = document.querySelector('input[name="duration"]:checked');
         if (!dur) { alert('Пожалуйста, выберите ответ'); return; }
         testData.answers.duration = dur.value;
-        if (dur.value === 'D0') { showResult(); return; }
+        console.log('Duration selected:', dur.value);
+        
+        if (dur.value === 'D0') {
+            displayResult();
+            return;
+        }
         generateClarificationQuestions();
     }
+    
     if (testData.currentStep === 3) {
         var c1 = document.querySelector('input[name="clarification1"]:checked');
         if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
         testData.answers.clarification1 = c1.value;
+        console.log('Clarification1:', c1.value);
     }
+    
     if (testData.currentStep === 3.5) {
         var c2 = document.querySelector('input[name="clarification2"]:checked');
         if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
         testData.answers.clarification2 = c2.value;
+        console.log('Clarification2:', c2.value);
     }
+    
     if (testData.currentStep === 4) {
         var methods = document.querySelectorAll('input[name="methods"]:checked');
         testData.answers.methods = [];
-        for (var i = 0; i < methods.length; i++) { testData.answers.methods.push(methods[i].value); }
+        for (var i = 0; i < methods.length; i++) {
+            testData.answers.methods.push(methods[i].value);
+        }
+        console.log('Methods:', testData.answers.methods);
     }
+    
     testData.currentStep++;
-    if (testData.currentStep === 3.5 && !document.getElementById('step-3-5')) { testData.currentStep = 4; }
+    console.log('Moving to step:', testData.currentStep);
+    
+    if (testData.currentStep === 3.5 && !document.getElementById('step-3-5')) {
+        testData.currentStep = 4;
+        console.log('Skipping to step 4');
+    }
+    
     showStep(testData.currentStep);
     updateProgress();
 }
@@ -358,7 +388,12 @@ function nextStep() {
 function generateClarificationQuestions() {
     var loc = testData.answers.location;
     var config = locationLogic[loc];
-    if (!config) return;
+    if (!config) {
+        console.log('No config for location:', loc);
+        return;
+    }
+    
+    console.log('Generating clarification questions for:', loc);
     
     var step3 = document.getElementById('step-3');
     var html = '<div class="question"><h2 class="question-title">' + config.questions[0].title + '</h2><div class="options">';
@@ -366,12 +401,14 @@ function generateClarificationQuestions() {
         var opt = config.questions[0].options[i];
         html += '<label class="option"><input type="radio" name="clarification1" value="' + opt.value + '"><span class="option-content">' + opt.text + '</span></label>';
     }
-    html += '</div></div><button class="btn" onclick="nextToClarification2()" id="btn-step-3" disabled>Далее</button>';
+    html += '</div></div><button class="btn" onclick="goToClarification2()" id="btn-step-3" disabled>Далее</button>';
     step3.innerHTML = html;
     
     var inputs = document.querySelectorAll('input[name="clarification1"]');
     for (var j = 0; j < inputs.length; j++) {
-        inputs[j].addEventListener('change', function() { document.getElementById('btn-step-3').disabled = false; });
+        inputs[j].addEventListener('change', function() {
+            document.getElementById('btn-step-3').disabled = false;
+        });
     }
     
     var step35 = document.getElementById('step-3-5');
@@ -379,7 +416,8 @@ function generateClarificationQuestions() {
         step35 = document.createElement('div');
         step35.className = 'step';
         step35.id = 'step-3-5';
-        document.getElementById('testApp').insertBefore(step35, document.getElementById('step-4'));
+        var step4 = document.getElementById('step-4');
+        step4.parentNode.insertBefore(step35, step4);
     }
     
     var html2 = '<div class="question"><h2 class="question-title">' + config.questions[1].title + '</h2><div class="options">';
@@ -387,194 +425,276 @@ function generateClarificationQuestions() {
         var opt2 = config.questions[1].options[k];
         html2 += '<label class="option"><input type="radio" name="clarification2" value="' + opt2.value + '"><span class="option-content">' + opt2.text + '</span></label>';
     }
-    html2 += '</div></div><button class="btn" onclick="nextStep()" id="btn-step-3-5" disabled>Далее</button>';
+    html2 += '</div></div><button class="btn" onclick="goToMethods()" id="btn-step-35" disabled>Далее</button>';
     step35.innerHTML = html2;
     
     var inputs2 = document.querySelectorAll('input[name="clarification2"]');
     for (var m = 0; m < inputs2.length; m++) {
-        inputs2[m].addEventListener('change', function() { document.getElementById('btn-step-3-5').disabled = false; });
+        inputs2[m].addEventListener('change', function() {
+            document.getElementById('btn-step-35').disabled = false;
+        });
     }
 }
 
-function nextToClarification2() {
+function goToClarification2() {
     var c1 = document.querySelector('input[name="clarification1"]:checked');
     if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
     testData.answers.clarification1 = c1.value;
+    console.log('goToClarification2, c1:', c1.value);
     testData.currentStep = 3.5;
     showStep(3.5);
     updateProgress();
 }
 
+function goToMethods() {
+    var c2 = document.querySelector('input[name="clarification2"]:checked');
+    if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
+    testData.answers.clarification2 = c2.value;
+    console.log('goToMethods, c2:', c2.value);
+    testData.currentStep = 4;
+    showStep(4);
+    updateProgress();
+}
+
 function showStep(stepNum) {
+    console.log('showStep:', stepNum);
     var steps = document.querySelectorAll('.step');
-    for (var i = 0; i < steps.length; i++) { steps[i].classList.remove('active'); }
-    var stepId = 'step-' + stepNum;
-    if (stepNum === 3.5) stepId = 'step-3-5';
-    if (stepNum === 6) stepId = 'step-result';
+    for (var i = 0; i < steps.length; i++) {
+        steps[i].classList.remove('active');
+    }
+    
+    var stepId;
+    if (stepNum === 0) stepId = 'step-0';
+    else if (stepNum === 1) stepId = 'step-1';
+    else if (stepNum === 2) stepId = 'step-2';
+    else if (stepNum === 3) stepId = 'step-3';
+    else if (stepNum === 3.5) stepId = 'step-3-5';
+    else if (stepNum === 4) stepId = 'step-4';
+    else if (stepNum === 5) stepId = 'step-5';
+    else if (stepNum === 6) stepId = 'step-result';
+    else if (stepNum === 7) stepId = 'step-form';
+    else stepId = 'step-' + stepNum;
+    
     var stepEl = document.getElementById(stepId);
-    if (stepEl) stepEl.classList.add('active');
+    if (stepEl) {
+        stepEl.classList.add('active');
+        console.log('Activated step:', stepId);
+    } else {
+        console.log('Step not found:', stepId);
+    }
+    
     if (stepNum >= 1 && stepNum < 6) {
         document.getElementById('progressBar').style.display = 'block';
     } else {
         document.getElementById('progressBar').style.display = 'none';
     }
+    
     window.scrollTo(0, 0);
 }
 
 function updateProgress() {
     var progress = 0;
     if (testData.currentStep === 1) progress = 16;
-    if (testData.currentStep === 2) progress = 33;
-    if (testData.currentStep === 3) progress = 50;
-    if (testData.currentStep === 3.5) progress = 66;
-    if (testData.currentStep === 4) progress = 83;
-    if (testData.currentStep === 5) progress = 100;
+    else if (testData.currentStep === 2) progress = 33;
+    else if (testData.currentStep === 3) progress = 50;
+    else if (testData.currentStep === 3.5) progress = 66;
+    else if (testData.currentStep === 4) progress = 83;
+    else if (testData.currentStep === 5) progress = 100;
     document.getElementById('progressFill').style.width = progress + '%';
 }
 
 function calculateCategory() {
     var duration = testData.answers.duration;
     var methods = testData.answers.methods;
-    var severity = testData.answers.severity;
+    var severity = testData.answers.severity || 'S2';
+    
     if (duration === 'D0') return 'CAT0';
     
     var fibrosisScore = 0;
-    if (duration === 'D1') fibrosisScore += 2;
-    if (duration === 'D2') fibrosisScore += 4;
-    if (duration === 'D3') fibrosisScore += 6;
-    if (duration === 'D4') fibrosisScore += 8;
+    if (duration === 'D1') fibrosisScore = 2;
+    else if (duration === 'D2') fibrosisScore = 4;
+    else if (duration === 'D3') fibrosisScore = 6;
+    else if (duration === 'D4') fibrosisScore = 8;
     
     var methodsCount = 0;
-    for (var i = 0; i < methods.length; i++) { if (methods[i] !== 'M0') methodsCount++; }
+    for (var i = 0; i < methods.length; i++) {
+        if (methods[i] !== 'M0') methodsCount++;
+    }
     if (methodsCount >= 1 && methodsCount <= 2) fibrosisScore += 1;
     else if (methodsCount >= 3 && methodsCount <= 4) fibrosisScore += 2;
     else if (methodsCount >= 5) fibrosisScore += 3;
     
-    var hasInjections = false;
-    for (var j = 0; j < methods.length; j++) { if (methods[j] === 'M2') hasInjections = true; }
-    if (hasInjections) fibrosisScore += 1;
+    for (var j = 0; j < methods.length; j++) {
+        if (methods[j] === 'M2') { fibrosisScore += 1; break; }
+    }
     
-    var severityNum = severity ? parseInt(severity.replace('S', '')) : 1;
+    var severityNum = 2;
+    if (severity === 'S1') severityNum = 1;
+    else if (severity === 'S3') severityNum = 3;
+    
+    console.log('calculateCategory - fibrosisScore:', fibrosisScore, 'severity:', severityNum);
     
     if (fibrosisScore >= 10) return 'CAT4';
     if (fibrosisScore >= 7) return 'CAT3';
     if (fibrosisScore >= 4) return 'CAT2';
     if (fibrosisScore <= 3 && severityNum === 1) return 'CAT1';
-    if (fibrosisScore <= 3 && severityNum >= 2) return 'CAT2';
     return 'CAT2';
 }
 
 function determineLocation() {
     var zone = testData.answers.location;
     if (zone === 'Z0') return 'Z0';
+    
     var config = locationLogic[zone];
-    if (!config) return 'P1';
+    if (!config) return 'P4';
+    
     var key = testData.answers.clarification1 + '-' + testData.answers.clarification2;
-    return config.mapping[key] || 'P4';
+    console.log('determineLocation - key:', key);
+    
+    var result = config.mapping[key];
+    console.log('determineLocation - result:', result);
+    
+    return result || 'P4';
 }
 
 function showResult() {
+    console.log('showResult called');
     var severityInput = document.querySelector('input[name="severity"]:checked');
-    if (severityInput) testData.answers.severity = severityInput.value;
+    if (!severityInput) {
+        alert('Пожалуйста, выберите ответ');
+        return;
+    }
+    testData.answers.severity = severityInput.value;
+    console.log('Severity:', severityInput.value);
+    displayResult();
+}
+
+function displayResult() {
+    console.log('displayResult called');
+    console.log('All answers:', JSON.stringify(testData.answers));
     
     var location = determineLocation();
     var category = calculateCategory();
-    var resultCode = location + '-' + category;
     
-    var resultHTML = getResultHTML(resultCode);
+    console.log('Final - location:', location, 'category:', category);
+    
+    var resultHTML = getResultHTML(location, category);
     document.getElementById('resultContent').innerHTML = resultHTML;
+    
     testData.currentStep = 6;
     showStep(6);
 }
 
 function getMethodsText() {
     var methods = testData.answers.methods;
-    if (methods.length === 0) return 'ничего особенного';
-    var hasOnlyM0 = methods.length === 1 && methods[0] === 'M0';
+    if (!methods || methods.length === 0) return 'ничего особенного';
+    
+    var hasOnlyM0 = (methods.length === 1 && methods[0] === 'M0');
     if (hasOnlyM0) return 'ничего особенного';
-    var names = { 'M1': 'мази и таблетки', 'M2': 'уколы', 'M3': 'физиотерапию', 'M4': 'массаж', 'M5': 'стельки/ортезы', 'M6': 'ЛФК' };
+    
+    var names = {
+        'M1': 'мази и таблетки',
+        'M2': 'уколы',
+        'M3': 'физиотерапию',
+        'M4': 'массаж',
+        'M5': 'стельки/ортезы',
+        'M6': 'ЛФК'
+    };
+    
     var result = [];
-    for (var i = 0; i < methods.length; i++) { if (methods[i] !== 'M0' && names[methods[i]]) result.push(names[methods[i]]); }
+    for (var i = 0; i < methods.length; i++) {
+        if (methods[i] !== 'M0' && names[methods[i]]) {
+            result.push(names[methods[i]]);
+        }
+    }
     return result.length > 0 ? result.join(', ') : 'ничего особенного';
 }
 
 function getDurationText() {
-    return durationTexts[testData.answers.duration] || '';
+    return durationTexts[testData.answers.duration] || 'некоторое время';
 }
 
-function getResultHTML(code) {
+function getResultHTML(location, category) {
     var mt = getMethodsText();
     var dt = getDurationText();
-    var locName = locationNames[determineLocation()] || 'Не определено';
+    var locName = locationNames[location] || 'Проблемная область';
     
-    // Универсальные шаблоны по категориям
-    var templates = {
-        'CAT0': '<div class="result"><h2>Ваш результат: ' + locName + '</h2><div class="result-content">' +
-            '<p>Проблема появилась недавно — менее месяца назад.</p>' +
-            '<p><strong>Почему важно не спешить:</strong><br>На этом этапе может идти острый воспалительный процесс. Нужно исключить травму и другие причины боли.</p>' +
-            '<p><strong>Рекомендация:</strong> обратитесь к травматологу или ортопеду. Если через 4–6 недель боль сохранится и перейдет в хроническую — приходите, разберемся.</p>' +
-            '</div></div>',
-            
-        'CAT1': '<div class="result"><h2>Ваш результат: начальные изменения — ' + locName + '</h2><div class="result-content">' +
-            '<p>Вы пробовали ' + mt + ', пока без стойкого результата.</p>' +
-            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' в тканях начали формироваться микроизменения. Пока они еще не превратились в плотный рубец, есть шанс справиться упражнениями.</p>' +
-            '<div class="exercises"><h3>2 упражнения, которые помогут:</h3>' +
-            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Выполняйте плавные растягивающие движения в проблемной зоне. Держите 30 секунд, 2-3 повтора. Без боли!</div>' +
-            '<div class="exercise"><strong>2. Укрепление</strong><br>Изометрические упражнения: напрягайте мышцы без движения. Держите 5-10 секунд, 10-15 повторов.</div></div>' +
-            '<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно 3–4 недели. Если улучшения нет — не откладывайте консультацию.</p>' +
-            '</div></div>',
-            
-        'CAT2': '<div class="result"><h2>Ваш результат: формирующиеся изменения — ' + locName + '</h2><div class="result-content">' +
-            '<p>Вы уже пробовали ' + mt + ', но боль возвращается.</p>' +
-            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' в тканях начала формироваться рубцовая ткань. Воспаление прошло, но уплотнение осталось.</p>' +
-            '<p><strong>Что реально работает:</strong><br>Метод иглонож позволяет устранить формирующиеся уплотнения. На этой стадии обычно достаточно 1–2 процедур.</p>' +
-            '<div class="exercises"><h3>2 упражнения, которые помогут:</h3>' +
-            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Плавные растягивающие движения, 30 секунд, 2-3 повтора.</div>' +
-            '<div class="exercise"><strong>2. Укрепление</strong><br>Изометрические упражнения, 5-10 секунд, 10-15 повторов.</div></div>' +
-            '<p><strong>Рекомендация:</strong> Иглонож может ускорить выздоровление. Или понаблюдайте 2–3 недели с упражнениями.</p>' +
-            '</div></div>',
-            
-        'CAT3': '<div class="result"><h2>Ваш результат: уплотнения в тканях — ' + locName + '</h2><div class="result-content">' +
-            '<p>Вы уже пробовали ' + mt + ', но эффект временный.</p>' +
-            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' образовалась плотная рубцовая ткань. Она не рассасывается сама по себе и раздражает нервные окончания при каждом движении.</p>' +
-            '<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко, за несколько минут. После процедуры ткани восстанавливают эластичность.</p>' +
-            '<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>' +
-            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Плавные движения, 30 секунд, 2-3 повтора.</div>' +
-            '<div class="exercise"><strong>2. Самомассаж</strong><br>Мягко разминайте область вокруг проблемной зоны 2-3 минуты.</div></div>' +
-            '<p><strong>Рекомендация:</strong> Уплотнения сами не рассосутся. Упражнения облегчат, но не уберут причину. Запишитесь на консультацию.</p>' +
-            '</div></div>',
-            
-        'CAT4': '<div class="result"><h2>Ваш результат: застарелые изменения — ' + locName + '</h2><div class="result-content">' +
-            '<p>Вы перепробовали многое: ' + mt + '. Эффект временный или его нет.</p>' +
-            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' сформировалась плотная застарелая рубцовая ткань. Она не рассасывается ни от мазей, ни от физиотерапии, ни от уколов.</p>' +
-            '<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко, за несколько минут. После процедуры боль уходит.</p>' +
-            '<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>' +
-            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Очень плавно, без боли, 30 секунд.</div>' +
-            '<div class="exercise"><strong>2. Самомассаж</strong><br>Мягко разминайте 2-3 минуты.</div></div>' +
-            '<p><strong>Рекомендация:</strong> Это классический случай для иглоножа. Упражнения немного облегчат, но не решат проблему. Рекомендую не откладывать консультацию.</p>' +
-            '</div></div>'
-    };
+    console.log('getResultHTML - mt:', mt, 'dt:', dt, 'locName:', locName, 'category:', category);
     
-    // Специальный результат для Z0
-    if (code === 'Z0-CAT0' || determineLocation() === 'Z0') {
+    if (location === 'Z0') {
         return '<div class="result"><h2>Ваш результат: боль в другой области</h2><div class="result-content">' +
             '<p>Вы указали, что боль локализована в месте, которое не вошло в основные категории теста.</p>' +
-            '<p><strong>Рекомендация:</strong> для точной диагностики рекомендую обратиться к врачу — травматологу, ортопеду или неврологу в зависимости от локализации.</p>' +
-            '<p>Если после обследования окажется, что проблема хроническая и связана с мягкими тканями — метод иглонож может быть эффективен. Приходите на консультацию, разберемся.</p>' +
+            '<p><strong>Рекомендация:</strong> для точной диагностики рекомендую обратиться к врачу — травматологу, ортопеду или неврологу.</p>' +
+            '<p>Если после обследования окажется, что проблема хроническая и связана с мягкими тканями — метод иглонож может быть эффективен. Приходите на консультацию.</p>' +
             '</div></div>';
     }
     
-    // Извлекаем категорию из кода
-    var parts = code.split('-');
-    var cat = parts[1] || 'CAT2';
+    if (category === 'CAT0') {
+        return '<div class="result"><h2>Ваш результат: ' + locName + '</h2><div class="result-content">' +
+            '<p>Проблема появилась недавно — менее месяца назад.</p>' +
+            '<p><strong>Почему важно не спешить:</strong><br>На этом этапе может идти острый воспалительный процесс. Нужно исключить травму и другие причины боли.</p>' +
+            '<p><strong>Рекомендация:</strong> обратитесь к травматологу или ортопеду. Если через 4-6 недель боль сохранится — приходите, разберемся.</p>' +
+            '</div></div>';
+    }
     
-    return templates[cat] || templates['CAT2'];
+    if (category === 'CAT1') {
+        return '<div class="result"><h2>Ваш результат: начальные изменения — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы пробовали ' + mt + ', пока без стойкого результата.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' в тканях начали формироваться микроизменения. Пока они еще не превратились в плотный рубец, есть шанс справиться упражнениями.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые помогут:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Выполняйте плавные растягивающие движения в проблемной зоне. Держите 30 секунд, 2-3 повтора.</div>' +
+            '<div class="exercise"><strong>2. Укрепление</strong><br>Изометрические упражнения: напрягайте мышцы без движения. Держите 5-10 секунд, 10-15 повторов.</div></div>' +
+            '<p><strong>Рекомендация:</strong> выполняйте упражнения ежедневно 3-4 недели. Если улучшения нет — запишитесь на консультацию.</p>' +
+            '</div></div>';
+    }
+    
+    if (category === 'CAT2') {
+        return '<div class="result"><h2>Ваш результат: формирующиеся изменения — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы уже пробовали ' + mt + ', но боль возвращается.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' в тканях начала формироваться рубцовая ткань.</p>' +
+            '<p><strong>Что реально работает:</strong><br>Метод иглонож позволяет устранить формирующиеся уплотнения. На этой стадии обычно достаточно 1-2 процедур.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые помогут:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Плавные движения, 30 секунд, 2-3 повтора.</div>' +
+            '<div class="exercise"><strong>2. Укрепление</strong><br>Изометрические упражнения, 5-10 секунд, 10-15 повторов.</div></div>' +
+            '<p><strong>Рекомендация:</strong> Иглонож ускорит выздоровление. Или понаблюдайте 2-3 недели с упражнениями.</p>' +
+            '</div></div>';
+    }
+    
+    if (category === 'CAT3') {
+        return '<div class="result"><h2>Ваш результат: уплотнения в тканях — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы уже пробовали ' + mt + ', но эффект временный.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' образовалась плотная рубцовая ткань. Она не рассасывается сама.</p>' +
+            '<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко, за несколько минут.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Плавные движения, 30 секунд.</div>' +
+            '<div class="exercise"><strong>2. Самомассаж</strong><br>Мягко разминайте область 2-3 минуты.</div></div>' +
+            '<p><strong>Рекомендация:</strong> Уплотнения сами не рассосутся. Запишитесь на консультацию.</p>' +
+            '</div></div>';
+    }
+    
+    if (category === 'CAT4') {
+        return '<div class="result"><h2>Ваш результат: застарелые изменения — ' + locName + '</h2><div class="result-content">' +
+            '<p>Вы перепробовали многое: ' + mt + '. Эффект временный или его нет.</p>' +
+            '<p><strong>Почему так происходит:</strong><br>За ' + dt + ' сформировалась плотная застарелая рубцовая ткань.</p>' +
+            '<p><strong>Что реально работает:</strong><br>Метод иглонож устраняет уплотнение точечно, мягко. После процедуры боль уходит.</p>' +
+            '<div class="exercises"><h3>2 упражнения, которые могут облегчить состояние:</h3>' +
+            '<div class="exercise"><strong>1. Мягкая растяжка</strong><br>Очень плавно, без боли.</div>' +
+            '<div class="exercise"><strong>2. Самомассаж</strong><br>Мягко разминайте 2-3 минуты.</div></div>' +
+            '<p><strong>Рекомендация:</strong> Это классический случай для иглоножа. Рекомендую не откладывать консультацию.</p>' +
+            '</div></div>';
+    }
+    
+    return '<div class="result"><h2>Ваш результат</h2><div class="result-content">' +
+        '<p>Спасибо за прохождение теста. Рекомендую записаться на консультацию для детального разбора вашей ситуации.</p>' +
+        '</div></div>';
 }
 
 function showContactForm() {
     testData.currentStep = 7;
     var steps = document.querySelectorAll('.step');
-    for (var i = 0; i < steps.length; i++) { steps[i].classList.remove('active'); }
+    for (var i = 0; i < steps.length; i++) {
+        steps[i].classList.remove('active');
+    }
     document.getElementById('step-form').classList.add('active');
     window.scrollTo(0, 0);
 }
@@ -624,7 +744,9 @@ function submitForm(event) {
     var locName = locationNames[location] || 'Не определено';
     var durationText = getDurationText();
     var methodsText = getMethodsText();
-    var severityText = testData.answers.severity === 'S1' ? 'Немного' : testData.answers.severity === 'S2' ? 'Ощутимо' : 'Сильно';
+    var severityText = 'Ощутимо';
+    if (testData.answers.severity === 'S1') severityText = 'Немного';
+    else if (testData.answers.severity === 'S3') severityText = 'Сильно';
     var category = calculateCategory();
     
     var message = '📋 НОВАЯ ЗАЯВКА С ТЕСТА\n\n' +
@@ -653,26 +775,34 @@ function submitForm(event) {
         }
     })
     .catch(function(error) {
-        alert('Произошла ошибка при отправке. Пожалуйста, позвоните мне напрямую: +7 (900) 164-90-13');
+        alert('Ошибка отправки. Позвоните: +7 (900) 164-90-13');
         document.getElementById('formLoader').classList.remove('show');
         document.getElementById('submitBtn').disabled = false;
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing...');
+    
     var locInputs = document.querySelectorAll('input[name="location"]');
     for (var i = 0; i < locInputs.length; i++) {
-        locInputs[i].addEventListener('change', function() { document.getElementById('btn-step-1').disabled = false; });
+        locInputs[i].addEventListener('change', function() {
+            document.getElementById('btn-step-1').disabled = false;
+        });
     }
     
     var durInputs = document.querySelectorAll('input[name="duration"]');
     for (var j = 0; j < durInputs.length; j++) {
-        durInputs[j].addEventListener('change', function() { document.getElementById('btn-step-2').disabled = false; });
+        durInputs[j].addEventListener('change', function() {
+            document.getElementById('btn-step-2').disabled = false;
+        });
     }
     
     var sevInputs = document.querySelectorAll('input[name="severity"]');
     for (var k = 0; k < sevInputs.length; k++) {
-        sevInputs[k].addEventListener('change', function() { document.getElementById('btn-step-5').disabled = false; });
+        sevInputs[k].addEventListener('change', function() {
+            document.getElementById('btn-step-5').disabled = false;
+        });
     }
     
     var phoneInput = document.getElementById('userPhone');
@@ -682,6 +812,8 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
         });
     }
+    
+    console.log('Initialization complete');
 });
 </script>
 
