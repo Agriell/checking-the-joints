@@ -1036,13 +1036,34 @@ function determineLocation() {
 }
 
 function showResult() {
-    const severity = document.querySelector('input[name="severity"]:checked');
-    if (severity) testData.answers.severity = severity.value;
+    // ВАЖНО: проверяем, выбран ли вариант severity
+    const severityInput = document.querySelector('input[name="severity"]:checked');
+    if (!severityInput) {
+        alert('Пожалуйста, выберите ответ');
+        return;
+    }
+    testData.answers.severity = severityInput.value;
     
     const location = determineLocation();
     const category = calculateCategory();
     const resultCode = location + '-' + category;
-    document.getElementById('resultContent').innerHTML = getResultHTML(resultCode);
+    
+    console.log('Location:', location, 'Category:', category, 'Code:', resultCode); // для отладки
+    
+    const resultHTML = getResultHTML(resultCode);
+    
+    if (!resultHTML) {
+        console.error('Результат не найден для кода:', resultCode);
+        document.getElementById('resultContent').innerHTML = `
+            <div class="result">
+                <h2>Произошла ошибка</h2>
+                <p>К сожалению, не удалось определить результат. Пожалуйста, <a href="https://galkin-kostoprav.ru/forma">запишитесь на консультацию напрямую</a>.</p>
+            </div>
+        `;
+    } else {
+        document.getElementById('resultContent').innerHTML = resultHTML;
+    }
+    
     testData.currentStep = 6;
     showStep(6);
 }
