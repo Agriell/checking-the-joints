@@ -1083,6 +1083,10 @@ function getDurationText() {
 function getResultHTML(code) {
     const mt = getMethodsText();
     const dt = getDurationText();
+
+  // ОТЛАДКА - покажет какой код ищется
+    console.log('Ищем результат для кода:', code);
+    console.log('Методы:', mt, 'Длительность:', dt);
     
     const results = {
         
