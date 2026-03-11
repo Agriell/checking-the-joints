@@ -330,12 +330,15 @@ window.showContactForm = function() {
 window.submitForm = function(event) {
     event.preventDefault();
     
+    console.log('Submitting form...'); // Для отладки
+    
     var name = document.getElementById('userName').value.trim();
     var age = document.getElementById('userAge').value.trim();
     var phone = document.getElementById('userPhone').value.trim();
     
     var hasError = false;
     
+    // Валидация
     if (!name || name.length < 2) {
         document.getElementById('error-name').classList.add('show');
         document.getElementById('userName').classList.add('error');
@@ -365,9 +368,11 @@ window.submitForm = function(event) {
     
     if (hasError) return;
     
+    // Показываем лоадер
     document.getElementById('formLoader').classList.add('show');
     document.getElementById('submitBtn').disabled = true;
     
+    // Собираем данные из теста
     var location = determineLocation();
     var locName = locationNames[location] || 'Не определено';
     var durationText = getDurationText();
@@ -377,6 +382,7 @@ window.submitForm = function(event) {
     else if (testData.answers.severity === 'S3') severityText = 'Сильно';
     var category = calculateCategory();
     
+    // Формируем сообщение
     var message = '📋 НОВАЯ ЗАЯВКА С ТЕСТА\n\n' +
         '👤 Имя: ' + name + '\n' +
         '📅 Возраст: ' + age + '\n' +
@@ -387,23 +393,39 @@ window.submitForm = function(event) {
         '📊 Влияние на жизнь: ' + severityText + '\n' +
         '🏷 Категория: ' + category;
     
+    console.log('Sending message:', message); // Для отладки
+    
     var BOT_TOKEN = '7679539252:AAG-LpDQCL72ew5sdzP1dg1zHjqMTG269237914';
     var CHAT_ID = '269237914';
     
+    // Отправляем в Telegram
     fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            chat_id: CHAT_ID, 
+            text: message,
+            parse_mode: 'HTML' // Добавил для лучшего форматирования
+        })
     })
     .then(function(response) {
-        if (response.ok) {
+        console.log('Response status:', response.status); // Для отладки
+        return response.json();
+    })
+    .then(function(data) {
+        console.log('Response data:', data); // Для отладки
+        if (data.ok) {
+            // Успешная отправка
             window.location.href = 'https://galkin-kostoprav.ru/forma';
         } else {
-            throw new Error('Ошибка');
+            throw new Error(data.description || 'Ошибка отправки');
         }
     })
     .catch(function(error) {
-        alert('Ошибка отправки. Позвоните: +7 (900) 164-90-13');
+        console.error('Error:', error);
+        alert('Ошибка отправки. Пожалуйста, позвоните нам: +7 (900) 164-90-13');
         document.getElementById('formLoader').classList.remove('show');
         document.getElementById('submitBtn').disabled = false;
     });
