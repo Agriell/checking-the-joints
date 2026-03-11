@@ -323,6 +323,7 @@ var locationNames = {
 var durationTexts = { 'D0': 'менее 1 месяца', 'D1': '1-3 месяца', 'D2': '3-6 месяцев', 'D3': '6-12 месяцев', 'D4': 'больше года' };
 
 // Глобальные функции
+
 window.nextStep = function() {
     console.log('nextStep called, currentStep:', testData.currentStep);
     
@@ -339,6 +340,7 @@ window.nextStep = function() {
         
         if (loc.value === 'Z0') {
             testData.answers.duration = 'D2';
+            // Сразу показываем результат для "Другое место"
             displayResult();
             return;
         }
@@ -348,15 +350,23 @@ window.nextStep = function() {
     }
     else if (testData.currentStep === 2) {
         var dur = document.querySelector('input[name="duration"]:checked');
-        if (!dur) { alert('Пожалуйста, выберите ответ'); return; }
+        if (!dur) { 
+            alert('Пожалуйста, выберите ответ'); 
+            return; 
+        }
         testData.answers.duration = dur.value;
         console.log('Duration selected:', dur.value);
         
         if (dur.value === 'D0') {
+            // Если менее месяца - сразу результат
             displayResult();
             return;
+        } else {
+            // Если больше месяца - уточняющие вопросы
+            console.log('Going to clarification questions for duration:', dur.value);
+            generateClarificationQuestions();
+            // Не увеличиваем currentStep здесь, это сделает generateClarificationQuestions
         }
-        generateClarificationQuestions();
     }
     else if (testData.currentStep === 4) {
         var methods = document.querySelectorAll('input[name="methods"]:checked');
@@ -564,17 +574,21 @@ function updateProgress() {
 
 function generateClarificationQuestions() {
     var loc = testData.answers.location;
+    var dur = testData.answers.duration; // Сохраняем длительность
+    
+    console.log('Generating clarification questions for location:', loc, 'duration:', dur);
+    
     var config = locationLogic[loc];
     if (!config) {
         console.log('No config for location:', loc);
+        // Если нет конфигурации для локации, переходим к методам
         testData.currentStep = 4;
         showStep(4);
         updateProgress();
         return;
     }
     
-    console.log('Generating clarification questions for:', loc);
-    
+    // Создаем первый уточняющий вопрос
     var step3 = document.getElementById('step-3');
     if (!step3) return;
     
@@ -586,6 +600,7 @@ function generateClarificationQuestions() {
     html += '</div></div><button class="btn" onclick="goToSecondClarification()" id="btn-step-3" disabled>Далее</button>';
     step3.innerHTML = html;
     
+    // Добавляем обработчик на radio buttons первого вопроса
     var inputs = document.querySelectorAll('input[name="clarification1"]');
     for (var j = 0; j < inputs.length; j++) {
         inputs[j].addEventListener('change', function() {
@@ -594,6 +609,7 @@ function generateClarificationQuestions() {
         });
     }
     
+    // Создаем или очищаем шаг для второго вопроса
     var step35 = document.getElementById('step-3-5');
     if (!step35) {
         step35 = document.createElement('div');
@@ -605,6 +621,7 @@ function generateClarificationQuestions() {
         }
     }
     
+    // Второй уточняющий вопрос
     var html2 = '<div class="question"><h2 class="question-title">' + config.questions[1].title + '</h2><div class="options">';
     for (var k = 0; k < config.questions[1].options.length; k++) {
         var opt2 = config.questions[1].options[k];
@@ -613,6 +630,7 @@ function generateClarificationQuestions() {
     html2 += '</div></div><button class="btn" onclick="goToMethods()" id="btn-step-35" disabled>Далее</button>';
     step35.innerHTML = html2;
     
+    // Добавляем обработчик на radio buttons второго вопроса
     var inputs2 = document.querySelectorAll('input[name="clarification2"]');
     for (var m = 0; m < inputs2.length; m++) {
         inputs2[m].addEventListener('change', function() {
@@ -621,6 +639,7 @@ function generateClarificationQuestions() {
         });
     }
     
+    // Переходим к первому уточняющему вопросу
     testData.currentStep = 3;
     showStep(3);
     updateProgress();
