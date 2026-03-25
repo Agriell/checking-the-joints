@@ -1,922 +1,1423 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест: Почему боль в суставе не проходит | Галкин Дмитрий</title>
-    <meta name="description" content="Пройдите тест и узнайте причину хронической боли, получите упражнения и рекомендацию">
-    <style>
-        :root {
-            --primary: #23295D;
-            --primary-light: #3a4080;
-            --primary-hover: #1a1f47;
-            --accent: #c94a4a;
-            --accent-light: #f5e8e8;
-            --text: #222222;
-            --text-light: #666666;
-            --bg: #f7f7f7;
-            --border: #e0e0e0;
-            --white: #ffffff;
-            --error: #d93025;
-            --warning: #ffc107;
-            --warning-bg: #fff3cd;
-            --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-heading: Georgia, 'Times New Roman', serif;
-            --container: 680px;
-            --radius: 8px;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font); font-size: 16px; line-height: 1.5; color: var(--text); background: var(--white); }
-        .container { max-width: var(--container); margin: 0 auto; padding: 40px 20px; }
-        .header { background: var(--primary); text-align: center; padding: 25px 20px; margin-bottom: 30px; }
-        .header-title { font-family: var(--font-heading); font-size: 26px; color: var(--white); font-weight: normal; }
-        .test-wrapper { min-height: 60vh; }
-        .step { display: none; animation: fade 0.3s ease; }
-        .step.active { display: block; }
-        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        h1, h2 { font-family: var(--font-heading); font-weight: normal; line-height: 1.3; margin-bottom: 25px; }
-        h1 { font-size: 32px; } h2 { font-size: 26px; }
-        .subtitle { font-size: 18px; color: var(--text-light); margin-bottom: 30px; }
-        .question { margin-bottom: 30px; }
-        .question-title { font-size: 20px; font-weight: 500; margin-bottom: 15px; }
-        .options { display: flex; flex-direction: column; gap: 12px; }
-        .option { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius); padding: 16px 20px; cursor: pointer; transition: all 0.2s; position: relative; }
-        .option:hover { border-color: var(--accent); background: var(--accent-light); }
-        .option input { position: absolute; opacity: 0; }
-        .option:has(input:checked) { border-color: var(--primary); background: #ecedf5; }
-        .option-content { padding-left: 30px; position: relative; }
-        .option-content::before { content: ''; position: absolute; left: 0; top: 2px; width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 50%; background: var(--white); }
-        .option:has(input[type="checkbox"]) .option-content::before { border-radius: 4px; }
-        .option:has(input:checked) .option-content::before { border-color: var(--primary); background: var(--primary); }
-        .option:has(input:checked) .option-content::after { content: '✓'; position: absolute; left: 5px; top: 2px; color: var(--white); font-size: 14px; }
-        .btn { display: inline-block; padding: 16px 32px; font-size: 16px; font-weight: 500; text-align: center; color: var(--white); background: var(--primary); border: 2px solid var(--primary); border-radius: 6px; cursor: pointer; transition: all 0.3s; margin-top: 20px; }
-        .btn:hover { background: var(--primary-hover); border-color: var(--accent); box-shadow: 0 4px 12px rgba(201,74,74,0.3); transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn-secondary { background: var(--white); color: var(--primary); }
-        .btn-secondary:hover { background: var(--white); border-color: var(--accent); color: var(--accent); }
-        .button-group { display: flex; gap: 12px; margin-top: 20px; }
-        .button-group .btn { flex: 1; margin-top: 0; }
-        .progress-bar { width: 100%; height: 6px; background: var(--bg); border-radius: 10px; margin-bottom: 30px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); transition: width 0.3s; width: 0%; }
-        .result { background: var(--bg); border-left: 4px solid var(--primary); padding: 25px; border-radius: var(--radius); margin: 25px 0; }
-        .result h2 { color: var(--primary); margin-bottom: 15px; }
-        .result-content p { margin-bottom: 15px; }
-        .exercises { background: var(--white); padding: 25px; border-radius: var(--radius); margin: 20px 0; }
-        .exercise { margin-bottom: 20px; }
-        .exercise strong { color: var(--primary); display: block; margin-bottom: 8px; font-size: 18px; }
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-weight: 500; margin-bottom: 8px; }
-        .form-input { width: 100%; padding: 14px 16px; font-size: 16px; border: 2px solid var(--border); border-radius: 6px; }
-        .form-input:focus { outline: none; border-color: var(--primary); }
-        .form-input.error { border-color: var(--error); }
-        .error-message { color: var(--error); font-size: 14px; margin-top: 6px; display: none; }
-        .error-message.show { display: block; }
-        .notice { background: var(--warning-bg); border-left: 4px solid var(--warning); padding: 15px; border-radius: 4px; margin: 20px 0; color: #856404; }
-        .loader { display: none; text-align: center; padding: 20px; }
-        .loader.show { display: block; }
-        .spinner { border: 3px solid var(--bg); border-top: 3px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @media (max-width: 640px) {
-            h1 { font-size: 28px; } h2 { font-size: 22px; }
-            .button-group { flex-direction: column; }
-            .btn { width: 100%; padding: 14px 20px; }
-            .option { padding: 14px 16px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тест: Проверьте состояние ваших суставов | Галкин Дмитрий</title>
+  <meta name="description" content="Пройдите короткий тест, узнайте возможную причину боли и получите упражнения для облегчения состояния">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap');
+
+    :root {
+      --primary: #23295D;
+      --primary-light: #3a4080;
+      --primary-pale: #ecedf5;
+      --accent: #c94a4a;
+      --accent-light: #f5e8e8;
+      --accent-hover: #b03e3e;
+      --text: #2a2a2a;
+      --text-light: #5a5a5a;
+      --text-muted: #888;
+      --bg: #f5f5f0;
+      --bg-warm: #faf9f6;
+      --border: #d8d8d0;
+      --white: #ffffff;
+      --success: #3a7d44;
+      --success-bg: #edf5ee;
+      --warning-bg: #fef9ec;
+      --warning-border: #e8d48b;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+      --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --container: 660px;
+      --radius: 10px;
+      --radius-lg: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--primary);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      position: relative;
+    }
+    .header-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .header-text {
+      color: var(--white);
+      text-align: center;
+    }
+    .header-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+    .header-subtitle {
+      font-size: 13px;
+      opacity: 0.7;
+      margin-top: 2px;
+      font-weight: 300;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    /* ===== STEP SYSTEM ===== */
+    .step { display: none; animation: stepFadeIn 0.35s ease-out; }
+    .step.active { display: block; }
+
+    @keyframes stepFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    h3 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .lead {
+      font-size: 18px;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* ===== WELCOME SCREEN ===== */
+    .welcome-benefits {
+      margin: 24px 0 32px;
+    }
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .benefit-icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      background: var(--primary-pale);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+    .benefit-text {
+      font-size: 17px;
+      color: var(--text);
+    }
+    .welcome-note {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 24px;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-wrapper {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .progress-wrapper.visible { display: flex; }
+    .progress-bar {
+      flex: 1;
+      height: 5px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.4s ease;
+      width: 0%;
+      border-radius: 10px;
+    }
+    .progress-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    /* ===== QUESTION ===== */
+    .question { margin-bottom: 24px; }
+    .question-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 18px;
+      line-height: 1.35;
+    }
+
+    /* ===== OPTIONS ===== */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option {
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+    .option:hover {
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+    .option input {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .option:has(input:checked) {
+      border-color: var(--primary);
+      background: var(--primary-pale);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+    .option-content {
+      padding-left: 32px;
+      position: relative;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    .option-content::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 2px;
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      background: var(--white);
+      transition: all 0.2s;
+    }
+    .option:has(input[type="checkbox"]) .option-content::before {
+      border-radius: 5px;
+    }
+    .option:has(input:checked) .option-content::before {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .option:has(input:checked) .option-content::after {
+      content: '✓';
+      position: absolute;
+      left: 4px; top: 1px;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .option-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 32px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--white);
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      line-height: 1.3;
+    }
+    .btn:hover {
+      background: var(--primary-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .btn-accent {
+      background: var(--accent);
+    }
+    .btn-accent:hover {
+      background: var(--accent-hover);
+    }
+    .btn-outline {
+      background: var(--white);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 13px 30px;
+    }
+    .btn-outline:hover {
+      background: var(--primary-pale);
+      color: var(--primary);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .btn-ghost:hover {
+      color: var(--text);
+      background: rgba(0,0,0,0.04);
+      box-shadow: none;
+      transform: none;
+    }
+    .btn-sm { padding: 10px 20px; font-size: 14px; }
+    .btn-block { width: 100%; }
+
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .nav-buttons .btn-ghost { margin-right: auto; }
+
+    /* ===== RESULT CARD ===== */
+    .result-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .result-header {
+      background: var(--primary);
+      color: var(--white);
+      padding: 24px 28px;
+    }
+    .result-header h2 {
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .result-header .result-subtitle {
+      font-size: 15px;
+      opacity: 0.8;
+    }
+    .result-body { padding: 28px; }
+    .result-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .result-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+    .result-tag-icon { font-size: 13px; }
+
+    /* ===== WHY BLOCK ===== */
+    .why-block {
+      background: var(--bg-warm);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 20px 0;
+      border-left: 4px solid var(--primary);
+    }
+    .why-block h3 { margin-bottom: 8px; }
+    .why-block p { font-size: 16px; color: var(--text-light); }
+
+    /* ===== EXERCISES ===== */
+    .exercises-block {
+      margin: 24px 0;
+    }
+    .exercises-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .exercises-title h3 { margin-bottom: 0; }
+    .exercise-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .exercise-name {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+    .exercise-desc {
+      font-size: 15px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .exercise-warning {
+      font-size: 14px;
+      color: var(--accent);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* ===== RECOMMENDATION ===== */
+    .rec-block {
+      background: var(--success-bg);
+      border: 1px solid #c1dcc4;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .rec-block p { font-size: 16px; color: #2d5e34; }
+    .rec-block strong { color: #1a4620; }
+
+    /* ===== TRUST BLOCK ===== */
+    .trust-block {
+      background: var(--bg-warm);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .trust-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      border: 3px solid var(--primary-pale);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .trust-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .trust-name {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .trust-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .trust-stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+    }
+    .trust-stat {
+      text-align: center;
+    }
+    .trust-stat-number {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .trust-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ===== COPY RESULT ===== */
+    .copy-result-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: var(--font-body);
+      color: var(--text-light);
+      transition: all 0.2s;
+    }
+    .copy-result-btn:hover { background: var(--border); color: var(--text); }
+    .copy-result-btn.copied {
+      background: var(--success-bg);
+      border-color: #a3cda8;
+      color: var(--success);
+    }
+
+    /* ===== ACTION BUTTONS ===== */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .action-buttons .btn { width: 100%; }
+
+    /* ===== NOTICE ===== */
+    .notice {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #7a6b2d;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      h1 { font-size: 26px; }
+      h2 { font-size: 21px; }
+      .question-title { font-size: 20px; }
+      .container { padding: 24px 16px 48px; }
+      .result-body { padding: 20px; }
+      .result-header { padding: 20px; }
+      .trust-stats { gap: 16px; }
+      .header { padding: 16px; gap: 12px; }
+      .header-title { font-size: 19px; }
+      .option { padding: 13px 15px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="header">
-    <h1 class="header-title">ТЕСТ: оценка состояния суставов</h1>
-</div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-text">
+      <div class="header-title">Проверка состояния суставов</div>
+      <div class="header-subtitle">Дмитрий Галкин · специалист традиционной китайской медицины</div>
+    </div>
+  </div>
 
-<div class="container">
+  <div class="container">
+    <!-- PROGRESS -->
+    <div class="progress-wrapper" id="progressWrapper">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-label" id="progressLabel"></div>
+    </div>
+
     <div class="test-wrapper" id="testApp">
-        
-        <!-- Шаг 0: Приветствие -->
-        <div class="step active" id="step-0">
-            <h1>За 1–2 минуты узнайте, почему боль в суставе не проходит месяцами</h1>
-            <p class="subtitle">
-                Ответьте на несколько простых вопросов и получите:<br>
-                — Понимание, что происходит с вашим суставом<br>
-                — Простые упражнения, которые помогут прямо сейчас<br>
-                — Персональную рекомендацию от специалиста
-            </p>
-            <button class="btn" onclick="nextStep()">Начать тест</button>
+
+      <!-- ====== ШАГ 0: ПРИВЕТСТВИЕ ====== -->
+      <div class="step active" id="step-0">
+        <h1>Узнайте, что мешает вашим суставам работать нормально</h1>
+        <p class="lead">Ответьте на несколько вопросов — это займёт пару минут</p>
+
+        <div class="welcome-benefits">
+          <div class="benefit-item">
+            <div class="benefit-icon">🔍</div>
+            <div class="benefit-text">Поймёте возможную причину дискомфорта</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">💪</div>
+            <div class="benefit-text">Получите упражнения, которые помогут уже сейчас</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">📋</div>
+            <div class="benefit-text">Узнаете, нужна ли вам помощь специалиста</div>
+          </div>
         </div>
 
-        <!-- Прогресс бар -->
-        <div class="progress-bar" id="progressBar" style="display: none;">
-            <div class="progress-fill" id="progressFill"></div>
+        <button class="btn btn-accent btn-block" onclick="startTest()">Начать тест</button>
+
+        <p class="welcome-note">Тест носит информационный характер и не является медицинским диагнозом.</p>
+      </div>
+
+      <!-- ====== ШАГ 1: ЛОКАЛИЗАЦИЯ ====== -->
+      <div class="step" id="step-1">
+        <div class="question">
+          <div class="question-title">Где именно вас беспокоит боль больше всего?</div>
+          <div class="options">
+            <label class="option"><input type="radio" name="location" value="Z1"><span class="option-content">Пятка / стопа</span></label>
+            <label class="option"><input type="radio" name="location" value="Z2"><span class="option-content">Локоть</span></label>
+            <label class="option"><input type="radio" name="location" value="Z3"><span class="option-content">Плечо</span></label>
+            <label class="option"><input type="radio" name="location" value="Z4"><span class="option-content">Колено</span></label>
+            <label class="option"><input type="radio" name="location" value="Z5"><span class="option-content">Тазобедренный сустав</span></label>
+            <label class="option"><input type="radio" name="location" value="Z0"><span class="option-content">Другое место</span></label>
+          </div>
         </div>
-
-        <!-- Шаг 1: Локализация -->
-        <div class="step" id="step-1">
-            <div class="question">
-                <h2 class="question-title">Где именно вас беспокоит боль больше всего?</h2>
-                <div class="options">
-                    <label class="option"><input type="radio" name="location" value="Z1"><span class="option-content">Пятка / стопа</span></label>
-                    <label class="option"><input type="radio" name="location" value="Z2"><span class="option-content">Локоть</span></label>
-                    <label class="option"><input type="radio" name="location" value="Z3"><span class="option-content">Плечо</span></label>
-                    <label class="option"><input type="radio" name="location" value="Z4"><span class="option-content">Колено</span></label>
-                    <label class="option"><input type="radio" name="location" value="Z5"><span class="option-content">Тазобедренный сустав</span></label>
-                    <label class="option"><input type="radio" name="location" value="Z0"><span class="option-content">Другое место</span></label>
-                </div>
-            </div>
-            <button class="btn" onclick="nextStep()" id="btn-step-1" disabled>Далее</button>
+        <div class="nav-buttons">
+          <button class="btn-ghost" onclick="goBack()">← Назад</button>
+          <button class="btn" onclick="nextStep()" id="btn-step-1" disabled>Далее</button>
         </div>
+      </div>
 
-        <!-- Шаг 2: Длительность -->
-        <div class="step" id="step-2">
-            <div class="question">
-                <h2 class="question-title">Как давно эта боль вас беспокоит?</h2>
-                <div class="options">
-                    <label class="option"><input type="radio" name="duration" value="D0"><span class="option-content">Менее 1 месяца</span></label>
-                    <label class="option"><input type="radio" name="duration" value="D1"><span class="option-content">1–3 месяца</span></label>
-                    <label class="option"><input type="radio" name="duration" value="D2"><span class="option-content">3–6 месяцев</span></label>
-                    <label class="option"><input type="radio" name="duration" value="D3"><span class="option-content">6–12 месяцев</span></label>
-                    <label class="option"><input type="radio" name="duration" value="D4"><span class="option-content">Больше года</span></label>
-                </div>
-            </div>
-            <button class="btn" onclick="nextStep()" id="btn-step-2" disabled>Далее</button>
+      <!-- ====== ШАГ 1.5: УТОЧНЕНИЕ для Z0 ====== -->
+      <div class="step" id="step-1-5">
+        <div class="question">
+          <div class="question-title">Уточните, пожалуйста, что именно беспокоит:</div>
+          <div class="options">
+            <label class="option"><input type="radio" name="otherLocation" value="шея"><span class="option-content">Шея</span></label>
+            <label class="option"><input type="radio" name="otherLocation" value="спина (грудной отдел)"><span class="option-content">Спина (грудной отдел)</span></label>
+            <label class="option"><input type="radio" name="otherLocation" value="поясница"><span class="option-content">Поясница</span></label>
+            <label class="option"><input type="radio" name="otherLocation" value="кисть / запястье"><span class="option-content">Кисть / запястье</span></label>
+            <label class="option"><input type="radio" name="otherLocation" value="другое"><span class="option-content">Другое</span></label>
+          </div>
         </div>
-
-        <!-- Шаг 3: Первый уточняющий вопрос (динамический) -->
-        <div class="step" id="step-3"></div>
-
-        <!-- Шаг 3.5: Второй уточняющий вопрос (динамический) -->
-        <div class="step" id="step-3-5"></div>
-
-        <!-- Шаг 4: Что пробовали -->
-        <div class="step" id="step-4">
-            <div class="question">
-                <h2 class="question-title">Что вы уже пробовали, чтобы убрать эту боль?</h2>
-                <p style="font-size: 14px; color: #999; margin-bottom: 15px;">Можно выбрать несколько</p>
-                <div class="options">
-                    <label class="option"><input type="checkbox" name="methods" value="M1"><span class="option-content">Мази и таблетки</span></label>
-                    <label class="option"><input type="checkbox" name="methods" value="M2"><span class="option-content">Уколы (блокады, гормоны, плазма)</span></label>
-                    <label class="option"><input type="checkbox" name="methods" value="M3"><span class="option-content">Физиотерапию (УВТ, лазер, магнит)</span></label>
-                    <label class="option"><input type="checkbox" name="methods" value="M4"><span class="option-content">Массаж</span></label>
-                    <label class="option"><input type="checkbox" name="methods" value="M5"><span class="option-content">Стельки / ортезы / тейпы / бандажи</span></label>
-                    <label class="option"><input type="checkbox" name="methods" value="M6"><span class="option-content">ЛФК / упражнения</span></label>
-                    <label class="option"><input type="checkbox" name="methods" value="M0"><span class="option-content">Ничего — терплю</span></label>
-                </div>
-            </div>
-            <button class="btn" onclick="nextStep()">Далее</button>
+        <div class="nav-buttons">
+          <button class="btn-ghost" onclick="goBack()">← Назад</button>
+          <button class="btn" onclick="nextStep()" id="btn-step-1-5" disabled>Далее</button>
         </div>
+      </div>
 
-        <!-- Шаг 5: Влияние на жизнь -->
-        <div class="step" id="step-5">
-            <div class="question">
-                <h2 class="question-title">Как сильно боль мешает вашей обычной жизни?</h2>
-                <div class="options">
-                    <label class="option"><input type="radio" name="severity" value="S1"><span class="option-content">Немного — могу терпеть, но раздражает</span></label>
-                    <label class="option"><input type="radio" name="severity" value="S2"><span class="option-content">Ощутимо — ограничивает работу, спорт или сон</span></label>
-                    <label class="option"><input type="radio" name="severity" value="S3"><span class="option-content">Сильно — почти не могу делать привычные дела</span></label>
-                </div>
-            </div>
-            <button class="btn" onclick="showResult()" id="btn-step-5" disabled>Получить результат</button>
+      <!-- ====== ШАГ 2: ДЛИТЕЛЬНОСТЬ ====== -->
+      <div class="step" id="step-2">
+        <div class="question">
+          <div class="question-title">Как давно это беспокоит?</div>
+          <div class="options">
+            <label class="option"><input type="radio" name="duration" value="D0"><span class="option-content">Менее 1 месяца</span></label>
+            <label class="option"><input type="radio" name="duration" value="D1"><span class="option-content">1–3 месяца</span></label>
+            <label class="option"><input type="radio" name="duration" value="D2"><span class="option-content">3–6 месяцев</span></label>
+            <label class="option"><input type="radio" name="duration" value="D3"><span class="option-content">6–12 месяцев</span></label>
+            <label class="option"><input type="radio" name="duration" value="D4"><span class="option-content">Больше года</span></label>
+          </div>
         </div>
+        <div class="nav-buttons">
+          <button class="btn-ghost" onclick="goBack()">← Назад</button>
+          <button class="btn" onclick="nextStep()" id="btn-step-2" disabled>Далее</button>
+        </div>
+      </div>
 
-        <!-- Шаг 6: Результат -->
-        <div class="step" id="step-result">
-            <div id="resultContent"></div>
-            <div class="notice">⚠️ Мы не сохраняем ваши результаты. Когда закроете страницу — они пропадут.</div>
-            <div class="button-group">
-                <a href="https://galkin-kostoprav.ru/iglonozh" class="btn btn-secondary">Узнать больше про иглонож</a>
-                <button class="btn" onclick="showContactForm()">Записаться на консультацию</button>
-            </div>
-        </div>
+      <!-- ====== ШАГ 3: УТОЧНЯЮЩИЙ ВОПРОС 1 ====== -->
+      <div class="step" id="step-3"></div>
 
-        <!-- Шаг 7: Форма записи -->
-        <div class="step" id="step-form">
-            <h2>Записаться на консультацию</h2>
-            <p class="subtitle">Заполните форму, и я свяжусь с вами</p>
-            <form id="contactForm" onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label class="form-label">Ваше имя *</label>
-                    <input type="text" class="form-input" id="userName" required>
-                    <div class="error-message" id="error-name">Укажите имя</div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Возраст *</label>
-                    <input type="number" class="form-input" id="userAge" min="1" max="120" required>
-                    <div class="error-message" id="error-age">Укажите возраст</div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Телефон *</label>
-                    <input type="tel" class="form-input" id="userPhone" placeholder="+7 (___) ___-__-__" required>
-                    <div class="error-message" id="error-phone">Укажите телефон</div>
-                </div>
-                <div class="loader" id="formLoader"><div class="spinner"></div><p>Отправка...</p></div>
-                <button type="submit" class="btn" id="submitBtn">Отправить</button>
-            </form>
+      <!-- ====== ШАГ 3.5: УТОЧНЯЮЩИЙ ВОПРОС 2 ====== -->
+      <div class="step" id="step-3-5"></div>
+
+      <!-- ====== ШАГ 4: ЧТО ПРОБОВАЛИ ====== -->
+      <div class="step" id="step-4">
+        <div class="question">
+          <div class="question-title">Что вы уже пробовали, чтобы справиться с этой проблемой?</div>
+          <p class="option-hint">Можно выбрать несколько вариантов</p>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="methods" value="M1"><span class="option-content">Мази и таблетки</span></label>
+            <label class="option"><input type="checkbox" name="methods" value="M2"><span class="option-content">Уколы (блокады, гормоны, плазма)</span></label>
+            <label class="option"><input type="checkbox" name="methods" value="M3"><span class="option-content">Физиотерапию (УВТ, лазер, магнит)</span></label>
+            <label class="option"><input type="checkbox" name="methods" value="M4"><span class="option-content">Массаж</span></label>
+            <label class="option"><input type="checkbox" name="methods" value="M5"><span class="option-content">Стельки / ортезы / тейпы / бандажи</span></label>
+            <label class="option"><input type="checkbox" name="methods" value="M6"><span class="option-content">ЛФК / упражнения</span></label>
+            <label class="option"><input type="checkbox" name="methods" value="M0"><span class="option-content">Ничего — терплю</span></label>
+          </div>
         </div>
+        <div class="nav-buttons">
+          <button class="btn-ghost" onclick="goBack()">← Назад</button>
+          <button class="btn" onclick="nextStep()">Далее</button>
+        </div>
+      </div>
+
+      <!-- ====== ШАГ 5: ВЛИЯНИЕ НА ЖИЗНЬ ====== -->
+      <div class="step" id="step-5">
+        <div class="question">
+          <div class="question-title">Как сильно это мешает вашей обычной жизни?</div>
+          <div class="options">
+            <label class="option"><input type="radio" name="severity" value="S1"><span class="option-content">Немного — могу терпеть, но раздражает</span></label>
+            <label class="option"><input type="radio" name="severity" value="S2"><span class="option-content">Ощутимо — ограничивает работу, спорт или сон</span></label>
+            <label class="option"><input type="radio" name="severity" value="S3"><span class="option-content">Сильно — почти не могу делать привычные дела</span></label>
+          </div>
+        </div>
+        <div class="nav-buttons">
+          <button class="btn-ghost" onclick="goBack()">← Назад</button>
+          <button class="btn btn-accent" onclick="showResult()" id="btn-step-5" disabled>Получить результат</button>
+        </div>
+      </div>
+
+      <!-- ====== РЕЗУЛЬТАТ ====== -->
+      <div class="step" id="step-result">
+        <div id="resultContent"></div>
+      </div>
 
     </div>
-</div>
+  </div>
 
 <script>
 // ============================================
 // ДАННЫЕ ТЕСТА
 // ============================================
-
 const testData = {
-    currentStep: 0,
-    answers: {
-        location: '',
-        duration: '',
-        clarification1: '',
-        clarification2: '',
-        methods: [],
-        severity: 'S2'
-    }
+  currentStep: 0,
+  stepHistory: [0],
+  answers: {
+    location: '',
+    otherLocation: '',
+    duration: '',
+    clarification1: '',
+    clarification2: '',
+    methods: [],
+    severity: ''
+  }
 };
 
-// Локализация и маппинг
+// ============================================
+// МАППИНГ ЛОКАЛИЗАЦИЙ
+// ============================================
 const locationLogic = {
-    Z1: { // Пятка
-        questions: [
-            { title: 'Когда боль проявляется сильнее всего?', options: [
-                { value: 'T1', text: 'При первых шагах после сна или долгого сидения' },
-                { value: 'T2', text: 'К концу дня после долгой ходьбы или стояния' },
-                { value: 'T3', text: 'Постоянно, и в покое, и при нагрузке' }
-            ]},
-            { title: 'Где именно болит?', options: [
-                { value: 'L1', text: 'Снизу пятки, ближе к центру или внутреннему краю' },
-                { value: 'L2', text: 'Сзади пятки, в области ахиллова сухожилия' },
-                { value: 'L3', text: 'Вся пятка или затрудняюсь указать точно' }
-            ]}
-        ],
-        mapping: {
-            'T1-L1': 'П1', 'T2-L1': 'П2', 'T1-L2': 'П3', 'T2-L2': 'П3',
-            'T3-L1': 'П4', 'T3-L2': 'П4', 'T3-L3': 'П4', 'T1-L3': 'П4', 'T2-L3': 'П4'
-        }
-    },
-    Z2: { // Локоть
-        questions: [
-            { title: 'Когда боль проявляется сильнее всего?', options: [
-                { value: 'T1', text: 'Когда сжимаю кисть, жму руку, поднимаю предметы' },
-                { value: 'T2', text: 'Когда вращаю предплечье (поворачиваю ключ, открываю кран)' },
-                { value: 'T3', text: 'Постоянно ноет, независимо от движений' }
-            ]},
-            { title: 'Где именно болит?', options: [
-                { value: 'L1', text: 'Снаружи локтя (со стороны большого пальца)' },
-                { value: 'L2', text: 'Изнутри локтя (со стороны мизинца)' },
-                { value: 'L3', text: 'Затрудняюсь указать точно / болит весь локоть' }
-            ]}
-        ],
-        mapping: { 'T1-L1': 'Л1', 'T2-L1': 'Л1', 'T3-L1': 'Л1', 'T1-L2': 'Л2', 'T2-L2': 'Л2', 'T3-L2': 'Л2', 'T1-L3': 'Л3', 'T2-L3': 'Л3', 'T3-L3': 'Л3' }
-    },
-    Z3: { // Плечо
-        questions: [
-            { title: 'Когда боль проявляется сильнее всего?', options: [
-                { value: 'T1', text: 'Когда поднимаю руку вверх или отвожу в сторону' },
-                { value: 'T2', text: 'Когда завожу руку за спину' },
-                { value: 'T3', text: 'Ночью, когда лежу на этом боку' },
-                { value: 'T4', text: 'При любом движении рукой' }
-            ]},
-            { title: 'Где именно болит?', options: [
-                { value: 'L1', text: 'Сбоку или сверху плеча' },
-                { value: 'L2', text: 'Спереди плеча (ближе к бицепсу)' },
-                { value: 'L3', text: 'Сзади плеча или в области лопатки' },
-                { value: 'L4', text: 'Глубоко внутри сустава / затрудняюсь указать' }
-            ]}
-        ],
-        mapping: {
-            'T1-L1': 'ПЛ1', 'T1-L2': 'ПЛ3', 'T2-L3': 'ПЛ2', 'T2-L1': 'ПЛ2', 'T2-L2': 'ПЛ2',
-            'T2-L4': 'ПЛ2', 'T3-L1': 'ПЛ4', 'T3-L2': 'ПЛ4', 'T3-L3': 'ПЛ4', 'T3-L4': 'ПЛ4',
-            'T4-L1': 'ПЛ4', 'T4-L2': 'ПЛ4', 'T4-L3': 'ПЛ4', 'T4-L4': 'ПЛ4', 'T1-L3': 'ПЛ1', 'T1-L4': 'ПЛ1'
-        }
-    },
-    Z4: { // Колено
-        questions: [
-            { title: 'Когда боль проявляется сильнее всего?', options: [
-                { value: 'T1', text: 'При ходьбе по лестнице (особенно вниз)' },
-                { value: 'T2', text: 'При приседании или вставании со стула' },
-                { value: 'T3', text: 'При долгом сидении с согнутыми ногами' },
-                { value: 'T4', text: 'При ходьбе по ровной поверхности' },
-                { value: 'T5', text: 'Постоянно, независимо от нагрузки' }
-            ]},
-            { title: 'Где именно болит?', options: [
-                { value: 'L1', text: 'Спереди, вокруг коленной чашечки или чуть ниже' },
-                { value: 'L2', text: 'С внутренней стороны колена' },
-                { value: 'L3', text: 'С наружной стороны колена' },
-                { value: 'L4', text: 'Под коленом сзади' },
-                { value: 'L5', text: 'Всё колено / затрудняюсь указать' }
-            ]}
-        ],
-        mapping: {
-            'T1-L1': 'К1', 'T2-L1': 'К1', 'T3-L1': 'К1', 'T4-L1': 'К1', 'T5-L1': 'К1',
-            'T1-L2': 'К2', 'T2-L2': 'К2', 'T3-L2': 'К2', 'T4-L2': 'К2', 'T5-L2': 'К2',
-            'T1-L3': 'К3', 'T2-L3': 'К3', 'T3-L3': 'К3', 'T4-L3': 'К3', 'T5-L3': 'К3',
-            'T1-L4': 'К4', 'T2-L4': 'К4', 'T3-L4': 'К4', 'T4-L4': 'К4', 'T5-L4': 'К4',
-            'T1-L5': 'К5', 'T2-L5': 'К5', 'T3-L5': 'К5', 'T4-L5': 'К5', 'T5-L5': 'К5'
-        }
-    },
-    Z5: { // Тазобедренный
-        questions: [
-            { title: 'Когда боль проявляется сильнее всего?', options: [
-                { value: 'T1', text: 'Когда лежу на этом боку' },
-                { value: 'T2', text: 'При ходьбе по лестнице' },
-                { value: 'T3', text: 'При первых шагах после долгого сидения' },
-                { value: 'T4', text: 'При ходьбе на большие расстояния' },
-                { value: 'T5', text: 'Постоянно, в любом положении' }
-            ]},
-            { title: 'Где именно болит?', options: [
-                { value: 'L1', text: 'Сбоку, в области выступающей косточки (большой вертел)' },
-                { value: 'L2', text: 'Спереди, в области паха' },
-                { value: 'L3', text: 'Отдает вниз по бедру к колену' },
-                { value: 'L4', text: 'Сзади, в области ягодицы' },
-                { value: 'L5', text: 'Затрудняюсь указать точно' }
-            ]}
-        ],
-        mapping: {
-            'T1-L1': 'Т1', 'T2-L1': 'Т1', 'T3-L1': 'Т1', 'T4-L1': 'Т1', 'T5-L1': 'Т1',
-            'T1-L2': 'Т2', 'T2-L2': 'Т2', 'T3-L2': 'Т2', 'T4-L2': 'Т2', 'T5-L2': 'Т2',
-            'T1-L3': 'Т2', 'T2-L3': 'Т2', 'T3-L3': 'Т2', 'T4-L3': 'Т2', 'T5-L3': 'Т2',
-            'T1-L4': 'Т3', 'T2-L4': 'Т3', 'T3-L4': 'Т3', 'T4-L4': 'Т3', 'T5-L4': 'Т3',
-            'T1-L5': 'Т4', 'T2-L5': 'Т4', 'T3-L5': 'Т4', 'T4-L5': 'Т4', 'T5-L5': 'Т4'
-        }
+  Z1: {
+    questions: [
+      { title: 'Когда боль ощущается сильнее всего?', options: [
+        { value: 'T1', text: 'При первых шагах после сна или долгого сидения' },
+        { value: 'T2', text: 'К концу дня после долгой ходьбы или стояния' },
+        { value: 'T3', text: 'Постоянно — и в покое, и при нагрузке' }
+      ]},
+      { title: 'Где именно болит?', options: [
+        { value: 'L1', text: 'Снизу пятки, ближе к центру или внутреннему краю' },
+        { value: 'L2', text: 'Сзади пятки, в области ахиллова сухожилия' },
+        { value: 'L3', text: 'Вся пятка или затрудняюсь указать точно' }
+      ]}
+    ],
+    mapping: {
+      'T1-L1':'П1','T2-L1':'П2','T1-L2':'П3','T2-L2':'П3',
+      'T3-L1':'П4','T3-L2':'П4','T3-L3':'П4','T1-L3':'П4','T2-L3':'П4'
     }
+  },
+  Z2: {
+    questions: [
+      { title: 'Когда боль ощущается сильнее всего?', options: [
+        { value: 'T1', text: 'Когда сжимаю кисть, жму руку, поднимаю предметы' },
+        { value: 'T2', text: 'Когда вращаю предплечье (поворачиваю ключ, открываю кран)' },
+        { value: 'T3', text: 'Постоянно ноет, независимо от движений' }
+      ]},
+      { title: 'Где именно болит?', options: [
+        { value: 'L1', text: 'Снаружи локтя (со стороны большого пальца)' },
+        { value: 'L2', text: 'Изнутри локтя (со стороны мизинца)' },
+        { value: 'L3', text: 'Затрудняюсь указать точно / болит весь локоть' }
+      ]}
+    ],
+    mapping: {
+      'T1-L1':'Л1','T2-L1':'Л1','T3-L1':'Л1',
+      'T1-L2':'Л2','T2-L2':'Л2','T3-L2':'Л2',
+      'T1-L3':'Л3','T2-L3':'Л3','T3-L3':'Л3'
+    }
+  },
+  Z3: {
+    questions: [
+      { title: 'Когда боль ощущается сильнее всего?', options: [
+        { value: 'T1', text: 'Когда поднимаю руку вверх или отвожу в сторону' },
+        { value: 'T2', text: 'Когда завожу руку за спину' },
+        { value: 'T3', text: 'Ночью, когда лежу на этом боку' },
+        { value: 'T4', text: 'При любом движении рукой' }
+      ]},
+      { title: 'Где именно болит?', options: [
+        { value: 'L1', text: 'Сбоку или сверху плеча' },
+        { value: 'L2', text: 'Спереди плеча (ближе к бицепсу)' },
+        { value: 'L3', text: 'Сзади плеча или в области лопатки' },
+        { value: 'L4', text: 'Глубоко внутри сустава / затрудняюсь указать' }
+      ]}
+    ],
+    mapping: {
+      'T1-L1':'ПЛ1','T1-L2':'ПЛ3','T1-L3':'ПЛ1','T1-L4':'ПЛ1',
+      'T2-L1':'ПЛ2','T2-L2':'ПЛ2','T2-L3':'ПЛ2','T2-L4':'ПЛ2',
+      'T3-L1':'ПЛ4','T3-L2':'ПЛ4','T3-L3':'ПЛ4','T3-L4':'ПЛ4',
+      'T4-L1':'ПЛ4','T4-L2':'ПЛ4','T4-L3':'ПЛ4','T4-L4':'ПЛ4'
+    }
+  },
+  Z4: {
+    questions: [
+      { title: 'Когда боль ощущается сильнее всего?', options: [
+        { value: 'T1', text: 'При ходьбе по лестнице (особенно вниз)' },
+        { value: 'T2', text: 'При приседании или вставании со стула' },
+        { value: 'T3', text: 'При долгом сидении с согнутыми ногами' },
+        { value: 'T4', text: 'При ходьбе по ровной поверхности' },
+        { value: 'T5', text: 'Постоянно, независимо от нагрузки' }
+      ]},
+      { title: 'Где именно болит?', options: [
+        { value: 'L1', text: 'Спереди, вокруг коленной чашечки или чуть ниже' },
+        { value: 'L2', text: 'С внутренней стороны колена' },
+        { value: 'L3', text: 'С наружной стороны колена' },
+        { value: 'L4', text: 'Под коленом сзади' },
+        { value: 'L5', text: 'Всё колено / затрудняюсь указать' }
+      ]}
+    ],
+    mapping: {
+      'T1-L1':'К1','T2-L1':'К1','T3-L1':'К1','T4-L1':'К1','T5-L1':'К1',
+      'T1-L2':'К2','T2-L2':'К2','T3-L2':'К2','T4-L2':'К2','T5-L2':'К2',
+      'T1-L3':'К3','T2-L3':'К3','T3-L3':'К3','T4-L3':'К3','T5-L3':'К3',
+      'T1-L4':'К4','T2-L4':'К4','T3-L4':'К4','T4-L4':'К4','T5-L4':'К4',
+      'T1-L5':'К5','T2-L5':'К5','T3-L5':'К5','T4-L5':'К5','T5-L5':'К5'
+    }
+  },
+  Z5: {
+    questions: [
+      { title: 'Когда боль ощущается сильнее всего?', options: [
+        { value: 'T1', text: 'Когда лежу на этом боку' },
+        { value: 'T2', text: 'При ходьбе по лестнице' },
+        { value: 'T3', text: 'При первых шагах после долгого сидения' },
+        { value: 'T4', text: 'При ходьбе на большие расстояния' },
+        { value: 'T5', text: 'Постоянно, в любом положении' }
+      ]},
+      { title: 'Где именно болит?', options: [
+        { value: 'L1', text: 'Сбоку, в области выступающей косточки' },
+        { value: 'L2', text: 'Спереди, в области паха' },
+        { value: 'L3', text: 'Отдаёт вниз по бедру к колену' },
+        { value: 'L4', text: 'Сзади, в области ягодицы' },
+        { value: 'L5', text: 'Затрудняюсь указать точно' }
+      ]}
+    ],
+    mapping: {
+      'T1-L1':'Т1','T2-L1':'Т1','T3-L1':'Т1','T4-L1':'Т1','T5-L1':'Т1',
+      'T1-L2':'Т2','T2-L2':'Т2','T3-L2':'Т2','T4-L2':'Т2','T5-L2':'Т2',
+      'T1-L3':'Т2','T2-L3':'Т2','T3-L3':'Т2','T4-L3':'Т2','T5-L3':'Т2',
+      'T1-L4':'Т3','T2-L4':'Т3','T3-L4':'Т3','T4-L4':'Т3','T5-L4':'Т3',
+      'T1-L5':'Т4','T2-L5':'Т4','T3-L5':'Т4','T4-L5':'Т4','T5-L5':'Т4'
+    }
+  }
 };
 
-// Названия локализаций для результатов
+// Названия без медицинских терминов
 const locationNames = {
-    'П1': 'Плантарный фасциит (пяточная шпора)',
-    'П2': 'Перегрузка подошвенной фасции',
-    'П3': 'Ахиллобурсит / энтезопатия ахилла',
-    'П4': 'Общие изменения в области пятки',
-    'Л1': 'Латеральный эпикондилит (теннисный локоть)',
-    'Л2': 'Медиальный эпикондилит (локоть гольфиста)',
-    'Л3': 'Общие изменения в области локтя',
-    'ПЛ1': 'Импиджмент / тендинит надостной мышцы',
-    'ПЛ2': 'Ограничение капсулы / задняя поверхность плеча',
-    'ПЛ3': 'Тендинит бицепса / передняя поверхность плеча',
-    'ПЛ4': 'Общие изменения плечевого сустава',
-    'К1': 'Пателлофеморальный синдром / связка надколенника',
-    'К2': 'Медиальная боковая связка',
-    'К3': 'Латеральная связка / синдром ПБТ',
-    'К4': 'Киста Бейкера / задняя поверхность колена',
-    'К5': 'Общие изменения коленного сустава',
-    'Т1': 'Трохантерит / бурсит большого вертела',
-    'Т2': 'Коксартроз / тендинит подвздошно-поясничной мышцы',
-    'Т3': 'Синдром грушевидной мышцы',
-    'Т4': 'Общие изменения тазобедренного сустава',
-    'Z0': 'Другая область'
+  'П1': 'Боль в пятке из-за перенапряжения тканей стопы',
+  'П2': 'Перегрузка тканей стопы',
+  'П3': 'Проблема в области ахиллова сухожилия',
+  'П4': 'Изменения в тканях пятки',
+  'Л1': 'Перенапряжение наружной поверхности локтя',
+  'Л2': 'Перенапряжение внутренней поверхности локтя',
+  'Л3': 'Изменения в тканях локтевого сустава',
+  'ПЛ1': 'Ограничение подвижности плеча при подъёме руки',
+  'ПЛ2': 'Ограничение подвижности плеча при заведении руки',
+  'ПЛ3': 'Перенапряжение передней поверхности плеча',
+  'ПЛ4': 'Изменения в тканях плечевого сустава',
+  'К1': 'Проблема в области коленной чашечки',
+  'К2': 'Проблема с внутренней стороны колена',
+  'К3': 'Проблема с наружной стороны колена',
+  'К4': 'Проблема в подколенной области',
+  'К5': 'Изменения в тканях коленного сустава',
+  'Т1': 'Воспаление в области наружной поверхности бедра',
+  'Т2': 'Изменения в тазобедренном суставе',
+  'Т3': 'Зажатие глубоких мышц в области ягодицы',
+  'Т4': 'Изменения в тканях тазобедренного сустава',
+  'Z0': 'Другая область'
 };
 
-// Тексты длительности
 const durationTexts = {
-    'D0': 'менее 1 месяца',
-    'D1': '1-3 месяца',
-    'D2': '3-6 месяцев',
-    'D3': '6-12 месяцев',
-    'D4': 'больше года'
+  'D0': 'менее 1 месяца', 'D1': '1–3 месяца', 'D2': '3–6 месяцев',
+  'D3': '6–12 месяцев', 'D4': 'больше года'
 };
 
-// Названия методов для вывода
 const methodNames = {
-    'M1': 'мази и таблетки',
-    'M2': 'уколы',
-    'M3': 'физиотерапию',
-    'M4': 'массаж',
-    'M5': 'стельки/ортезы',
-    'M6': 'ЛФК',
-    'M0': 'ничего'
+  'M1':'мази и таблетки','M2':'уколы','M3':'физиотерапию',
+  'M4':'массаж','M5':'стельки/ортезы','M6':'ЛФК','M0':'ничего'
+};
+
+const categoryTitles = {
+  'CAT-0': 'Острая фаза — важно не навредить',
+  'CAT-1': 'Начальные изменения в тканях',
+  'CAT-2': 'Начали формироваться уплотнения',
+  'CAT-3': 'Сформировавшиеся уплотнения в тканях',
+  'CAT-4': 'Застарелые уплотнения — нужна помощь специалиста'
 };
 
 // ============================================
-// ПОДРОБНЫЕ УПРАЖНЕНИЯ ПО ЛОКАЛИЗАЦИЯМ
+// УПРАЖНЕНИЯ (с доработками)
 // ============================================
-
 const exercises = {
-    // Пятка - П1 (Плантарный фасциит)
-    'П1': [
-        '**1. Раскатка стопы мячиком**\nВозьмите теннисный мяч или пластиковую бутылку с холодной водой. Сядьте на стул, поставьте стопу на мяч. Медленно прокатывайте мяч от пятки к основанию пальцев и обратно, слегка надавливая. Давление ощутимое, но не до боли. Выполняйте 2 минуты утром, до того как встанете и сделаете первые шаги.',
-        '**2. Растяжка голени на ступеньке**\nВстаньте носком на край ступеньки или толстой книги. Пятка свисает, держитесь за опору для равновесия. Медленно опустите пятку ниже уровня ступеньки, почувствуйте растяжение в икроножной мышце. Задержитесь на 30 секунд. Повторите 2–3 раза на каждую ногу.'
-    ],
-    // Пятка - П2 (Перегрузка фасции)
-    'П2': [
-        '**1. Укрепление свода стопы («короткая стопа»)**\nСядьте на стул, стопа полностью на полу. Не сгибая пальцы и не отрывая их от пола, попробуйте «укоротить» стопу, подтянув свод вверх. Представьте, что хотите приблизить основание пальцев к пятке. Удерживайте напряжение 5 секунд, расслабьте. Повторите 10–15 раз на каждую ногу.',
-        '**2. Подъёмы на носки**\nВстаньте на ровную поверхность, ноги на ширине плеч, держитесь за опору. Медленно поднимитесь на носки, задержитесь на 2 секунды в верхней точке, медленно опуститесь. Выполните 15 повторений, 2 подхода.'
-    ],
-    // Пятка - П3 (Ахиллобурсит)
-    'П3': [
-        '**1. Эксцентрическое опускание пятки**\nВстаньте на край ступеньки носком больной ноги, пятка свисает. Держитесь за перила. Медленно, на счёт от 1 до 5, опустите пятку ниже уровня ступеньки. Затем перенесите вес на здоровую ногу и поднимитесь в исходное положение за счёт неё. Повторите 15 раз, 2 подхода. Выполняйте медленно, без боли.',
-        '**2. Растяжка икроножной мышцы у стены**\nВстаньте лицом к стене на расстоянии шага, упритесь в неё руками. Больную ногу отставьте назад, пятка прижата к полу, нога прямая. Переднюю ногу слегка согните. Подайте таз вперёд, пока не почувствуете растяжение в икре задней ноги. Задержитесь на 30 секунд. Повторите 2–3 раза.'
-    ],
-    // Пятка - П4 (Общие изменения)
-    'П4': [
-        '**1. Раскатка стопы мячиком**\nВозьмите теннисный мяч или пластиковую бутылку с холодной водой. Сядьте на стул, поставьте стопу на мяч. Медленно прокатывайте мяч от пятки к основанию пальцев и обратно, слегка надавливая. Давление ощутимое, но не до боли. Выполняйте 2 минуты утром, до того как встанете и сделаете первые шаги.',
-        '**2. Растяжка голени на ступеньке**\nВстаньте носком на край ступеньки или толстой книги. Пятка свисает, держитесь за опору для равновесия. Медленно опустите пятку ниже уровня ступеньки, почувствуйте растяжение в икроножной мышце. Задержитесь на 30 секунд. Повторите 2–3 раза на каждую ногу.'
-    ],
-    
-    // Локоть - Л1 (Теннисный локоть)
-    'Л1': [
-        '**1. Эксцентрическое разгибание кисти**\nСядьте за стол, положите предплечье на стол так, чтобы кисть свисала за край ладонью вниз. Возьмите в руку лёгкий груз (бутылка воды 0,5 л или гантель 0,5–1 кг). Здоровой рукой поднимите кисть с грузом вверх (разогните). Затем медленно, на счёт от 1 до 5, опустите кисть вниз, контролируя движение. Повторите 15 раз, 2 подхода.',
-        '**2. Растяжка разгибателей предплечья**\nВытяните больную руку перед собой, локоть прямой, ладонь смотрит вниз. Здоровой рукой мягко потяните кисть вниз и слегка к себе. Вы должны почувствовать растяжение по наружной (верхней) поверхности предплечья. Задержитесь на 30 секунд. Повторите 2–3 раза.'
-    ],
-    // Локоть - Л2 (Локоть гольфиста)
-    'Л2': [
-        '**1. Эксцентрическое сгибание кисти**\nСядьте за стол, положите предплечье на стол так, чтобы кисть свисала за край ладонью вверх. Возьмите в руку лёгкий груз. Здоровой рукой согните кисть с грузом вверх (к себе). Затем медленно, на счёт от 1 до 5, опустите кисть вниз, контролируя движение. Повторите 15 раз, 2 подхода.',
-        '**2. Растяжка сгибателей предплечья**\nВытяните больную руку перед собой, локоть прямой, ладонь смотрит вверх. Здоровой рукой мягко потяните пальцы вниз и к себе. Вы должны почувствовать растяжение по внутренней (нижней) поверхности предплечья. Задержитесь на 30 секунд. Повторите 2–3 раза.'
-    ],
-    // Локоть - Л3 (Общие изменения)
-    'Л3': [
-        '**1. Сгибание-разгибание кисти с лёгким сопротивлением**\nВозьмите лёгкий эспандер-кольцо или резиновую ленту. Зафиксируйте предплечье на столе, кисть свисает. Выполняйте медленные сгибания и разгибания кисти с небольшим сопротивлением. 15 повторов в каждую сторону, 2 подхода. Движение должно быть безболезненным.',
-        '**2. Вращение предплечья**\nСогните локоть под углом 90°, прижмите его к боку. Предплечье параллельно полу. Медленно вращайте предплечье: поверните ладонь вверх, затем ладонь вниз. Контролируйте движение, не допускайте боли. 15 повторов, 2 подхода.'
-    ],
-    
-    // Плечо - ПЛ1 (Импиджмент)
-    'ПЛ1': [
-        '**1. Маятник Кодмана**\nВстаньте рядом со столом или стулом, наклонитесь вперёд, здоровой рукой обопритесь о поверхность. Больную руку свободно свесьте вниз и полностью расслабьте. Начните раскачивать её как маятник: вперёд-назад, затем влево-вправо, затем круговыми движениями по и против часовой стрелки. Движения выполняются за счёт корпуса, а не мышц руки. Выполняйте 2–3 минуты.',
-        '**2. Скольжение по стене**\nВстаньте лицом к стене на расстоянии полушага. Положите ладонь больной руки на стену на уровне плеча. Медленно скользите ладонью вверх по стене, поднимая руку настолько высоко, насколько позволяет боль. В верхней точке задержитесь на 5 секунд, затем медленно опустите. Повторите 10 раз.'
-    ],
-    // Плечо - ПЛ2 (Ограничение капсулы)
-    'ПЛ2': [
-        '**1. Растяжка задней капсулы плеча (sleeper stretch)**\nЛягте на бок, больное плечо внизу. Плечо и локоть согнуты под углом 90°, предплечье направлено вертикально вверх. Здоровой рукой мягко надавите на запястье больной руки, опуская предплечье к полу. Вы почувствуете растяжение в задней части плеча. Не допускайте боли. Задержитесь на 30 секунд. Повторите 3 раза.',
-        '**2. Вращение плеча наружу с полотенцем**\nВозьмите полотенце или ремень. Заведите здоровую руку за голову, больную — за поясницу. Ухватите полотенце обеими руками. Здоровой рукой мягко потяните полотенце вверх, растягивая больное плечо. Держите 20 секунд, расслабьте. Повторите 3 раза.'
-    ],
-    // Плечо - ПЛ3 (Тендинит бицепса)
-    'ПЛ3': [
-        '**1. Растяжка бицепса и передней поверхности плеча**\nВстаньте в дверном проёме. Поднимите больную руку в сторону на уровне плеча, согните локоть под 90° и упритесь предплечьем в дверной косяк (ладонь смотрит вперёд). Медленно шагните вперёд и слегка поверните корпус от больной руки. Почувствуйте растяжение в передней части плеча и бицепсе. Задержитесь на 30 секунд. Повторите 2–3 раза.',
-        '**2. Изометрическое напряжение бицепса**\nВстаньте или сядьте. Согните локоть больной руки под углом 90°, ладонь смотрит вверх. Здоровой рукой обхватите запястье сверху. Попытайтесь согнуть больную руку, при этом здоровая рука оказывает сопротивление (рука не двигается). Напряжение около 50% от максимума, без боли. Держите 10 секунд, расслабьте. Повторите 5 раз.'
-    ],
-    // Плечо - ПЛ4 (Общие изменения)
-    'ПЛ4': [
-        '**1. Маятник Кодмана**\nВстаньте рядом со столом, наклонитесь вперёд, обопритесь здоровой рукой. Больную руку свесьте и расслабьте. Раскачивайте как маятник: вперёд-назад, влево-вправо, кругами. Движения за счёт корпуса. 2–3 минуты.',
-        '**2. Скольжение по стене**\nВстаньте лицом к стене. Ладонь больной руки на стене. Медленно скользите вверх, насколько можно. Задержитесь на 5 секунд. 10 повторов.'
-    ],
-    
-    // Колено - К1 (Пателлофеморальный)
-    'К1': [
-        '**1. Статическое напряжение квадрицепса**\nСядьте на стул или на пол с прямыми ногами. Выпрямите больную ногу. Напрягите мышцу передней поверхности бедра так, чтобы коленная чашечка подтянулась вверх, а подколенная ямка прижалась к полу (или сиденью). Удерживайте напряжение 10 секунд, расслабьте. Повторите 10–15 раз.',
-        '**2. Подъём прямой ноги лёжа**\nЛягте на спину. Здоровую ногу согните, стопа на полу. Больную ногу выпрямите. Напрягите квадрицепс больной ноги и медленно поднимите прямую ногу на 20–30 см от пола. Задержите на 3–5 секунд, медленно опустите. Повторите 15 раз, 2 подхода.'
-    ],
-    // Колено - К2 (Медиальная связка)
-    'К2': [
-        '**1. Изометрическое приведение бедра**\nЛягте на спину, ноги согнуты, стопы на полу. Между коленями положите небольшой мяч или сложенную подушку. Сожмите мяч коленями с усилием около 50% от максимума. Удерживайте 5 секунд, расслабьте. Повторите 10–15 раз.',
-        '**2. Мини-приседания у стены**\nВстаньте спиной к стене, прижмите к ней лопатки и таз. Ноги на ширине плеч, стопы на расстоянии 30–40 см от стены. Медленно скользите спиной вниз, сгибая колени до угла 30–45° (не глубже!). Задержитесь на 5 секунд, вернитесь в исходное положение. Повторите 10 раз.'
-    ],
-    // Колено - К3 (Латеральная связка / ПБТ)
-    'К3': [
-        '**1. Растяжка ПБТ стоя**\nВстаньте прямо, скрестите ноги так, чтобы больная нога оказалась сзади за здоровой. Стопы параллельны, колени прямые. Поднимите руку со стороны больной ноги вверх и наклонитесь в сторону здоровой ноги. Почувствуйте растяжение по наружной поверхности бедра и тазу. Задержитесь на 30 секунд. Повторите 2–3 раза.',
-        '**2. Раскатка наружной поверхности бедра на ролле**\nЛягте на бок, наружная поверхность бедра на массажном ролле (foam roller). Обопритесь на предплечье и противоположную ногу. Медленно прокатывайте ролл от колена до тазобедренного сустава. Задерживайтесь на болезненных точках на 20–30 секунд. Общее время — 2–3 минуты на сторону.'
-    ],
-    // Колено - К4 (Киста Бейкера)
-    'К4': [
-        '**1. Растяжка задней поверхности бедра лёжа**\nЛягте на спину. Поднимите больную ногу вверх, обхватите бедро руками под коленом. Медленно выпрямляйте колено, приближая ногу к себе, пока не почувствуете растяжение по задней поверхности бедра. Стопа расслаблена. Задержитесь на 30 секунд. Повторите 2–3 раза.',
-        '**2. Мягкое сгибание-разгибание колена сидя**\nСядьте на высокий стул или край кровати так, чтобы голень свободно свисала. Медленно разогните колено до комфортного положения (не обязательно до конца), затем медленно согните обратно. Движение должно быть плавным, без рывков и боли. Это упражнение улучшает циркуляцию жидкости в суставе и уменьшает отёчность. Повторите 15–20 раз.'
-    ],
-    // Колено - К5 (Общие изменения)
-    'К5': [
-        '**1. Статическое напряжение квадрицепса**\nСядьте на стул или на пол с прямыми ногами. Выпрямите больную ногу. Напрягите мышцу передней поверхности бедра так, чтобы коленная чашечка подтянулась вверх. Удерживайте напряжение 10 секунд, расслабьте. Повторите 10–15 раз.',
-        '**2. Сгибание-разгибание колена без нагрузки**\nСядьте на высокий стул или край кровати, голень свисает. Медленно разгибайте и сгибайте колено. Движение плавное, комфортное, без боли. 20 повторений, 2 подхода.'
-    ],
-    
-    // Тазобедренный - Т1 (Трохантерит)
-    'Т1': [
-        '**1. Растяжка наружной поверхности бедра лёжа**\nЛягте на спину, обе ноги согнуты, стопы на полу. Положите щиколотку больной ноги на колено здоровой (поза «четвёрки»). Обхватите руками бедро здоровой ноги и подтяните её к груди. Вы почувствуете растяжение в области ягодицы и наружной поверхности бедра больной ноги. Задержитесь на 30 секунд. Повторите 2–3 раза.',
-        '**2. Раскачивание колен лёжа**\nЛягте на спину, руки разведите в стороны ладонями вниз, ноги согните, стопы на полу. Медленно опустите оба колена вправо, стараясь положить их на пол. Не отрывайте лопатки. Затем медленно верните колени в центр и опустите влево. Повторите 10 раз в каждую сторону.'
-    ],
-    // Тазобедренный - Т2 (Коксартроз)
-    'Т2': [
-        '**1. Растяжка сгибателей бедра в выпаде**\nВстаньте в положение выпада: одна нога впереди (согнута в колене под 90°), другая сзади (колено на полу или на мягкой подложке). Выпрямите корпус, слегка подтяните таз вперёд и вниз. Вы почувствуете растяжение в передней поверхности бедра и области паха задней ноги. Задержитесь на 30 секунд. Повторите 2–3 раза на каждую сторону.',
-        '**2. Вращение бедра лёжа**\nЛягте на спину, согните больную ногу, стопа на полу. Обхватите колено руками. Медленно вращайте бедро по кругу: колено рисует круг в воздухе. Начните с маленьких кругов, постепенно увеличивайте амплитуду. 10 вращений по часовой стрелке, 10 — против. Движение мягкое, без боли.'
-    ],
-    // Тазобедренный - Т3 (Грушевидная)
-    'Т3': [
-        '**1. Растяжка грушевидной мышцы лёжа**\nЛягте на спину, обе ноги согнуты, стопы на полу. Положите щиколотку больной ноги на колено здоровой. Обхватите руками бедро здоровой ноги и подтяните его к груди. Вы почувствуете глубокое растяжение в ягодице больной стороны. Задержитесь на 30 секунд. Повторите 2–3 раза.',
-        '**2. Самомассаж ягодицы на мяче**\nСядьте на пол, обопритесь руками сзади. Подложите теннисный мяч под ягодицу больной стороны. Медленно перекатывайтесь на мяче, ища болезненные (триггерные) точки. Найдя такую точку, задержитесь на ней на 30–60 секунд, пока напряжение не уменьшится. Затем ищите следующую. Общее время — до 5 минут.'
-    ],
-    // Тазобедренный - Т4 (Общие изменения)
-    'Т4': [
-        '**1. Раскачивание колен лёжа**\nЛягте на спину, руки в стороны, колени согнуты. Опускайте колени вправо-влево, не отрывая лопатки. 10 повторов в каждую сторону.',
-        '**2. Вращение бедра лёжа**\nЛёжа на спине, колено больной ноги в руках. Круговые движения. 10 в каждую сторону.'
-    ]
+  'П1': [
+    { name: 'Раскатка стопы мячиком', desc: 'Возьмите теннисный мяч или пластиковую бутылку с холодной водой. Сядьте на стул, поставьте стопу на мяч. Медленно прокатывайте от пятки к основанию пальцев и обратно, слегка надавливая. Давление ощутимое, но не до боли. Выполняйте 2 минуты утром, до первых шагов.' },
+    { name: 'Растяжка голени на ступеньке', desc: 'Встаньте носком на край ступеньки, пятка свисает, держитесь за опору. Медленно опустите пятку ниже уровня ступеньки, почувствуйте растяжение в икроножной мышце. Задержитесь на 30 секунд. Повторите 2–3 раза на каждую ногу.' }
+  ],
+  'П2': [
+    { name: 'Укрепление свода стопы («короткая стопа»)', desc: 'Сядьте на стул, стопа на полу. Не сгибая пальцы, попробуйте «укоротить» стопу, подтянув свод вверх — как будто хотите приблизить основание пальцев к пятке. Удерживайте 5 секунд, расслабьте. 10–15 раз на каждую ногу.' },
+    { name: 'Подъёмы на носки', desc: 'Встаньте на ровную поверхность, держитесь за опору. Медленно поднимитесь на носки, задержитесь на 2 секунды, медленно опуститесь. 15 повторений, 2 подхода.' }
+  ],
+  'П3': [
+    { name: 'Эксцентрическое опускание пятки', desc: 'Встаньте на край ступеньки носком больной ноги, пятка свисает. Держитесь за перила. Медленно, на счёт до 5, опустите пятку ниже уровня ступеньки. Затем перенесите вес на здоровую ногу и поднимитесь за счёт неё. 15 раз, 2 подхода.', warning: 'Если в области пятки есть покраснение, отёк или острая боль при надавливании — это упражнение пока делать не стоит. Дождитесь, когда острое воспаление утихнет.' },
+    { name: 'Растяжка икроножной мышцы у стены', desc: 'Встаньте лицом к стене, упритесь руками. Больную ногу отставьте назад, пятка прижата к полу, нога прямая. Переднюю ногу слегка согните. Подайте таз вперёд — почувствуйте растяжение в икре. Задержитесь на 30 секунд, 2–3 раза.' }
+  ],
+  'П4': [
+    { name: 'Раскатка стопы мячиком', desc: 'Возьмите теннисный мяч. Сядьте, поставьте стопу на мяч. Прокатывайте от пятки к пальцам, слегка надавливая. 2 минуты утром.' },
+    { name: 'Растяжка голени на ступеньке', desc: 'Встаньте носком на край ступеньки, пятка свисает. Медленно опустите пятку вниз. Задержитесь на 30 секунд. 2–3 раза.' }
+  ],
+  'Л1': [
+    { name: 'Эксцентрическое разгибание кисти', desc: 'Сядьте за стол, предплечье на столе, кисть свисает ладонью вниз. Возьмите лёгкий груз (бутылка 0,5 л). Здоровой рукой поднимите кисть вверх. Затем медленно, на счёт до 5, опустите больной рукой. 15 раз, 2 подхода.' },
+    { name: 'Растяжка разгибателей предплечья', desc: 'Вытяните руку перед собой, локоть прямой, ладонь вниз. Здоровой рукой мягко потяните кисть вниз и к себе. Почувствуйте растяжение по верхней поверхности предплечья. 30 секунд, 2–3 раза.' }
+  ],
+  'Л2': [
+    { name: 'Эксцентрическое сгибание кисти', desc: 'Предплечье на столе, кисть свисает ладонью вверх. Лёгкий груз в руке. Здоровой рукой согните кисть вверх. Затем медленно, на счёт до 5, опустите больной рукой. 15 раз, 2 подхода.' },
+    { name: 'Растяжка сгибателей предплечья', desc: 'Вытяните руку, локоть прямой, ладонь вверх. Здоровой рукой мягко потяните пальцы вниз и к себе. Растяжение по внутренней поверхности. 30 секунд, 2–3 раза.' }
+  ],
+  'Л3': [
+    { name: 'Сгибание-разгибание кисти с сопротивлением', desc: 'Предплечье на столе, кисть свисает. Выполняйте медленные сгибания и разгибания кисти с лёгким сопротивлением (резинка или лёгкий груз). 15 раз в каждую сторону, 2 подхода.' },
+    { name: 'Вращение предплечья', desc: 'Согните локоть под 90°, прижмите к боку. Медленно вращайте предплечье: ладонь вверх — ладонь вниз. 15 раз, 2 подхода. Без боли.' }
+  ],
+  'ПЛ1': [
+    { name: 'Маятник Кодмана', desc: 'Встаньте у стола, наклонитесь, обопритесь здоровой рукой. Больную руку свесьте и полностью расслабьте. Раскачивайте как маятник: вперёд-назад, влево-вправо, кругами. Движения за счёт корпуса, не мышц руки. 2–3 минуты.' },
+    { name: 'Скольжение по стене', desc: 'Встаньте лицом к стене. Положите ладонь на стену на уровне плеча. Медленно скользите вверх, насколько позволяет комфорт. В верхней точке задержитесь на 5 секунд, медленно опустите. 10 раз.' }
+  ],
+  'ПЛ2': [
+    { name: 'Растяжка задней поверхности плеча', desc: 'Лягте на бок, больное плечо внизу. Плечо и локоть согнуты под 90°. Здоровой рукой мягко надавите на запястье, опуская предплечье к полу. Почувствуйте растяжение сзади плеча. Без боли! 30 секунд, 3 раза.' },
+    { name: 'Вращение плеча с полотенцем', desc: 'Возьмите полотенце. Здоровую руку заведите за голову, больную — за поясницу. Ухватите полотенце обеими руками. Здоровой рукой мягко потяните вверх. 20 секунд, 3 раза.' }
+  ],
+  'ПЛ3': [
+    { name: 'Растяжка передней поверхности плеча', desc: 'Встаньте в дверном проёме. Поднимите руку в сторону на уровне плеча, согните локоть под 90° и упритесь предплечьем в косяк. Шагните вперёд и слегка поверните корпус от руки. Растяжение спереди плеча. 30 секунд, 2–3 раза.' },
+    { name: 'Изометрическое напряжение бицепса', desc: 'Согните локоть под 90°, ладонь вверх. Здоровой рукой обхватите запястье сверху. Попытайтесь согнуть руку — здоровая оказывает сопротивление (рука не двигается). Напряжение ~50%. 10 секунд, 5 раз.' }
+  ],
+  'ПЛ4': [
+    { name: 'Маятник Кодмана', desc: 'Встаньте у стола, наклонитесь, обопритесь здоровой рукой. Больную свесьте и расслабьте. Раскачивайте: вперёд-назад, влево-вправо, кругами. 2–3 минуты.' },
+    { name: 'Скольжение по стене', desc: 'Ладонь на стене на уровне плеча. Медленно скользите вверх, насколько комфортно. Задержка 5 секунд. 10 раз.' }
+  ],
+  'К1': [
+    { name: 'Статическое напряжение передней поверхности бедра', desc: 'Сядьте, выпрямите ногу. Напрягите мышцу передней поверхности бедра так, чтобы коленная чашечка подтянулась вверх. Удерживайте 10 секунд, расслабьте. 10–15 раз.' },
+    { name: 'Подъём прямой ноги лёжа', desc: 'Лягте на спину. Здоровую ногу согните. Больную выпрямите, напрягите бедро и медленно поднимите на 20–30 см. Задержите 3–5 секунд, опустите. 15 раз, 2 подхода.' }
+  ],
+  'К2': [
+    { name: 'Сжатие мяча коленями', desc: 'Лягте на спину, колени согнуты, стопы на полу. Между коленями — мяч или подушка. Сожмите с усилием ~50%. Держите 5 секунд, расслабьте. 10–15 раз.' },
+    { name: 'Мини-приседания у стены', desc: 'Встаньте спиной к стене, прижмитесь. Ноги на ширине плеч, стопы на 30–40 см от стены. Скользите вниз до угла 30–45° в коленях (не глубже!). Задержитесь 5 секунд, вернитесь. 10 раз.' }
+  ],
+  'К3': [
+    { name: 'Укрепление средней ягодичной мышцы («моллюск»)', desc: 'Лягте на бок (больная нога сверху), колени согнуты. Стопы вместе. Поднимите верхнее колено вверх, не отрывая стопы друг от друга. Медленно опустите. 15 раз, 2 подхода. Следите, чтобы таз не заваливался назад.' },
+    { name: 'Раскатка наружной поверхности бедра на ролле', desc: 'Лягте на бок, наружная поверхность бедра на массажном ролле. Обопритесь на предплечье и другую ногу. Медленно прокатывайте от колена до бедра. На болезненных точках задерживайтесь на 20–30 секунд. 2–3 минуты.' }
+  ],
+  'К4': [
+    { name: 'Растяжка задней поверхности бедра лёжа', desc: 'Лягте на спину. Поднимите ногу, обхватите бедро руками под коленом. Медленно выпрямляйте колено. Почувствуйте растяжение. 30 секунд, 2–3 раза.' },
+    { name: 'Мягкое сгибание-разгибание колена', desc: 'Сядьте на высокий стул, голень свисает. Медленно разогните колено, затем согните. Плавно, без рывков и боли. Улучшает циркуляцию жидкости. 15–20 раз.' }
+  ],
+  'К5': [
+    { name: 'Статическое напряжение передней поверхности бедра', desc: 'Сядьте, выпрямите ногу. Напрягите бедро — коленная чашечка подтянется вверх. 10 секунд, 10–15 раз.' },
+    { name: 'Сгибание-разгибание колена без нагрузки', desc: 'На высоком стуле, голень свисает. Медленные разгибания и сгибания. Плавно, комфортно. 20 раз, 2 подхода.' }
+  ],
+  'Т1': [
+    { name: 'Растяжка наружной поверхности бедра (поза «четвёрки»)', desc: 'Лягте на спину, ноги согнуты. Положите щиколотку больной ноги на колено здоровой. Обхватите бедро здоровой ноги и подтяните к груди. Растяжение в ягодице и наружной поверхности бедра. 30 секунд, 2–3 раза.' },
+    { name: 'Раскачивание колен лёжа', desc: 'Лягте на спину, руки в стороны, ноги согнуты. Медленно опустите колени вправо, затем влево. Не отрывайте лопатки. 10 раз в каждую сторону.' }
+  ],
+  'Т2': [
+    { name: 'Растяжка передней поверхности бедра в выпаде', desc: 'Одна нога впереди (колено под 90°), другая сзади (колено на полу). Выпрямите корпус, подтяните таз вперёд. Растяжение в передней поверхности бедра и паху. 30 секунд, 2–3 раза на каждую сторону.' },
+    { name: 'Вращение бедра лёжа', desc: 'Лягте, согните больную ногу, обхватите колено. Медленно вращайте бедро по кругу — колено рисует круг. Начните с маленьких кругов. 10 в каждую сторону.', warning: 'Если при вращении ощущается резкая боль или заклинивание — уменьшите амплитуду или прекратите упражнение.' }
+  ],
+  'Т3': [
+    { name: 'Растяжка глубоких мышц ягодицы', desc: 'Лягте на спину, ноги согнуты. Щиколотку больной ноги — на колено здоровой. Подтяните бедро здоровой ноги к груди. Глубокое растяжение в ягодице. 30 секунд, 2–3 раза.' },
+    { name: 'Самомассаж на мяче', desc: 'Сядьте на пол, обопритесь руками. Теннисный мяч под ягодицу больной стороны. Медленно перекатывайтесь, ища болезненные точки. На каждой задержитесь 30–60 секунд. До 5 минут.' }
+  ],
+  'Т4': [
+    { name: 'Раскачивание колен лёжа', desc: 'Лягте на спину, руки в стороны, колени согнуты. Опускайте колени вправо-влево. 10 раз в каждую сторону.' },
+    { name: 'Вращение бедра лёжа', desc: 'Колено больной ноги в руках. Мягкие круговые движения. 10 в каждую сторону.' }
+  ]
 };
 
+// Общие упражнения для Z0 и CAT-0
+const generalExercises = [
+  { name: 'Мягкая суставная разминка', desc: 'Выполните плавные круговые движения во всех крупных суставах: шея, плечи, локти, кисти, тазобедренные, колени, голеностопы. По 8–10 вращений в каждую сторону. Движения медленные, без боли и рывков.' },
+  { name: 'Растяжка «кошка-корова»', desc: 'Встаньте на четвереньки. На выдохе округлите спину вверх (как кошка), подтяните подбородок к груди. На вдохе прогнитесь, поднимите голову. Движения плавные, синхронизированы с дыханием. 10 повторений.' }
+];
+
 // ============================================
-// ФУНКЦИИ НАВИГАЦИИ
+// НАВИГАЦИЯ
 // ============================================
+function showStep(stepNum) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const idMap = {
+    0:'step-0', 1:'step-1', 1.5:'step-1-5', 2:'step-2', 3:'step-3',
+    3.5:'step-3-5', 4:'step-4', 5:'step-5', 6:'step-result'
+  };
+  const el = document.getElementById(idMap[stepNum]);
+  if (el) el.classList.add('active');
+
+  const pw = document.getElementById('progressWrapper');
+  if (stepNum >= 1 && stepNum <= 5) {
+    pw.classList.add('visible');
+    updateProgress(stepNum);
+  } else {
+    pw.classList.remove('visible');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(step) {
+  // Рассчитываем прогресс в зависимости от реального пути
+  const totalSteps = testData.answers.location === 'Z0' ? 4 : 6;
+  let currentPos;
+  if (step <= 2) currentPos = step;
+  else if (step === 3) currentPos = 3;
+  else if (step === 3.5) currentPos = 4;
+  else if (step === 4) currentPos = testData.answers.location === 'Z0' ? 3 : 5;
+  else if (step === 5) currentPos = totalSteps;
+  else currentPos = step;
+
+  const pct = Math.round((currentPos / totalSteps) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Шаг ${currentPos} из ${totalSteps}`;
+}
+
+function pushStep(s) {
+  testData.currentStep = s;
+  testData.stepHistory.push(s);
+  showStep(s);
+}
+
+window.startTest = function() {
+  // Яндекс.Метрика: цель «начал тест»
+  if (typeof ym !== 'undefined') ym(98266376, 'reachGoal', 'test_started');
+  pushStep(1);
+};
+
+window.goBack = function() {
+  if (testData.stepHistory.length > 1) {
+    testData.stepHistory.pop();
+    const prev = testData.stepHistory[testData.stepHistory.length - 1];
+    testData.currentStep = prev;
+    showStep(prev);
+  }
+};
 
 window.nextStep = function() {
-    if (testData.currentStep === 0) {
-        testData.currentStep = 1;
-        showStep(1);
-        updateProgress();
+  const s = testData.currentStep;
+
+  if (s === 1) {
+    const loc = document.querySelector('input[name="location"]:checked');
+    if (!loc) return;
+    testData.answers.location = loc.value;
+    if (loc.value === 'Z0') {
+      pushStep(1.5);
+    } else {
+      pushStep(2);
     }
-    else if (testData.currentStep === 1) {
-        const loc = document.querySelector('input[name="location"]:checked');
-        if (!loc) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.location = loc.value;
-        
-        if (loc.value === 'Z0') {
-            displayResult();
-            return;
-        }
-        testData.currentStep = 2;
-        showStep(2);
-        updateProgress();
+  }
+  else if (s === 1.5) {
+    const other = document.querySelector('input[name="otherLocation"]:checked');
+    if (!other) return;
+    testData.answers.otherLocation = other.value;
+    pushStep(2);
+  }
+  else if (s === 2) {
+    const dur = document.querySelector('input[name="duration"]:checked');
+    if (!dur) return;
+    testData.answers.duration = dur.value;
+    if (testData.answers.location === 'Z0') {
+      // Для «другое» — пропускаем уточняющие, идём к методам
+      pushStep(4);
+    } else if (dur.value === 'D0') {
+      // CAT-0 — пропускаем уточняющие, идём к методам
+      pushStep(4);
+    } else {
+      generateClarificationQuestions();
     }
-    else if (testData.currentStep === 2) {
-        const dur = document.querySelector('input[name="duration"]:checked');
-        if (!dur) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.duration = dur.value;
-        
-        if (dur.value === 'D0') {
-            displayResult();
-            return;
-        }
-        generateClarificationQuestions();
-    }
-    else if (testData.currentStep === 3) {
-        const c1 = document.querySelector('input[name="clarification1"]:checked');
-        if (!c1) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.clarification1 = c1.value;
-        testData.currentStep = 3.5;
-        showStep(3.5);
-        updateProgress();
-    }
-    else if (testData.currentStep === 3.5) {
-        const c2 = document.querySelector('input[name="clarification2"]:checked');
-        if (!c2) { alert('Пожалуйста, выберите ответ'); return; }
-        testData.answers.clarification2 = c2.value;
-        testData.currentStep = 4;
-        showStep(4);
-        updateProgress();
-    }
-    else if (testData.currentStep === 4) {
-        const methods = document.querySelectorAll('input[name="methods"]:checked');
-        testData.answers.methods = [];
-        methods.forEach(m => testData.answers.methods.push(m.value));
-        testData.currentStep = 5;
-        showStep(5);
-        updateProgress();
-    }
+  }
+  else if (s === 3) {
+    const c1 = document.querySelector('input[name="clarification1"]:checked');
+    if (!c1) return;
+    testData.answers.clarification1 = c1.value;
+    pushStep(3.5);
+  }
+  else if (s === 3.5) {
+    const c2 = document.querySelector('input[name="clarification2"]:checked');
+    if (!c2) return;
+    testData.answers.clarification2 = c2.value;
+    pushStep(4);
+  }
+  else if (s === 4) {
+    const methods = document.querySelectorAll('input[name="methods"]:checked');
+    testData.answers.methods = Array.from(methods).map(m => m.value);
+    pushStep(5);
+  }
 };
 
 window.showResult = function() {
-    const severity = document.querySelector('input[name="severity"]:checked');
-    if (!severity) { alert('Пожалуйста, выберите ответ'); return; }
-    testData.answers.severity = severity.value;
-    displayResult();
-};
-
-window.showContactForm = function() {
-    testData.currentStep = 7;
-    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    document.getElementById('step-form').classList.add('active');
-    window.scrollTo(0, 0);
-};
-
-window.submitForm = function(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('userName').value.trim();
-    const age = document.getElementById('userAge').value.trim();
-    const phone = document.getElementById('userPhone').value.trim();
-    
-    let hasError = false;
-    
-    if (!name || name.length < 2) {
-        document.getElementById('error-name').classList.add('show');
-        document.getElementById('userName').classList.add('error');
-        hasError = true;
-    } else {
-        document.getElementById('error-name').classList.remove('show');
-        document.getElementById('userName').classList.remove('error');
-    }
-    
-    if (!age || age < 1 || age > 120) {
-        document.getElementById('error-age').classList.add('show');
-        document.getElementById('userAge').classList.add('error');
-        hasError = true;
-    } else {
-        document.getElementById('error-age').classList.remove('show');
-        document.getElementById('userAge').classList.remove('error');
-    }
-    
-    if (!phone || phone.length < 10) {
-        document.getElementById('error-phone').classList.add('show');
-        document.getElementById('userPhone').classList.add('error');
-        hasError = true;
-    } else {
-        document.getElementById('error-phone').classList.remove('show');
-        document.getElementById('userPhone').classList.remove('error');
-    }
-    
-    if (hasError) return;
-    
-    document.getElementById('formLoader').classList.add('show');
-    document.getElementById('submitBtn').disabled = true;
-    
-    const location = determineLocation();
-    const locName = locationNames[location] || 'Не определено';
-    const durationText = getDurationText();
-    const methodsText = getMethodsText();
-    const severityText = getSeverityText();
-    const category = calculateCategory();
-    
-    const message = `📋 НОВАЯ ЗАЯВКА С ТЕСТА
-
-👤 Имя: ${name}
-📅 Возраст: ${age}
-📱 Телефон: ${phone}
-
-🎯 Локализация: ${locName}
-⏱ Длительность: ${durationText}
-💊 Пробовали: ${methodsText}
-📊 Влияние на жизнь: ${severityText}
-🏷 Категория: ${category}`;
-    
-    const BOT_TOKEN = '7679539252:AAG-LpDQCL72ew5sdzP1dg1zHjqMTG269237914';
-    const CHAT_ID = '269237914';
-    
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.ok) {
-            window.location.href = 'https://galkin-kostoprav.ru/forma';
-        } else {
-            throw new Error('Ошибка отправки');
-        }
-    })
-    .catch(() => {
-        alert('Ошибка отправки. Позвоните: +7 (900) 164-90-13');
-        document.getElementById('formLoader').classList.remove('show');
-        document.getElementById('submitBtn').disabled = false;
-    });
+  const sev = document.querySelector('input[name="severity"]:checked');
+  if (!sev) return;
+  testData.answers.severity = sev.value;
+  // Яндекс.Метрика: цель «дошёл до результата»
+  if (typeof ym !== 'undefined') ym(98266376, 'reachGoal', 'test_completed');
+  displayResult();
 };
 
 // ============================================
-// ОСНОВНЫЕ ФУНКЦИИ
+// ГЕНЕРАЦИЯ УТОЧНЯЮЩИХ ВОПРОСОВ
 // ============================================
-
-function showStep(stepNum) {
-    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    
-    let stepId;
-    if (stepNum === 0) stepId = 'step-0';
-    else if (stepNum === 1) stepId = 'step-1';
-    else if (stepNum === 2) stepId = 'step-2';
-    else if (stepNum === 3) stepId = 'step-3';
-    else if (stepNum === 3.5) stepId = 'step-3-5';
-    else if (stepNum === 4) stepId = 'step-4';
-    else if (stepNum === 5) stepId = 'step-5';
-    else if (stepNum === 6) stepId = 'step-result';
-    else if (stepNum === 7) stepId = 'step-form';
-    
-    const step = document.getElementById(stepId);
-    if (step) step.classList.add('active');
-    
-    const progressBar = document.getElementById('progressBar');
-    if (progressBar) {
-        progressBar.style.display = (stepNum >= 1 && stepNum < 6) ? 'block' : 'none';
-    }
-    
-    window.scrollTo(0, 0);
-}
-
-function updateProgress() {
-    const progress = [0, 16, 33, 50, 66, 83, 100];
-    const val = progress[testData.currentStep] || 0;
-    const fill = document.getElementById('progressFill');
-    if (fill) fill.style.width = val + '%';
-}
-
 function generateClarificationQuestions() {
-    const loc = testData.answers.location;
-    const config = locationLogic[loc];
-    if (!config) {
-        testData.currentStep = 4;
-        showStep(4);
-        updateProgress();
-        return;
-    }
-    
-    const step3 = document.getElementById('step-3');
-    let html = `<div class="question"><h2 class="question-title">${config.questions[0].title}</h2><div class="options">`;
-    config.questions[0].options.forEach(opt => {
-        html += `<label class="option"><input type="radio" name="clarification1" value="${opt.value}"><span class="option-content">${opt.text}</span></label>`;
-    });
-    html += '</div></div><button class="btn" onclick="nextStep()" id="btn-step-3" disabled>Далее</button>';
-    step3.innerHTML = html;
-    
-    document.querySelectorAll('input[name="clarification1"]').forEach(r => {
-        r.addEventListener('change', () => {
-            document.getElementById('btn-step-3').disabled = false;
-        });
-    });
-    
-    let step35 = document.getElementById('step-3-5');
-    if (!step35) {
-        step35 = document.createElement('div');
-        step35.className = 'step';
-        step35.id = 'step-3-5';
-        document.getElementById('step-4').parentNode.insertBefore(step35, document.getElementById('step-4'));
-    }
-    
-    html = `<div class="question"><h2 class="question-title">${config.questions[1].title}</h2><div class="options">`;
-    config.questions[1].options.forEach(opt => {
-        html += `<label class="option"><input type="radio" name="clarification2" value="${opt.value}"><span class="option-content">${opt.text}</span></label>`;
-    });
-    html += '</div></div><button class="btn" onclick="nextStep()" id="btn-step-35" disabled>Далее</button>';
-    step35.innerHTML = html;
-    
-    document.querySelectorAll('input[name="clarification2"]').forEach(r => {
-        r.addEventListener('change', () => {
-            document.getElementById('btn-step-35').disabled = false;
-        });
-    });
-    
-    testData.currentStep = 3;
-    showStep(3);
-    updateProgress();
+  const loc = testData.answers.location;
+  const config = locationLogic[loc];
+  if (!config) { pushStep(4); return; }
+
+  // Вопрос 1
+  const step3 = document.getElementById('step-3');
+  let html = `<div class="question"><div class="question-title">${config.questions[0].title}</div><div class="options">`;
+  config.questions[0].options.forEach(opt => {
+    html += `<label class="option"><input type="radio" name="clarification1" value="${opt.value}"><span class="option-content">${opt.text}</span></label>`;
+  });
+  html += `</div></div><div class="nav-buttons"><button class="btn-ghost" onclick="goBack()">← Назад</button><button class="btn" onclick="nextStep()" id="btn-step-3" disabled>Далее</button></div>`;
+  step3.innerHTML = html;
+  document.querySelectorAll('input[name="clarification1"]').forEach(r => {
+    r.addEventListener('change', () => document.getElementById('btn-step-3').disabled = false);
+  });
+
+  // Вопрос 2
+  const step35 = document.getElementById('step-3-5');
+  html = `<div class="question"><div class="question-title">${config.questions[1].title}</div><div class="options">`;
+  config.questions[1].options.forEach(opt => {
+    html += `<label class="option"><input type="radio" name="clarification2" value="${opt.value}"><span class="option-content">${opt.text}</span></label>`;
+  });
+  html += `</div></div><div class="nav-buttons"><button class="btn-ghost" onclick="goBack()">← Назад</button><button class="btn" onclick="nextStep()" id="btn-step-35" disabled>Далее</button></div>`;
+  step35.innerHTML = html;
+  document.querySelectorAll('input[name="clarification2"]').forEach(r => {
+    r.addEventListener('change', () => document.getElementById('btn-step-35').disabled = false);
+  });
+
+  pushStep(3);
 }
 
+// ============================================
+// РАСЧЁТ КАТЕГОРИИ
+// ============================================
 function calculateCategory() {
-    const dur = testData.answers.duration;
-    if (dur === 'D0') return 'CAT-0';
-    
-    let fibrosis = 0;
-    if (dur === 'D1') fibrosis = 2;
-    else if (dur === 'D2') fibrosis = 4;
-    else if (dur === 'D3') fibrosis = 6;
-    else if (dur === 'D4') fibrosis = 8;
-    
-    const methods = testData.answers.methods || [];
-    const nonZero = methods.filter(m => m !== 'M0').length;
-    if (nonZero >= 1 && nonZero <= 2) fibrosis += 1;
-    else if (nonZero >= 3 && nonZero <= 4) fibrosis += 2;
-    else if (nonZero >= 5) fibrosis += 3;
-    
-    if (methods.includes('M2')) fibrosis += 1;
-    
-    const severity = testData.answers.severity || 'S2';
-    const sevNum = severity === 'S1' ? 1 : severity === 'S3' ? 3 : 2;
-    
-    if (fibrosis >= 10) return 'CAT-4';
-    if (fibrosis >= 7) return 'CAT-3';
-    if (fibrosis >= 4) return 'CAT-2';
-    if (fibrosis <= 3 && sevNum === 1) return 'CAT-1';
-    return 'CAT-2';
+  const dur = testData.answers.duration;
+  if (dur === 'D0') return 'CAT-0';
+
+  let score = 0;
+  if (dur === 'D1') score = 2;
+  else if (dur === 'D2') score = 4;
+  else if (dur === 'D3') score = 6;
+  else if (dur === 'D4') score = 8;
+
+  const methods = testData.answers.methods.filter(m => m !== 'M0');
+  if (methods.length >= 1 && methods.length <= 2) score += 1;
+  else if (methods.length >= 3 && methods.length <= 4) score += 2;
+  else if (methods.length >= 5) score += 3;
+  if (methods.includes('M2')) score += 1;
+
+  const sevNum = testData.answers.severity === 'S1' ? 1 : testData.answers.severity === 'S3' ? 3 : 2;
+
+  if (score >= 10) return 'CAT-4';
+  if (score >= 7) return 'CAT-3';
+  if (score >= 4) return 'CAT-2';
+  if (score <= 3 && sevNum === 1) return 'CAT-1';
+  return 'CAT-2';
 }
 
 function determineLocation() {
-    if (testData.answers.location === 'Z0') return 'Z0';
-    
-    const config = locationLogic[testData.answers.location];
-    if (!config) return 'П4';
-    
-    const key = (testData.answers.clarification1 || '') + '-' + (testData.answers.clarification2 || '');
-    return config.mapping[key] || 'П4';
+  if (testData.answers.location === 'Z0') return 'Z0';
+  const config = locationLogic[testData.answers.location];
+  if (!config) return 'П4';
+  const key = (testData.answers.clarification1 || '') + '-' + (testData.answers.clarification2 || '');
+  return config.mapping[key] || 'П4';
 }
 
 function getMethodsText() {
-    const methods = testData.answers.methods || [];
-    if (methods.length === 0 || (methods.length === 1 && methods[0] === 'M0')) return 'ничего особенного';
-    
-    const selected = methods.filter(m => m !== 'M0').map(m => methodNames[m]).filter(Boolean);
-    return selected.length ? selected.join(', ') : 'ничего особенного';
-}
-
-function getDurationText() {
-    return durationTexts[testData.answers.duration] || 'некоторое время';
+  const m = testData.answers.methods.filter(v => v !== 'M0').map(v => methodNames[v]).filter(Boolean);
+  return m.length ? m.join(', ') : 'ничего особенного';
 }
 
 function getSeverityText() {
-    const s = testData.answers.severity;
-    if (s === 'S1') return 'Немного';
-    if (s === 'S3') return 'Сильно';
-    return 'Ощутимо';
+  return { 'S1': 'немного мешает', 'S2': 'ощутимо мешает', 'S3': 'сильно мешает' }[testData.answers.severity] || '';
 }
 
-function getRecommendationText(category) {
-    const recs = {
-        'CAT-0': '**Рекомендация:** обратитесь к травматологу или ортопеду. Если через 4–6 недель боль сохранится и перейдёт в хроническую — приходите, разберёмся.',
-        'CAT-1': '**Рекомендация:** выполняйте упражнения ежедневно в течение 3–4 недель. Уменьшите нагрузку, которая провоцирует боль. Если за это время улучшения нет или боль усилилась — не откладывайте консультацию.',
-        'CAT-2': '**Рекомендация:** изменения в тканях уже начались, но ещё не стали застарелыми. Упражнения помогут замедлить процесс. Однако если вы хотите не просто снять симптомы, а убрать причину — метод иглонож может ускорить выздоровление. На этой стадии обычно достаточно 1–2 процедур. Решать вам: можно начать с упражнений и понаблюдать 2–3 недели. Если улучшения нет — приходите, разберёмся.',
-        'CAT-3': '**Рекомендация:** за это время в тканях образовались уплотнения, которые сами уже не рассосутся. Упражнения могут облегчить состояние, но убрать причину боли они не смогут. Метод иглонож эффективно работает именно с такими случаями. Запишитесь на консультацию.',
-        'CAT-4': '**Рекомендация:** это классический случай для метода иглонож. Чем дольше существует проблема, тем плотнее уплотнения в тканях — но именно с ними иглонож справляется лучше всего. Упражнения могут немного облегчить состояние, но рассчитывать на них как на основное решение уже не стоит. Рекомендую не откладывать консультацию.'
-    };
-    return recs[category] || recs['CAT-2'];
+// ============================================
+// РЕКОМЕНДАЦИИ ПО КАТЕГОРИЯМ
+// ============================================
+function getRecommendation(category) {
+  const recs = {
+    'CAT-0': 'На данном этапе важно дать тканям восстановиться. Если боль появилась недавно — это может быть воспалительный процесс, который организм способен отрегулировать сам. Выполняйте общие упражнения для поддержания подвижности, избегайте нагрузок, которые провоцируют боль. Если через 3–4 недели состояние не улучшится — стоит обратиться к специалисту, чтобы разобраться в причине.',
+
+    'CAT-1': 'Изменения в тканях пока незначительные, и у вас хорошие шансы справиться с помощью упражнений. Выполняйте их ежедневно в течение 3–4 недель, уменьшите нагрузку, которая провоцирует боль. Если за это время улучшения нет или боль усилилась — не откладывайте консультацию со специалистом.',
+
+    'CAT-2': 'Изменения в тканях уже начались, но ещё не стали застарелыми. Упражнения помогут замедлить процесс. Однако если вы хотите не просто снять симптомы, а убрать причину — метод иглонож может ускорить восстановление. На этой стадии обычно достаточно 1–2 процедур. Можно начать с упражнений и понаблюдать 2–3 недели.',
+
+    'CAT-3': 'За это время в тканях образовались уплотнения, которые сами уже не рассосутся. Упражнения могут облегчить состояние, но убрать причину они не смогут. Метод иглонож эффективно работает именно с такими случаями — мягко устраняет уплотнения без разрезов и госпитализации.',
+
+    'CAT-4': 'Это именно тот случай, когда стандартные методы уже исчерпали свой ресурс. Чем дольше существует проблема, тем плотнее уплотнения — но именно с ними метод иглонож справляется лучше всего. Упражнения могут немного облегчить состояние, но рассчитывать на них как на основное решение уже не стоит.'
+  };
+  return recs[category] || recs['CAT-2'];
 }
 
+function getWhyText(category, duration) {
+  const texts = {
+    'CAT-0': 'На этом этапе может идти острый воспалительный процесс. Организм пытается справиться сам — важно не мешать и не перегружать проблемную область.',
+    'CAT-1': `За ${duration} в тканях начали формироваться микроизменения. Они ещё не превратились в плотные уплотнения — есть шанс справиться упражнениями и правильным режимом нагрузок.`,
+    'CAT-2': `За ${duration} в тканях начала формироваться уплотнённая ткань. Она раздражает нервные окончания, нарушает кровоток и вызывает боль при движении.`,
+    'CAT-3': `За ${duration} в тканях образовались плотные уплотнения. Они не рассасываются сами и не убираются стандартными методами — мазями, таблетками или массажем.`,
+    'CAT-4': `За ${duration} уплотнения в тканях стали застарелыми. Они механически ограничивают движение и постоянно раздражают нервные окончания. Именно поэтому ничего из того, что вы пробовали, не дало устойчивого результата.`
+  };
+  return texts[category] || texts['CAT-2'];
+}
+
+// ============================================
+// ФОРМИРОВАНИЕ ТЕКСТА ДЛЯ КОПИРОВАНИЯ
+// ============================================
+function buildCopyText() {
+  const location = determineLocation();
+  const category = calculateCategory();
+  const locName = locationNames[location] || 'Другая область';
+  const duration = durationTexts[testData.answers.duration] || '';
+  const methods = getMethodsText();
+  const severity = getSeverityText();
+  const catTitle = categoryTitles[category] || '';
+
+  let text = `РЕЗУЛЬТАТ ТЕСТА СУСТАВОВ\n`;
+  text += `========================\n`;
+  text += `Область: ${locName}\n`;
+  if (testData.answers.otherLocation) text += `Уточнение: ${testData.answers.otherLocation}\n`;
+  text += `Длительность: ${duration}\n`;
+  text += `Пробовали: ${methods}\n`;
+  text += `Влияние на жизнь: ${severity}\n`;
+  text += `Оценка: ${catTitle}\n\n`;
+  text += `Рекомендация: ${getRecommendation(category)}\n\n`;
+  text += `Сайт специалиста: https://galkin-kostoprav.ru\n`;
+  text += `Подробнее о методе: https://galkin-kostoprav.ru/iglonozh`;
+  return text;
+}
+
+// Текст для передачи в форму записи (будет добавлен к URL)
+function buildFormParams() {
+  const location = determineLocation();
+  const category = calculateCategory();
+  const locName = locationNames[location] || 'Другая область';
+  const duration = durationTexts[testData.answers.duration] || '';
+  const methods = getMethodsText();
+  const severity = getSeverityText();
+  const catTitle = categoryTitles[category] || '';
+
+  let desc = `Тест: ${locName}. ${catTitle}. Длительность: ${duration}. Пробовали: ${methods}. Влияние: ${severity}.`;
+  if (testData.answers.otherLocation) desc = `Тест: ${testData.answers.otherLocation}. ${catTitle}. Длительность: ${duration}. Пробовали: ${methods}. Влияние: ${severity}.`;
+  return desc;
+}
+
+// ============================================
+// ОТРИСОВКА РЕЗУЛЬТАТА
+// ============================================
 function displayResult() {
-    const location = determineLocation();
-    const category = calculateCategory();
-    const locName = locationNames[location] || 'Проблемная область';
-    const duration = getDurationText();
-    const methods = getMethodsText();
-    const severity = getSeverityText();
-    const rec = getRecommendationText(category);
-    
-    let title = '';
-    if (category === 'CAT-0') title = 'Острая фаза';
-    else if (category === 'CAT-1') title = 'Начальные изменения';
-    else if (category === 'CAT-2') title = 'Формирующийся фиброз';
-    else if (category === 'CAT-3') title = 'Сформировавшийся фиброз';
-    else if (category === 'CAT-4') title = 'Застарелый фиброз';
-    
-    if (location === 'Z0') {
-        document.getElementById('resultContent').innerHTML = `
-            <div class="result">
-                <h2>Ваш результат: боль в другой области</h2>
-                <div class="result-content">
-                    <p>Вы указали, что боль локализована в месте, которое не вошло в основные категории теста.</p>
-                    <p>Для точной диагностики рекомендую обратиться к врачу — травматологу, ортопеду или неврологу в зависимости от локализации.</p>
-                    <p>Если после обследования окажется, что проблема хроническая и связана с мягкими тканями (сухожилия, связки, фасции) — метод иглонож может быть эффективен. Приходите на консультацию, разберёмся.</p>
-                </div>
-            </div>
-        `;
-    } else {
-        const ex = exercises[location];
-        let exerciseBlock = '';
-        
-        if (ex && ex.length >= 2) {
-            exerciseBlock = `
-                <div class="exercises">
-                    <h3>2 упражнения, которые ${category === 'CAT-3' || category === 'CAT-4' ? 'могут облегчить состояние' : 'помогут'}:</h3>
-                    <div class="exercise"><strong>${ex[0].split('\n')[0].replace('**', '').replace('**', '')}</strong><br>${ex[0].split('\n').slice(1).join('<br>')}</div>
-                    <div class="exercise"><strong>${ex[1].split('\n')[0].replace('**', '').replace('**', '')}</strong><br>${ex[1].split('\n').slice(1).join('<br>')}</div>
-                </div>
-            `;
-        } else {
-            exerciseBlock = `
-                <div class="exercises">
-                    <h3>Упражнения для облегчения состояния:</h3>
-                    <p>Выполняйте упражнения из соответствующего раздела на нашем сайте или запишитесь на консультацию для подбора индивидуальной программы.</p>
-                </div>
-            `;
-        }
-        
-        // Формируем блок "Почему так происходит" в зависимости от категории
-        let whyBlock = '';
-        if (category === 'CAT-0') {
-            whyBlock = '<p><strong>Почему важно не спешить:</strong> На этом этапе может идти острый воспалительный процесс. Нужно исключить травму и другие причины боли.</p>';
-        } else if (category === 'CAT-1') {
-            whyBlock = `<p><strong>Почему так происходит:</strong> За ${duration} в тканях начали формироваться микроизменения. Пока они ещё не превратились в плотный рубец, есть шанс справиться упражнениями.</p>`;
-        } else if (category === 'CAT-2') {
-            whyBlock = `<p><strong>Почему так происходит:</strong> За ${duration} в тканях начала формироваться рубцовая ткань. Она раздражает нервные окончания и вызывает боль.</p>`;
-        } else if (category === 'CAT-3' || category === 'CAT-4') {
-            whyBlock = `<p><strong>Почему так происходит:</strong> За ${duration} в тканях образовалась плотная рубцовая ткань. Она не рассасывается сама по себе и не убирается стандартными методами. Именно эта ткань раздражает нервные окончания.</p>`;
-        }
-        
-        const html = `
-            <div class="result">
-                <h2>${locName} — ${title}</h2>
-                <div class="result-content">
-                    <p>Вы пробовали: ${methods}. Длительность: ${duration}. Влияние на жизнь: ${severity}.</p>
-                    ${whyBlock}
-                    <p><strong>Что реально работает:</strong> Метод иглонож — мягкая точечная техника традиционной китайской медицины. Без разрезов, без госпитализации, процедура занимает несколько минут. Рубцовая ткань устраняется — и вы снова можете двигаться без боли.</p>
-                    ${exerciseBlock}
-                    <p>${rec.replace(/\*\*/g, '')}</p>
-                </div>
-            </div>
-        `;
-        document.getElementById('resultContent').innerHTML = html;
-    }
-    
-    testData.currentStep = 6;
-    showStep(6);
+  const location = determineLocation();
+  const category = calculateCategory();
+  const locName = locationNames[location] || 'Другая область';
+  const duration = durationTexts[testData.answers.duration] || '';
+  const methods = getMethodsText();
+  const severity = getSeverityText();
+  const catTitle = categoryTitles[category] || '';
+  const rec = getRecommendation(category);
+  const why = getWhyText(category, duration);
+
+  // Выбор упражнений
+  let exList;
+  if (location === 'Z0' || category === 'CAT-0') {
+    exList = generalExercises;
+  } else {
+    exList = exercises[location] || generalExercises;
+  }
+
+  const exercisesVerb = (category === 'CAT-3' || category === 'CAT-4')
+    ? 'Упражнения для облегчения состояния'
+    : 'Упражнения, которые помогут';
+
+  // Показывать ли блок про иглонож
+  const showNeedle = (category === 'CAT-2' || category === 'CAT-3' || category === 'CAT-4');
+  const showSignupBtn = (category === 'CAT-2' || category === 'CAT-3' || category === 'CAT-4');
+
+  // Кейсы по локализации
+  const caseLinks = {
+    'Z1': { text: 'История пациента: пяточная шпора', url: 'https://galkin-kostoprav.ru/cases/shpora1' },
+    'Z3': { text: 'Истории пациентов с болью в шее и плече', url: 'https://galkin-kostoprav.ru/cases/ostraja-bol-sheja' },
+    'Z4': { text: 'Истории пациентов', url: 'https://galkin-kostoprav.ru/istorii' },
+    'Z5': { text: 'История пациента: тазобедренный сустав', url: 'https://galkin-kostoprav.ru/cases/artroz-tazobedrennogo-sustava' }
+  };
+  const caseLink = caseLinks[testData.answers.location];
+
+  // Disclamer для колена
+  const isKnee = testData.answers.location === 'Z4';
+
+  let html = '';
+
+  // --- Карточка результата ---
+  html += `<div class="result-card">`;
+  html += `<div class="result-header">`;
+  html += `<h2>${location === 'Z0' ? 'Ваш результат' : locName}</h2>`;
+  html += `<div class="result-subtitle">${catTitle}</div>`;
+  html += `</div>`;
+  html += `<div class="result-body">`;
+
+  // Теги-сводка
+  html += `<div class="result-summary">`;
+  html += `<span class="result-tag"><span class="result-tag-icon">⏱</span> ${duration}</span>`;
+  html += `<span class="result-tag"><span class="result-tag-icon">💊</span> ${methods}</span>`;
+  html += `<span class="result-tag"><span class="result-tag-icon">📊</span> ${severity}</span>`;
+  html += `</div>`;
+
+  // Блок «Почему»
+  html += `<div class="why-block"><h3>Почему так происходит</h3><p>${why}</p></div>`;
+
+  // Для колена — дисклеймер
+  if (isKnee) {
+    html += `<div class="notice" style="margin-top: 0;">Это предварительная оценка, а не диагноз. Причины дискомфорта в колене разнообразны, и для полной картины может потребоваться дополнительная диагностика.</div>`;
+  }
+
+  // Рекомендация
+  html += `<div class="rec-block"><p>${rec}</p></div>`;
+
+  html += `</div></div>`;
+
+  // --- Упражнения ---
+  html += `<div class="exercises-block">`;
+  html += `<div class="exercises-title"><h3>💪 ${exercisesVerb}:</h3></div>`;
+  exList.forEach(ex => {
+    html += `<div class="exercise-item">`;
+    html += `<div class="exercise-name">${ex.name}</div>`;
+    html += `<div class="exercise-desc">${ex.desc}</div>`;
+    if (ex.warning) html += `<div class="exercise-warning">⚠️ ${ex.warning}</div>`;
+    html += `</div>`;
+  });
+  html += `</div>`;
+
+  // --- Блок доверия ---
+  html += `<div class="trust-block">`;
+  html += `<div class="trust-avatar"><img src="https://static.tildacdn.com/tild6563-3234-4664-b434-616135313035/__.png" alt="Дмитрий Галкин" loading="lazy"></div>`;
+  html += `<div class="trust-name">Дмитрий Галкин</div>`;
+  html += `<div class="trust-desc">Специалист традиционной китайской медицины, костоправ. Барнаул.</div>`;
+  html += `<div class="trust-stats">`;
+  html += `<div class="trust-stat"><div class="trust-stat-number">1800+</div><div class="trust-stat-label">пациентов</div></div>`;
+  html += `<div class="trust-stat"><div class="trust-stat-number">4+</div><div class="trust-stat-label">года практики</div></div>`;
+  html += `</div>`;
+  if (caseLink && showNeedle) {
+    html += `<a href="${caseLink.url}" target="_blank" style="display:inline-block;margin-top:14px;color:var(--primary);font-size:15px;text-decoration:underline;">${caseLink.text} →</a>`;
+  }
+  html += `</div>`;
+
+  // --- Копирование ---
+  html += `<div style="text-align:center;margin:20px 0;">`;
+  html += `<button class="copy-result-btn" onclick="copyResult(this)">📋 Скопировать результат теста</button>`;
+  html += `</div>`;
+
+  // --- Кнопки действий ---
+  html += `<div class="action-buttons">`;
+  if (showSignupBtn) {
+    // Формируем ссылку на форму. Если Тильда поддерживает передачу параметров — они будут в URL
+    const formDesc = encodeURIComponent(buildFormParams());
+    html += `<a href="https://galkin-kostoprav.ru/forma?test_result=${formDesc}" class="btn btn-accent" target="_top" onclick="trackSignup()">Записаться на консультацию</a>`;
+  }
+  html += `<a href="https://galkin-kostoprav.ru/iglonozh" class="btn btn-outline" target="_top">Узнать больше о методе иглонож</a>`;
+  html += `<a href="https://galkin-kostoprav.ru/" class="btn btn-outline" target="_top">Перейти на главную</a>`;
+  html += `</div>`;
+
+  document.getElementById('resultContent').innerHTML = html;
+  pushStep(6);
 }
+
+// Копирование результата
+window.copyResult = function(btn) {
+  const text = buildCopyText();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Скопировано!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '📋 Скопировать результат теста';
+        btn.classList.remove('copied');
+      }, 3000);
+    }).catch(() => fallbackCopy(text, btn));
+  } else {
+    fallbackCopy(text, btn);
+  }
+};
+
+function fallbackCopy(text, btn) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    btn.textContent = '✓ Скопировано!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Скопировать результат теста';
+      btn.classList.remove('copied');
+    }, 3000);
+  } catch(e) {
+    alert('Не удалось скопировать. Ваш результат:\n\n' + text);
+  }
+  document.body.removeChild(ta);
+}
+
+// Трекинг записи
+window.trackSignup = function() {
+  if (typeof ym !== 'undefined') ym(98266376, 'reachGoal', 'test_signup_click');
+};
 
 // ============================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================
-
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('input[name="location"]').forEach(r => {
-        r.addEventListener('change', () => {
-            document.getElementById('btn-step-1').disabled = false;
-        });
+  // Активация кнопок при выборе
+  const radioGroups = ['location', 'duration', 'severity', 'otherLocation'];
+  radioGroups.forEach(name => {
+    document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+      r.addEventListener('change', () => {
+        const btnMap = {
+          'location': 'btn-step-1',
+          'otherLocation': 'btn-step-1-5',
+          'duration': 'btn-step-2',
+          'severity': 'btn-step-5'
+        };
+        const btn = document.getElementById(btnMap[name]);
+        if (btn) btn.disabled = false;
+      });
     });
-    
-    document.querySelectorAll('input[name="duration"]').forEach(r => {
-        r.addEventListener('change', () => {
-            document.getElementById('btn-step-2').disabled = false;
-        });
-    });
-    
-    document.querySelectorAll('input[name="severity"]').forEach(r => {
-        r.addEventListener('change', () => {
-            document.getElementById('btn-step-5').disabled = false;
-        });
-    });
-    
-    const phone = document.getElementById('userPhone');
-    if (phone) {
-        phone.addEventListener('input', (e) => {
-            const x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
-            e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
-        });
-    }
+  });
 });
 </script>
 
