@@ -1402,9 +1402,10 @@ function displayResult() {
   html += `<div class="trust-stat"><div class="trust-stat-number">1800+</div><div class="trust-stat-label">пациентов</div></div>`;
   html += `<div class="trust-stat"><div class="trust-stat-number">5</div><div class="trust-stat-label">лет практики</div></div>`;
   html += `</div>`;
-  if (caseLink && showNeedle) {
+  html += `<a href="https://galkin-kostoprav.ru/istorii/#rec1640007901" target="_blank" style="display:inline-block;margin-top:14px;color:var(--primary);font-size:15px;text-decoration:underline;">Истории пациентов →</a>`;
+  /* if (caseLink && showNeedle) {
     html += `<a href="${caseLink.url}" target="_blank" style="display:inline-block;margin-top:14px;color:var(--primary);font-size:15px;text-decoration:underline;">${caseLink.text} →</a>`;
-  }
+  } */
   html += `</div>`;
 
   // --- Копирование ---
@@ -1418,7 +1419,7 @@ function displayResult() {
     html += `<button class="btn btn-accent btn-block" onclick="goToSignup()">Записаться на консультацию</button>`;
   }
   html += `<a href="https://galkin-kostoprav.ru/iglonozh" class="btn btn-outline" target="_blank">Узнать больше о методе иглонож</a>`;
-  html += `<a href="https://galkin-kostoprav.ru/" class="btn btn-outline" target="_blank">Перейти на главную</a>`;
+  html += `<a href="https://galkin-kostoprav.ru/#rec1769450901" class="btn btn-outline" target="_blank">Посмотреть отзывы и результаты</a>`;
   html += `</div>`;
       
   // --- Подсказка (скрыта, появится при нажатии «Записаться») ---
