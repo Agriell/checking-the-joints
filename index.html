@@ -1509,13 +1509,11 @@ window.goToSignup = function() {
     }
     // Через 3 секунды переходим на форму
     setTimeout(() => {
-      if (window.top) { window.top.location.href = 'https://galkin-kostoprav.ru/forma'; }
-      else { window.location.href = 'https://galkin-kostoprav.ru/forma'; }
+      window.open('https://galkin-kostoprav.ru/forma', '_blank');
     }, 3000);
   }).catch(() => {
     // Если копирование не удалось — всё равно переходим
-    if (window.top) { window.top.location.href = 'https://galkin-kostoprav.ru/forma'; }
-    else { window.location.href = 'https://galkin-kostoprav.ru/forma'; }
+    window.open('https://galkin-kostoprav.ru/forma', '_blank');
   });
 };
 
